@@ -1,0 +1,6 @@
+# Project-local configuration for the Codex desktop app.
+# Model assignments live in .codex/agents/*.toml.
+# Choose the main-thread model in the app; do not force it here.
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 3
