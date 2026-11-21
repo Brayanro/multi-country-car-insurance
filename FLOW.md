@@ -1,6 +1,6 @@
-# Agentic Development Flow — Proposed Process (Not Yet Executed)
+# Agentic Development Flow
 
-**Status: draft.** This document describes the planned process, not proof that any agent has executed it. Update the execution log below with genuine events and preserved records.
+See the execution log for completed stages and checkpoint status.
 
 ```mermaid
 flowchart TD
@@ -38,11 +38,23 @@ flowchart TD
 | 7. Review | Independent defect/security analysis | Yes | reviewer; `gpt-6.2-sol` / `medium`; `code-review-and-quality`; conditional skills per `AGENTS.md` | `reviews/US-XX-review.md` | Findings return to developer; QA and Reviewer re-verify |
 | 8. Final approval and QA handoff | Confirm Definition of Done, traceability, and evidence | No | Human | Approval record + traceability references | Do not advance without explicit approval |
 
-## Actual execution log (fill only after real work)
+## Actual execution log
 
 | Date / event | User story | Actual agent / model / effort | Actual inputs and prompts | Outputs and commands | Human decision and review evidence | Original session reference |
 | --- | --- | --- | --- | --- | --- | --- |
-| Not started | — | — | — | — | — | — |
+| 2026-11-21, 14:27 COT · Intake | US-01 | Orchestrator, `gpt-6.2-sol` / `medium` | User requested US-01 through the first human approval checkpoint. Read `AGENTS.md` and `requirements/technical-assessment.pdf`. Skills used were `using-agent-skills` and `pdf`. | Extracted the assessment with bundled Python and `pypdf.PdfReader`. Rendered and visually checked pages 5–6 with `pypdfium2.PdfDocument`. | Confirmed story title, business rules, and four source acceptance scenarios. | Codex Desktop original `01a1ff94-4d15-7ad2-9b6b-fdabfc1dc367`, started 2026-11-21 14:27:51 COT. |
+| 2026-11-21, 14:28 COT · Specification draft | US-01 | `analyst` at `/root/us01_analyst`, `gpt-6-luna` / `xhigh` | Asked the analyst to draft only `spec/US-01.md` from the original source and project instructions, with country cases, stable acceptance and test IDs, validation boundaries, state handling, and open questions. The analyst used the repository's `story-to-spec` and `spec-driven-development` skills. | The analyst extracted the PDF using bundled Python and drafted the specification. The orchestrator compared the draft with the assessment and requested corrections to source references and coverage. | The draft was pending human approval. | Codex Desktop original `01a1ff94-bc29-7403-8d97-7240a466b406`, started 2026-11-21 14:28:20 COT. |
+| 2026-11-21, 14:30 COT · Specification revision | US-01 | Same analyst session, `gpt-6-luna` / `xhigh` | Asked the analyst to correct the typed-forms page reference, distinguish project state requirements from the assessment, and add an explicit source-to-test crosswalk and verification for accessibility, responsive layouts, field configuration, and removing or reordering published fields. | The analyst revised `spec/US-01.md`. The orchestrator ran a Python crosswalk check and verified that all 14 source items, 10 acceptance criteria, and 10 proposed tests are represented. | Source review and document checks only. Application tests are proposed for later stages. | Same analyst original, revision turn started 2026-11-21 14:30:21 COT. |
+| 2026-11-21 · Specification approval checkpoint | US-01 | Orchestrator, `gpt-6.2-sol` / `medium` | Presented `spec/US-01.md` Draft 1 for explicit human approval or rejection. | Specification and execution log available for review. | Awaited the project owner's decision on Draft 1. | Same orchestrator original. |
+| 2026-11-21, 15:03 COT · Specification feedback | US-01 | Project owner, then orchestrator `gpt-6.2-sol` / `medium` | The owner answered Q-US01-01, Q-US01-02, Q-US01-04 through Q-US01-07, and Q-US01-09. | The orchestrator asked the analyst to apply the answers to the draft and related acceptance criteria and tests, and to retain unanswered details. | The owner supplied decisions on individual questions. The specification approval checkpoint remains open. | Same orchestrator original, feedback turn started at 15:03:40 COT. |
+| 2026-11-21 · Revised specification | US-01 | Same analyst session, `gpt-6-luna` / `xhigh`, then orchestrator | Incorporated the owner's answers on age, locale year, URL country context, stable field identifiers, cache freshness, progressive validation, and Spanish copy. | The analyst updated `spec/US-01.md` to Draft 2. The orchestrator cross-checked the seven answers, five remaining question entries, 14 source items, 12 acceptance criteria, and 12 proposed tests. | Draft 2 is pending explicit human approval. | Same analyst original, feedback revision started at 15:03:50 COT. |
+| 2026-11-21, 15:14 COT · Outstanding specification decisions | US-01 | Project owner, then orchestrator `gpt-6.2-sol` / `medium` | The owner supplied written decisions for Q-US01-03, Q-US01-04, Q-US01-05, Q-US01-07, and Q-US01-08. | The orchestrator delegated incorporation of the validation contract, country URL rules, reconciliation, progressive validation, and configuration failures to the analyst. | The owner requested a revised draft and a stop at the specification approval checkpoint. | Same orchestrator original, feedback turn started at 15:14:41 COT. |
+| 2026-11-21 · Specification Draft 3 | US-01 | Same analyst session, `gpt-6-luna` / `xhigh`, then orchestrator | The analyst incorporated the owner's refinements as human clarifications, traced them to acceptance criteria and proposed tests, and separated resolved requirements from deferred architecture details. | Updated `spec/US-01.md` to Draft 3. The orchestrator used a Python document check to verify nine resolved question IDs, 11 validation operators, 14 source items, 16 acceptance criteria, and 16 proposed tests. `git diff --check` passed. | Draft 3 is pending explicit human approval. | Same analyst original, feedback revision started at 15:14:54 COT. |
+| 2026-11-21, 15:25 COT · Specification approved | US-01 | Project owner, then orchestrator | The owner wrote “approve Draft 3”. | Recorded the decision in `docs/approvals/US-01-spec-approval.md` and updated the approval metadata in `spec/US-01.md`. | Draft 3 approved. Workflow stopped at the specification checkpoint as requested. | Same orchestrator original. |
+
+### US-01 session evidence
+
+The native Codex Desktop records retain the original prompts, agent results, and tool calls. Both local rollout files contain account identifiers in session metadata. The originals are retained in Codex Desktop, and a repository copy is pending a safe, unedited export. See `logs/README.md`.
 
 ## Skill selection and controls
 
