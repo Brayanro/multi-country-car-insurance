@@ -77,6 +77,7 @@ For an optional local development workflow without Compose, first run `pnpm --fi
 - [US-01 specification](spec/US-01.md) and [US-02 specification](spec/US-02.md) define the approved behavior and acceptance-test identifiers. [ADR-004](docs/adr/ADR-004-plan-catalog-and-selection.md) and the [US-02 design](docs/design/US-02-plan-selection.md) cover the catalog and plan selection.
 - [Country strategy](docs/adr/ADR-001-multi-country-content.md), [dynamic contract](docs/adr/ADR-002-dynamic-form-contract.md), [frontend quote state](docs/adr/ADR-003-frontend-quote-state.md), and [wireframes](docs/design/US-01-wireframes.md) record the approved decisions.
 - [Workflow](FLOW.md), [agent model policy](docs/agent-model-policy.md), and [session evidence guidance](logs/README.md) describe the agent and approval process.
+- The [US-02 QA report](reports/qa/US-02-qa-report.md) and [independent review](reviews/US-02-review.md) record the story verification results and remaining checks.
 
 ## Requirements pending for project delivery
 
