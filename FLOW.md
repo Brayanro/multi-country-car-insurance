@@ -189,6 +189,23 @@ The project owner requested an audit against the approved US-01 architecture and
 
 - The owner authorized four local commits for the approved US-02 work. The orchestrator used `git-workflow-and-versioning`, inspected the diffs and staged only the authorized paths. Core implementation and tests landed in `0f1cfed`, including the fresh-install plan fixtures required by catalog tests. Existing-database synchronization, seed tracking and maintenance tests landed in `a465635`. The approved card interaction and layout revision and its browser tests landed in `cdfb53d`. The QA, review, workflow and approval records are grouped in the documentation commit.
 
+### 2026-11-22 · US-03 specification draft and approval checkpoint
+
+- The project owner requested US-03 through specification approval only. The orchestrator read the project workflow and extracted assessment pages 2–3 and 8–9 with bundled Python and `pypdf.PdfReader` using the PDF skill. A focused review checked the approved state and plan ADRs, the wizard's Summary handoff and the existing design system references.
+- The orchestrator invoked the configured Analyst at `/root/us03_analyst` (`gpt-6-luna` / `xhigh`) to draft [US-03](spec/US-03.md) using `story-to-spec` and `spec-driven-development`. The assignment covered the assessment scenarios, the existing country-scoped Details and selected-plan handoff, new terms and simulated payment behavior, and open decisions. On review, the orchestrator requested clearer terms failure recovery, safe masking for short values, an explicit terms freshness decision, reload verification and protection against resubmitting a completed quote. The Analyst incorporated those changes.
+- The orchestrator checked the draft against the source and used Python to verify 10 source requirements, eight acceptance criteria, 10 proposed tests, four open questions, relative links and pending approval status. `git diff --check` passed for tracked changes. Application tests are proposed for later stages. The original delegated activity is retained in Codex under the collaboration path. A native session ID and a safe, unedited repository export were not verified.
+- Draft 1 awaits explicit human approval or revision. The checkpoint covers the proposed document masking, simulation outcome controls, reload recovery and terms freshness behavior.
+
+### 2026-11-22 · US-03 specification clarifications
+
+- The project owner answered Q-US03-01 through Q-US03-04 in the draft annotations. The owner confirmed a shared masking rule, an accessible demo-only Approved/Rejected selector with Approved as the default and a single Pay action, retry after an interrupted reload and restoration of a completed receipt, and a fresh terms read on Pay with renewed acceptance when the revision changes.
+- The orchestrator resumed `/root/us03_analyst` (`gpt-6-luna` / `xhigh`) to incorporate those decisions into Draft 2 and align acceptance criteria, proposed tests and traceability. The owner clarifications are recorded in the specification. Draft 2 awaits explicit human specification approval.
+- The orchestrator used Python to check traceability for 10 source requirements, 10 acceptance criteria and 11 proposed tests, the four recorded clarifications, relative links and pending status. `git diff --check` passed for tracked changes. The specification also passed a separate whitespace check.
+
+### 2026-11-22 · US-03 specification approved
+
+- The project owner wrote “approve draft 2”. The orchestrator recorded the [specification approval](docs/approvals/US-03-spec-approval.md), including the approved draft hash, and updated the specification's approval metadata. The workflow stopped at the completed specification checkpoint.
+
 ## Skill selection and controls
 
 The project-specific `story-to-spec` skill defines the insurance assessment source and specification format. Other installed skills are third-party workflow or technical guidance. Select skills by stage and task as listed in `AGENTS.md`. Conditional skills are loaded only when the work warrants them. Project instructions and assessment requirements take precedence over conflicting skill guidance. Skills do not bypass security restrictions or human approval checkpoints. Record skills actually used in execution evidence and keep this proposed flow distinct from completed work.
