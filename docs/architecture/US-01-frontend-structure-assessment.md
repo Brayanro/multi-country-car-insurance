@@ -1,6 +1,7 @@
 # US-01 — Frontend structure assessment
 
-**Status** Proposal · Pending explicit human approval  
+**Status** Human approved ([authorization record](../approvals/US-01-correction-and-refactor-approval.md))
+
 **Scope** Frontend file organization and test ownership after US-01 verification  
 **Basis** [US-01 specification](../../spec/US-01.md), [approved technology stack](US-01-technology-stack.md), [ADR-001](../adr/ADR-001-multi-country-content.md), [ADR-002](../adr/ADR-002-dynamic-form-contract.md), and [ADR-003](../adr/ADR-003-frontend-quote-state.md)
 
