@@ -1,6 +1,6 @@
 @let state = view();
 @let choice = selected();
-<div class="details">
+<div class="mx-auto max-w-[58rem]">
   <h1 #heading id="screen-heading" tabindex="-1" class="mt-6 mb-5 lg:my-8 lg:text-center">
     Elige tu plan
   </h1>
@@ -20,11 +20,11 @@
   @if (state.phase === 'ready' && state.plans.length) {
     <fieldset class="min-w-0">
       <legend class="mb-3 text-sm font-bold">Planes disponibles</legend>
-      <div class="grid gap-4 lg:grid-cols-2 lg:gap-6">
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),1fr))] gap-6">
         @for (plan of state.plans; track plan.id) {
           @let checked = plan.id === choice?.id;
           <article
-            class="min-w-0 rounded-lg border px-4 pt-1 pb-5 wrap-anywhere"
+            class="relative isolate min-w-0 rounded-lg border px-4 pt-1 pb-5 wrap-anywhere"
             [class]="
               checked ? 'border-link bg-context ring-1 ring-link' : 'border-control bg-paper'
             "
@@ -34,7 +34,7 @@
                 <input
                   type="radio"
                   name="quote-plan"
-                  class="size-5 shrink-0 accent-link"
+                  class="relative z-10 size-5 shrink-0 cursor-pointer accent-link"
                   [id]="'plan-' + plan.id"
                   [attr.aria-describedby]="
                     'price-' + plan.id + (plan.recommended ? ' recommended-' + plan.id : '')
@@ -43,7 +43,7 @@
                   (change)="store.choose(country(), plan.id)"
                 />
                 <label
-                  class="inline-flex min-h-11 min-w-0 items-center font-heading text-2xl"
+                  class="inline-flex min-h-11 min-w-0 items-center font-heading text-2xl after:absolute after:-inset-px after:cursor-pointer after:rounded-lg"
                   [attr.for]="'plan-' + plan.id"
                   >{{ plan.name }}</label
                 >
