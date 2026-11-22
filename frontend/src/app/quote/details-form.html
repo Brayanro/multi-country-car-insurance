@@ -1,16 +1,18 @@
 <form class="details" [formGroup]="form" novalidate (submit)="submit($event)" autocomplete="off">
-  <p class="required-note"><span aria-hidden="true">*</span> Campo obligatorio</p>
-  <div class="form-grid">
+  <p class="mb-3 text-sm font-bold text-muted">
+    <span aria-hidden="true">*</span> Campo obligatorio
+  </p>
+  <div class="grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2 lg:gap-y-8">
     @for (field of configuration().fields; track field.id) {
       @let id = controlId(field);
       @let error = errors()[field.id];
       <div
-        class="field"
+        class="field min-w-0"
         [class.check-field]="field.kind === 'checkbox'"
         [class.has-error]="!!error"
       >
         @if (field.kind === 'checkbox') {
-          <div class="checkbox-row">
+          <div class="flex min-h-11 items-center gap-3">
             <input
               type="checkbox"
               [id]="id"
@@ -18,10 +20,11 @@
               [required]="field.required"
               [attr.aria-describedby]="description(field)"
               [attr.aria-invalid]="!!error"
+              class="size-5 shrink-0 accent-link"
               (blur)="onBlur(field)"
               (change)="onInput(field, $event)"
             />
-            <label [for]="id"
+            <label class="flex min-h-11 min-w-0 items-center text-base" [for]="id"
               >{{ field.label }}
               @if (field.required) {
                 <span aria-hidden="true">*</span>
@@ -29,7 +32,7 @@
             </label>
           </div>
         } @else {
-          <label [for]="id"
+          <label class="mb-2 block text-sm font-bold" [for]="id"
             >{{ field.label }}
             @if (field.required) {
               <span aria-hidden="true">*</span>
@@ -42,6 +45,7 @@
               [required]="field.required"
               [attr.aria-describedby]="description(field)"
               [attr.aria-invalid]="!!error"
+              class="min-h-11 w-full min-w-0 rounded-md border border-control bg-paper px-3 text-base text-ink"
               (blur)="onBlur(field)"
               (change)="onInput(field, $event)"
             >
@@ -58,6 +62,7 @@
               [required]="field.required"
               [attr.aria-describedby]="description(field)"
               [attr.aria-invalid]="!!error"
+              class="min-h-11 w-full min-w-0 rounded-md border border-control bg-paper px-3 text-base text-ink"
               [attr.step]="field.purpose === 'vehicleYear' ? '1' : 'any'"
               (blur)="onBlur(field)"
               (input)="onInput(field, $event)"
@@ -70,6 +75,7 @@
               [required]="field.required"
               [attr.aria-describedby]="description(field)"
               [attr.aria-invalid]="!!error"
+              class="min-h-11 w-full min-w-0 rounded-md border border-control bg-paper px-3 text-base text-ink"
               [attr.maxlength]="field.kind === 'text' ? 512 : null"
               (blur)="onBlur(field)"
               (input)="onInput(field, $event)"
@@ -77,20 +83,36 @@
           }
         }
         @if (field.helpText) {
-          <p class="field-help" [id]="helpId(field)">{{ field.helpText }}</p>
+          <p class="mt-1.5 text-sm leading-5 text-muted" [id]="helpId(field)">
+            {{ field.helpText }}
+          </p>
         }
         @if (error) {
-          <p class="field-error" [id]="errorId(field)">
-            <img src="icons/exclamation-circle.svg" alt="" width="15" height="15" />
+          <p
+            class="field-error mt-1.5 flex items-start gap-1.5 text-sm font-bold leading-5 text-error"
+            [id]="errorId(field)"
+          >
+            <img
+              class="mt-[2px] shrink-0"
+              src="icons/exclamation-circle.svg"
+              alt=""
+              width="15"
+              height="15"
+            />
             {{ error }}
           </p>
         }
       </div>
     }
   </div>
-  <footer class="form-actions">
-    <button class="primary-button" type="submit">Continuar</button>
+  <footer class="form-actions mt-7 flex border-t border-divider pt-5 md:justify-end">
+    <button
+      class="primary-button inline-flex min-h-12 w-full items-center justify-center rounded-md bg-action px-6 text-base font-bold text-white hover:bg-action-hover active:bg-action-hover md:w-40"
+      type="submit"
+    >
+      Continuar
+    </button>
   </footer>
-  <p class="return-note">Podrás volver a editar estos datos.</p>
+  <p class="mt-4 text-sm text-muted lg:hidden">Podrás volver a editar estos datos.</p>
   <p class="sr-only" role="status">{{ announcement() }}</p>
 </form>

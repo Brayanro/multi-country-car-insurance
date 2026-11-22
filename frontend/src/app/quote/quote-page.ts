@@ -23,13 +23,15 @@ type QuoteRoute = { country: Country; step: 'details' | 'plans' };
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (page(); as page) {
-      <main id="main-content" tabindex="-1" class="wizard">
+      <main id="main-content" tabindex="-1" class="wizard pb-16">
         <app-wizard-progress [step]="page.step === 'details' ? 1 : 2" />
         @if (page.step === 'details') {
-          <div class="step-heading">
+          <div class="step-heading mt-6 mb-3.5 lg:my-4 lg:text-center">
             <h1 tabindex="-1" id="screen-heading">Datos para cotizar</h1>
             @if (store.state().phase === 'ready') {
-              <p>Usa datos ficticios del titular y del vehículo.</p>
+              <p class="mt-2 text-base text-secondary">
+                Usa datos ficticios del titular y del vehículo.
+              </p>
             }
           </div>
         }
@@ -38,28 +40,44 @@ type QuoteRoute = { country: Country; step: 'details' | 'plans' };
           @if (page.step === 'details') {
             <app-details-form [configuration]="state.form" (complete)="advance(page.country)" />
           } @else {
-            <section class="handoff status-panel">
+            <section
+              class="status-panel mt-9 rounded-lg border border-divider bg-paper px-4 py-5 sm:px-6"
+            >
               <h1 tabindex="-1" id="screen-heading">Datos guardados</h1>
-              <p>Volver a los datos te permite revisar lo que ingresaste.</p>
-              <a class="text-link" [routerLink]="['/', page.country, 'quote', 'details']"
+              <p class="mt-2 text-sm text-secondary">
+                Volver a los datos te permite revisar lo que ingresaste.
+              </p>
+              <a
+                class="mt-2 inline-flex min-h-11 items-center font-bold text-link underline underline-offset-4"
+                [routerLink]="['/', page.country, 'quote', 'details']"
                 >Volver a datos</a
               >
             </section>
           }
         } @else if (state.phase === 'unavailable' && state.country === page.country) {
-          <section class="status-panel error-panel">
+          <section
+            class="status-panel rounded-lg border border-error bg-error-tint px-4 py-5 text-error sm:px-6"
+          >
             <h2 id="configuration-error" tabindex="-1">Formulario no disponible</h2>
-            <p>No pudimos cargar el formulario. Intenta de nuevo.</p>
-            <button class="primary-button" type="button" (click)="store.load(page.country, true)">
+            <p class="mt-2 text-sm text-error">
+              No pudimos cargar el formulario. Intenta de nuevo.
+            </p>
+            <button
+              class="primary-button mt-4 inline-flex min-h-12 items-center justify-center rounded-md bg-action px-6 text-base font-bold text-white hover:bg-action-hover active:bg-action-hover"
+              type="button"
+              (click)="store.load(page.country, true)"
+            >
               Reintentar
             </button>
           </section>
         } @else {
-          <section class="status-panel">
+          <section class="status-panel rounded-lg border border-divider bg-paper px-4 py-5 sm:px-6">
             <h2>Cargando el formulario…</h2>
-            <p>Estamos preparando los campos de la cotización.</p>
-            <div class="placeholder" aria-hidden="true"></div>
-            <div class="placeholder short" aria-hidden="true"></div>
+            <p class="mt-2 text-sm text-secondary">
+              Estamos preparando los campos de la cotización.
+            </p>
+            <div class="mt-5 h-3 rounded bg-context" aria-hidden="true"></div>
+            <div class="mt-2 h-3 w-3/5 rounded bg-context" aria-hidden="true"></div>
           </section>
         }
       </main>

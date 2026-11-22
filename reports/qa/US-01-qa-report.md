@@ -105,3 +105,37 @@ The orchestrator reported that both the main Compose stack and a fresh isolated 
 ## Final QA recommendation
 
 **QA recommends independent re-review of US01-R01–R05. The targeted QA evidence passes, including the real Strapi publication/recovery path; no confirmed product defect remains. Final Definition of Done and human approval still require the independent reviewer to close the findings, project workflow records to be updated, and the explicit final human checkpoint.**
+
+## Independent verification addendum — Tailwind styling correction
+
+**Date:** 2026-11-22, America/Bogota
+
+**QA agent:** `/root/styling_qa`, assigned `gpt-6-luna` / `xhigh`
+
+**Scope:** Authorized correction to align frontend styling with the approved US-01 Tailwind CSS 4 stack and approved design; no behavior redesign.
+
+### Audit result
+
+- **Tailwind installation and activation: Pass.** `frontend/package.json` pins `tailwindcss` and `@tailwindcss/postcss` to `4.3.5`; `frontend/.postcssrc.json` registers `@tailwindcss/postcss`; `frontend/src/styles.css` imports `tailwindcss` and declares the approved CSS theme tokens.
+- **Original styling approach: Deviation.** The preceding implementation applied most utilities through global semantic CSS selectors and `@apply`; Angular templates did not use utility classes as the primary styling surface.
+- **Corrected approach: Pass.** The final templates use statically discoverable Tailwind utilities for layout, spacing, typography, color, controls and responsive variants. Global CSS retains the approved tokens/base rules, content-width lanes, field wrapping/error selectors, and the desktop progress connector pseudo-element. No package was added.
+- **Design and accessibility regression: Pass.** Existing UI coverage still verifies visible labels and errors, keyboard completion, focus, 320 px reflow, desktop centering, primary action color, loading/recovery behavior, and CO/CL navigation. No interaction or copy behavior was redesigned.
+
+### Independent verification executed
+
+| Command / check                                                      | Result                                                                                                                                                                                                                         |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `pnpm lint`                                                          | **Pass:** Angular ESLint exited 0.                                                                                                                                                                                             |
+| `CI=1 pnpm --filter quote-web build`                                 | **Pass:** Angular production build completed with the final responsive utility classes. The cache-disabled mode is the existing documented host workaround.                                                                    |
+| `pnpm format:check`                                                  | **Pass:** repository formatting check exited 0.                                                                                                                                                                                |
+| `docker compose up --build --detach --wait --wait-timeout 90`        | **Pass:** rebuilt and started the local frontend and CMS services healthy, using the existing project volume.                                                                                                                  |
+| `QUOTE_BROWSER_CHANNEL=chrome pnpm exec playwright test --workers=1` | **Pass:** 8/8 Chromium UI regressions passed against the final local image, including keyboard, 320 px overflow, validation, CO/CL routing, loading/recovery, and draft reconciliation.                                        |
+| Chrome viewport probe with Playwright at 640, 767, 768, and 800 px   | **Pass:** form grid remained one column below 768 px and switched to two columns at 768 px; the Continue button remained full width below 768 px and 160 px at/above it; the progress track measured 58 px at all four widths. |
+
+The viewport probe asserted computed rendered styles from the loaded CO quote route. The 768 px transition confirms the approved 48 rem breakpoint; no mobile/desktop layout shift was observed at the boundary.
+
+### Iteration notes and remaining limits
+
+The default Playwright browser executable was absent, so the final suite used the already-installed Google Chrome through `QUOTE_BROWSER_CHANNEL=chrome`; no browser binary was downloaded. Early iterations caught removal of selectors used by existing visual assertions; the semantic hooks were retained alongside the utilities, and the final 8/8 run passed. The pre-existing manual screen-reader and cross-browser/version-matrix limits remain as recorded above.
+
+**QA recommendation for this styling correction:** accepted. The Tailwind v4 path is installed, configured, and active; the final templates use utilities as the primary styling approach; the approved design and responsive/accessibility regressions passed. This addendum does not replace the existing US-01 final approval record.
