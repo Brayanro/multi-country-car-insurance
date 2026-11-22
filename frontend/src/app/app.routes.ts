@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { CountryPicker } from './country-picker';
-import { QuotePage } from './quote-page';
+import { CountryPicker } from './country-selection/country-picker';
+import { QuotePage } from './quote/quote-page';
 
 export const routes: Routes = [
   {

@@ -7,7 +7,7 @@ import {
   input,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { QuoteState } from './quote-state';
+import { QuoteState } from '../quote/quote-state';
 
 @Component({
   selector: 'app-country-picker',

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { QuoteState } from './quote-state';
+import { QuoteState } from './quote/quote-state';
 import { RouterOutlet } from '@angular/router';
 
 @Component({

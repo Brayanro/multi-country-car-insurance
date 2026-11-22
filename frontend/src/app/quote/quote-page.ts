@@ -10,7 +10,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { isCountry, type Country } from '@quote/contract';
-import { CountryPicker } from './country-picker';
+import { CountryPicker } from '../country-selection/country-picker';
 import { DetailsForm } from './details-form';
 import { QuoteState } from './quote-state';
 import { WizardProgress } from './wizard-progress';
