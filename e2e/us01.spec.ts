@@ -92,3 +92,79 @@ test("US-01 T-US01-08: allow only the intended public form endpoint", async ({
     405,
   );
 });
+
+test("US01-R01 · T-US01-03/10/12: suffix-like IDs retain distinct accessible associations", async ({
+  page,
+}) => {
+  await page.route("**/api/quote-content/v1/co/form", async (route) => {
+    const response = await route.fetch();
+    const configuration = await response.json();
+    configuration.fields.push(
+      ...["alpha", "alpha-help", "alpha-error"].map((id, index) => ({
+        id,
+        kind: "text",
+        order: index,
+        label: `Campo ${id}`,
+        helpText: `Ayuda ${id}`,
+        errorMessage: `Error ${id}`,
+        required: true,
+        rules: [],
+      })),
+    );
+    await route.fulfill({ response, json: configuration });
+  });
+  await page.goto("/co/quote/details");
+  const fields = ["alpha", "alpha-help", "alpha-error"];
+  await expect(
+    page.getByRole("textbox", { name: "Campo alpha-help", exact: true }),
+  ).toBeVisible({ timeout: 3000 });
+  await page.getByRole("button", { name: "Continuar" }).click();
+  for (const id of fields) {
+    const control = page.getByRole("textbox", {
+      name: `Campo ${id}`,
+      exact: true,
+    });
+    await expect(control).toHaveAccessibleDescription(
+      `Ayuda ${id} Error ${id}`,
+    );
+    const label = page
+      .locator("label")
+      .filter({ hasText: new RegExp(`^Campo ${id}\\s*\\*$`) });
+    expect(
+      await label.evaluate(
+        (element) => (element as HTMLLabelElement).control?.id,
+      ),
+    ).toBe(await control.getAttribute("id"));
+  }
+  await expect(
+    page.getByRole("textbox", { name: "Campo alpha", exact: true }),
+  ).toBeFocused();
+  const ids = await page
+    .locator("main [id]")
+    .evaluateAll((elements) => elements.map(({ id }) => id));
+  expect(new Set(ids).size).toBe(ids.length);
+});
+
+test("US01-R02 · T-US01-10: permitted long labels reflow at a 320 px viewport", async ({
+  page,
+}) => {
+  const longLabel = "Etiqueta".repeat(27);
+  await page.setViewportSize({ width: 320, height: 740 });
+  await page.route("**/api/quote-content/v1/co/form", async (route) => {
+    const response = await route.fetch();
+    const configuration = await response.json();
+    configuration.fields[0].label = longLabel;
+    await route.fulfill({ response, json: configuration });
+  });
+  await page.goto("/co/quote/details");
+  const control = page.getByRole("textbox", { name: longLabel, exact: true });
+  await expect(control).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
+    320,
+  );
+  await control.fill("Persona Demo");
+  await expect(control).toBeInViewport();
+  const next = page.getByRole("button", { name: "Continuar" });
+  await next.focus();
+  await expect(next).toBeInViewport();
+});

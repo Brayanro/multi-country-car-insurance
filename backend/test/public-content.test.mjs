@@ -11,7 +11,7 @@ const { createStrapi, compileStrapi } = createRequire(import.meta.url)(
   "@strapi/strapi",
 );
 
-test("US-01 T-US01-05/08/09: publish, change and unpublish an isolated CMS fixture", async () => {
+test("US-01 T-US01-05/08/09 · US01-R03/R05: publish, change and unpublish an isolated CMS fixture", async () => {
   const fixture = await mkdtemp(join(tmpdir(), "quote-cms-test-"));
   const secret = () => randomBytes(32).toString("hex");
   Object.assign(process.env, {
@@ -26,7 +26,18 @@ test("US-01 T-US01-05/08/09: publish, change and unpublish an isolated CMS fixtu
     ENCRYPTION_KEY: secret(),
   });
 
-  const app = createStrapi(await compileStrapi({ appDir: resolve(".") }));
+  const context = await compileStrapi({ appDir: resolve(".") });
+  let app = createStrapi(context);
+  const readPermission = "api::quote-content.quote-content.readForm";
+  const roles = () => app.db.query("plugin::users-permissions.role");
+  const permissions = () =>
+    app.db.query("plugin::users-permissions.permission");
+  async function roleActions(type) {
+    const role = await roles().findOne({ where: { type } });
+    assert.ok(role);
+    const rows = await permissions().findMany({ where: { role: role.id } });
+    return rows.map(({ action }) => action).sort();
+  }
   try {
     await app.load();
     app.server.listen(0, "127.0.0.1");
@@ -66,12 +77,19 @@ test("US-01 T-US01-05/08/09: publish, change and unpublish an isolated CMS fixtu
       required: false,
       order: 35,
     };
+    const serverLocalTooOld = new Date().getFullYear() - 21;
     await documents.update({
       documentId: draft.documentId,
       status: "draft",
       data: {
         fields: [
-          ...draft.fields.filter(({ fieldKey }) => fieldKey !== "accessories"),
+          ...draft.fields
+            .filter(({ fieldKey }) => fieldKey !== "accessories")
+            .map((field) =>
+              field.fieldKey === "vehicle-year"
+                ? { ...field, defaultValue: { value: serverLocalTooOld } }
+                : field,
+            ),
           added,
         ],
       },
@@ -80,6 +98,11 @@ test("US-01 T-US01-05/08/09: publish, change and unpublish an isolated CMS fixtu
 
     await documents.publish({ documentId: draft.documentId });
     const published = await current();
+    assert.equal(
+      published.fields.find(({ id }) => id === "vehicle-year").defaultValue,
+      serverLocalTooOld,
+      "the API serves structurally valid defaults for the browser to validate against its civil date",
+    );
     assert.equal(
       published.fields.some(({ id }) => id === "accessories"),
       false,
@@ -102,6 +125,40 @@ test("US-01 T-US01-05/08/09: publish, change and unpublish an isolated CMS fixtu
     const chile = await fetch(uri.replace("/co/", "/cl/"));
     assert.equal(chile.status, 200);
     assert.equal((await chile.json()).country, "cl");
+
+    // US01-R05: anonymous permissions are distinct from Strapi administrators.
+    assert.deepEqual(await roleActions("public"), [readPermission]);
+    const base = new URL(uri).origin;
+    assert.equal((await fetch(`${base}/admin/init`)).status, 200);
+    assert.equal(
+      (await fetch(`${base}/api/auth/email-confirmation`)).status,
+      403,
+    );
+    const authenticatedActions = await roleActions("authenticated");
+    const publicRole = await roles().findOne({ where: { type: "public" } });
+    await permissions().create({
+      data: {
+        role: publicRole.id,
+        action: "plugin::users-permissions.auth.register",
+      },
+    });
+    await app.destroy();
+
+    app = createStrapi(context);
+    await app.load();
+    assert.deepEqual(await roleActions("public"), [readPermission]);
+    assert.deepEqual(await roleActions("authenticated"), authenticatedActions);
+    const co = await app
+      .documents("api::quote-content.form-configuration")
+      .findFirst({
+        status: "published",
+        filters: { country: "co" },
+      });
+    assert.equal(
+      co,
+      null,
+      "restarting the initialized fixture preserves unpublication",
+    );
   } finally {
     await app.destroy();
     await rm(fixture, { recursive: true, force: true });

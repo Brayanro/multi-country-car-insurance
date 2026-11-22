@@ -67,5 +67,6 @@ export function projectForm(document: unknown, country: Country) {
       fields: document["fields"].map(projectField),
     },
     country,
+    null,
   );
 }

@@ -74,11 +74,18 @@ export class DetailsForm implements OnChanges, OnDestroy {
     return `quote-field-${field.id}`;
   }
 
+  protected helpId(field: FieldDefinition) {
+    return `quote-help-${field.id}`;
+  }
+
+  protected errorId(field: FieldDefinition) {
+    return `quote-error-${field.id}`;
+  }
+
   protected description(field: FieldDefinition) {
-    const id = this.controlId(field);
     const descriptions = [
-      field.helpText && `${id}-help`,
-      this.errors()[field.id] && `${id}-error`,
+      field.helpText && this.helpId(field),
+      this.errors()[field.id] && this.errorId(field),
     ].filter(Boolean);
     return descriptions.join(' ') || null;
   }

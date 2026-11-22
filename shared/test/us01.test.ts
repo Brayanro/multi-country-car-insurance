@@ -135,6 +135,7 @@ test("US-01 T-US01-14: reconcile stable values, remove old fields and obsolete o
     { ...draft },
     {
       plate: { kind: "text", value: "01" },
+      make: { kind: "select", value: null },
       new: { kind: "checkbox", value: true },
       changed: { kind: "date", value: "2001-01-01" },
     },
@@ -185,5 +186,81 @@ test("US-01 T-US01-14: an explicitly cleared default stays unset after a refresh
       "description"
     ]?.value,
     null,
+  );
+});
+
+test("US01-R03 · T-US01-04/05: publication does not evaluate browser-local calendar bounds", () => {
+  const content = envelope([
+    { ...date, defaultValue: "2008-12-31" },
+    { ...year, defaultValue: 2006 },
+  ]);
+  assert.ok(decodeForm(content, "co", null));
+  assert.ok(decodeForm(content, "co", new Date(2026, 11, 31)));
+  assert.equal(decodeForm(content, "co", new Date(2027, 0, 1)), null);
+  assert.equal(decodeForm(content, "co", new Date(2026, 11, 30)), null);
+  assert.equal(
+    decodeForm(envelope([date, { ...year, defaultValue: 2026.5 }]), "co", null),
+    null,
+  );
+  assert.equal(
+    decodeForm(
+      envelope([
+        date,
+        {
+          ...year,
+          defaultValue: 2006,
+          rules: [
+            ...year.rules,
+            { operator: "min", argument: 2010, message: "Año mínimo" },
+          ],
+        },
+      ]),
+      "co",
+      null,
+    ),
+    null,
+  );
+});
+
+test("US01-R04 · T-US01-14: successive refreshes do not repopulate cleared existing fields", () => {
+  const form = decodeForm(
+    envelope([
+      date,
+      year,
+      { ...make, required: false, defaultValue: "demo" },
+      {
+        ...plate,
+        purpose: undefined,
+        id: "former-number",
+        rules: [],
+        defaultValue: "Nuevo",
+      },
+      {
+        ...plate,
+        purpose: undefined,
+        id: "new-field",
+        rules: [],
+        defaultValue: "Inicial",
+      },
+    ]),
+    "co",
+    clock,
+  );
+  assert.ok(form);
+  const initial = {
+    make: { kind: "select", value: "obsolete" },
+    "former-number": { kind: "number", value: 42 },
+    "removed-field": { kind: "text", value: "Anterior" },
+  } as const;
+  const expected = {
+    make: { kind: "select", value: null },
+    "former-number": { kind: "text", value: null },
+    "new-field": { kind: "text", value: "Inicial" },
+  };
+  const firstRefresh = reconcileDraft(form.fields, initial);
+  assert.deepEqual(firstRefresh, expected);
+  assert.deepEqual(
+    reconcileDraft(form.fields, JSON.parse(JSON.stringify(firstRefresh))),
+    expected,
   );
 });

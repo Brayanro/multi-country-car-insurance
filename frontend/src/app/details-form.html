@@ -77,10 +77,10 @@
           }
         }
         @if (field.helpText) {
-          <p class="field-help" [id]="id + '-help'">{{ field.helpText }}</p>
+          <p class="field-help" [id]="helpId(field)">{{ field.helpText }}</p>
         }
         @if (error) {
-          <p class="field-error" [id]="id + '-error'">
+          <p class="field-error" [id]="errorId(field)">
             <img src="icons/exclamation-circle.svg" alt="" width="15" height="15" />
             {{ error }}
           </p>

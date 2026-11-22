@@ -296,7 +296,7 @@ function fieldShape(
   }
 }
 
-function decodeField(input: unknown, now: Date): FieldDefinition | null {
+function decodeField(input: unknown, now: Date | null): FieldDefinition | null {
   if (!isRecord(input)) return null;
   const {
     id,
@@ -369,15 +369,16 @@ function decodeField(input: unknown, now: Date): FieldDefinition | null {
   );
   return field &&
     (defaultValue === undefined ||
-      !validateField(field, defaultValue, now).length)
+      !validateValue(field, defaultValue, now).length)
     ? field
     : null;
 }
 
+/** Pass null at publication time to defer civil-calendar bounds to the browser. */
 export function decodeForm(
   input: unknown,
   country: Country,
-  now = new Date(),
+  now: Date | null = new Date(),
 ): FormDefinition | null {
   if (
     !isRecord(input) ||
@@ -418,7 +419,7 @@ function ageOn(date: string, now: Date): number {
   return now.getFullYear() - year - (birthdayPassed ? 0 : 1);
 }
 
-function rulePasses(rule: Rule, value: FieldValue, now: Date): boolean {
+function rulePasses(rule: Rule, value: FieldValue, now: Date | null): boolean {
   switch (rule.operator) {
     case "required":
       return true;
@@ -441,15 +442,16 @@ function rulePasses(rule: Rule, value: FieldValue, now: Date): boolean {
     case "maxDate":
       return typeof value === "string" && value <= rule.argument;
     case "minimumAge":
-      return typeof value === "string" && ageOn(value, now) >= rule.argument;
-    case "vehicleYearRange": {
-      const year = now.getFullYear();
       return (
-        typeof value === "number" &&
-        Number.isSafeInteger(value) &&
-        year - 20 <= value &&
-        value <= year + 1
+        typeof value === "string" &&
+        (now === null || ageOn(value, now) >= rule.argument)
       );
+    case "vehicleYearRange": {
+      if (typeof value !== "number" || !Number.isSafeInteger(value))
+        return false;
+      if (now === null) return true;
+      const year = now.getFullYear();
+      return year - 20 <= value && value <= year + 1;
     }
   }
 }
@@ -458,6 +460,14 @@ export function validateField(
   field: FieldDefinition,
   value: unknown,
   now = new Date(),
+): string[] {
+  return validateValue(field, value, now);
+}
+
+function validateValue(
+  field: FieldDefinition,
+  value: unknown,
+  now: Date | null,
 ): string[] {
   const unset = value == null || (typeof value === "string" && !value.trim());
   const missing = unset || (field.kind === "checkbox" && value === false);
@@ -497,8 +507,13 @@ export function reconcileDraft(
       kind === field.kind ||
       (kind === "text" && field.kind === "date") ||
       (kind === "date" && field.kind === "text");
-    if (compatibleKind && (value === null || represents(field, value)))
-      entries.push([field.id, { kind: field.kind, value }]);
+    entries.push([
+      field.id,
+      {
+        kind: field.kind,
+        value: compatibleKind && represents(field, value) ? value : null,
+      },
+    ]);
   }
   return Object.fromEntries(entries);
 }

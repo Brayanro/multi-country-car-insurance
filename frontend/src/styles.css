@@ -112,7 +112,13 @@
     @apply mb-3 text-sm font-bold text-muted;
   }
   .form-grid {
-    @apply grid gap-x-6 gap-y-5;
+    @apply grid grid-cols-1 gap-x-6 gap-y-5;
+  }
+  .field {
+    @apply min-w-0;
+  }
+  .field label {
+    overflow-wrap: anywhere;
   }
   .field > label {
     @apply mb-2 block text-sm font-bold;
@@ -131,7 +137,7 @@
     @apply flex min-h-11 items-center gap-3;
   }
   .checkbox-row label {
-    @apply flex min-h-11 items-center text-base;
+    @apply flex min-h-11 min-w-0 items-center text-base;
   }
   .field-help {
     @apply mt-1.5 text-sm leading-5 text-muted;

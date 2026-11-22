@@ -63,8 +63,25 @@ test("US-01 T-US01-02/07/10/16: progressive validation and responsive accessible
   await page.keyboard.press("Tab");
   await expect(page.getByText("Selecciona una marca.")).toBeVisible();
   await expect(make).toHaveAttribute("aria-invalid", "true");
-  const describedBy = await make.getAttribute("aria-describedby");
-  expect(describedBy).toContain("quote-field-vehicle-make-error");
+  const descriptionAssociation = await make.evaluate((element) => {
+    const describedIds =
+      element.getAttribute("aria-describedby")?.split(/\s+/).filter(Boolean) ??
+      [];
+    const field = element.closest(".field");
+    const error = field?.querySelector(".field-error");
+    return {
+      errorIsAssociated: Boolean(error?.id && describedIds.includes(error.id)),
+      descriptionsExist: describedIds.every((id) =>
+        Boolean(document.getElementById(id)),
+      ),
+      errorText: error?.textContent?.trim(),
+    };
+  });
+  expect(descriptionAssociation).toEqual({
+    errorIsAssociated: true,
+    descriptionsExist: true,
+    errorText: "Selecciona una marca.",
+  });
 
   await page.keyboard.press("Tab");
   await page.keyboard.press("Enter");
