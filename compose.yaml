@@ -1,5 +1,6 @@
 services:
   cms:
+    platform: linux/amd64
     build:
       context: .
       target: cms
@@ -23,6 +24,7 @@ services:
       retries: 15
       start_period: 10s
   web:
+    platform: linux/amd64
     build:
       context: .
       target: web
