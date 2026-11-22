@@ -1,0 +1,8 @@
+{
+  "collectionName": "components_quote_options",
+  "info": { "displayName": "Quote field option" },
+  "attributes": {
+    "optionKey": { "type": "string", "required": true },
+    "label": { "type": "string", "required": true }
+  }
+}

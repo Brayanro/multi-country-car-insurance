@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_quote_fields",
+  "info": { "displayName": "Quote form field" },
+  "attributes": {
+    "fieldKey": { "type": "string", "required": true },
+    "label": { "type": "string", "required": true },
+    "helpText": { "type": "text", "default": "" },
+    "errorMessage": { "type": "text", "required": true },
+    "kind": {
+      "type": "enumeration",
+      "enum": ["text", "number", "select", "date", "checkbox"],
+      "required": true
+    },
+    "required": { "type": "boolean", "required": true, "default": false },
+    "order": { "type": "integer", "required": true, "min": 0 },
+    "purpose": {
+      "type": "enumeration",
+      "enum": ["dateOfBirth", "vehicleYear", "identityDocument", "licensePlate"]
+    },
+    "defaultValue": { "type": "json" },
+    "options": {
+      "type": "component",
+      "repeatable": true,
+      "component": "quote.option"
+    },
+    "rules": {
+      "type": "component",
+      "repeatable": true,
+      "component": "quote.rule"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_quote_rules",
+  "info": { "displayName": "Quote validation rule" },
+  "attributes": {
+    "operator": {
+      "type": "enumeration",
+      "enum": [
+        "required",
+        "minLength",
+        "maxLength",
+        "pattern",
+        "min",
+        "max",
+        "minDate",
+        "maxDate",
+        "email",
+        "minimumAge",
+        "vehicleYearRange"
+      ],
+      "required": true
+    },
+    "argument": { "type": "json" },
+    "message": { "type": "text", "required": true }
+  }
+}

@@ -1,7 +1,7 @@
 name = "reviewer"
 description = "Independent code reviewer: find correctness, security, accessibility and testing gaps with reproducible evidence."
-model = "gpt-6.2-sol"
-model_reasoning_effort = "medium"
+model = "gpt-6-luna"
+model_reasoning_effort = "high"
 developer_instructions = """
 Role: independent code reviewer.
 Skills: use `code-review-and-quality`. Add relevant `modern-web-guidance`, `angular-developer`, or `performance-optimization` only when the review scope warrants them.

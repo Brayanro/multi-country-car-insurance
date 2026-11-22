@@ -1,0 +1,10 @@
+node_modules
+.angular
+.cache
+.data
+.strapi
+dist
+types/generated
+pnpm-lock.yaml
+playwright-report
+test-results

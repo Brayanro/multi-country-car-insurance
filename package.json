@@ -1,0 +1,22 @@
+{
+  "name": "multi-country-car-insurance",
+  "private": true,
+  "packageManager": "pnpm@11.29.0",
+  "engines": {
+    "node": "^24.15.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @quote/contract build && pnpm --filter quote-web build && pnpm --filter quote-cms build",
+    "test": "pnpm --filter @quote/contract test && pnpm --filter quote-web test --watch=false",
+    "lint": "pnpm --filter quote-web lint",
+    "format:check": "prettier --check README.md package.json pnpm-workspace.yaml compose.yaml playwright.config.ts '{frontend,backend,shared,e2e}/**/*.{ts,mjs,html,css,json}'",
+    "test:e2e": "playwright test",
+    "test:content": "pnpm --filter @quote/contract build && pnpm --filter quote-cms test:content"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "@types/node": "24.12.2",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  }
+}

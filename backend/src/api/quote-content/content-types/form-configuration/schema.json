@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quote_form_configurations",
+  "info": {
+    "singularName": "form-configuration",
+    "pluralName": "form-configurations",
+    "displayName": "Quote form configuration"
+  },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "country": {
+      "type": "enumeration",
+      "enum": ["co", "cl"],
+      "required": true
+    },
+    "fields": {
+      "type": "component",
+      "repeatable": true,
+      "component": "quote.field",
+      "required": true
+    }
+  }
+}

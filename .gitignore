@@ -9,3 +9,12 @@ build/
 *.pem
 *.key
 .DS_Store
+
+.data/
+playwright-report/
+test-results/
+backend/.strapi/
+backend/.strapi-updater.json
+backend/types/generated/
+backend/public/uploads/*
+!backend/public/uploads/.gitkeep

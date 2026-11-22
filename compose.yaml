@@ -1,0 +1,36 @@
+services:
+  cms:
+    build:
+      context: .
+      target: cms
+    environment:
+      DATABASE_FILENAME: /data/strapi.sqlite
+      STRAPI_TELEMETRY_DISABLED: "true"
+    volumes:
+      - strapi-content:/data
+    ports:
+      - "127.0.0.1:1337:1337"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:1337/_health').then(r=>process.exit(r.status===204?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 4s
+      timeout: 3s
+      retries: 15
+      start_period: 10s
+  web:
+    build:
+      context: .
+      target: web
+    depends_on:
+      cms:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8080:80"
+
+volumes:
+  strapi-content:

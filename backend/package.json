@@ -1,0 +1,26 @@
+{
+  "name": "quote-cms",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "strapi build",
+    "start": "strapi start",
+    "develop": "strapi develop",
+    "typecheck": "tsc --noEmit",
+    "test:content": "node --test test/public-content.test.mjs"
+  },
+  "dependencies": {
+    "@quote/contract": "workspace:*",
+    "@strapi/strapi": "5.63.0",
+    "@strapi/plugin-users-permissions": "5.63.0",
+    "better-sqlite3": "12.11.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "6.30.3",
+    "styled-components": "6.3.12"
+  },
+  "devDependencies": {
+    "@types/node": "24.12.2",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,96 @@
+<form class="details" [formGroup]="form" novalidate (submit)="submit($event)" autocomplete="off">
+  <p class="required-note"><span aria-hidden="true">*</span> Campo obligatorio</p>
+  <div class="form-grid">
+    @for (field of configuration().fields; track field.id) {
+      @let id = controlId(field);
+      @let error = errors()[field.id];
+      <div
+        class="field"
+        [class.check-field]="field.kind === 'checkbox'"
+        [class.has-error]="!!error"
+      >
+        @if (field.kind === 'checkbox') {
+          <div class="checkbox-row">
+            <input
+              type="checkbox"
+              [id]="id"
+              [formControl]="form.controls[field.id]"
+              [required]="field.required"
+              [attr.aria-describedby]="description(field)"
+              [attr.aria-invalid]="!!error"
+              (blur)="onBlur(field)"
+              (change)="onInput(field, $event)"
+            />
+            <label [for]="id"
+              >{{ field.label }}
+              @if (field.required) {
+                <span aria-hidden="true">*</span>
+              }
+            </label>
+          </div>
+        } @else {
+          <label [for]="id"
+            >{{ field.label }}
+            @if (field.required) {
+              <span aria-hidden="true">*</span>
+            }
+          </label>
+          @if (field.kind === 'select') {
+            <select
+              [id]="id"
+              [formControl]="form.controls[field.id]"
+              [required]="field.required"
+              [attr.aria-describedby]="description(field)"
+              [attr.aria-invalid]="!!error"
+              (blur)="onBlur(field)"
+              (change)="onInput(field, $event)"
+            >
+              <option [ngValue]="null" [disabled]="field.required">Selecciona una opción</option>
+              @for (option of field.options; track option.id) {
+                <option [ngValue]="option.id">{{ option.label }}</option>
+              }
+            </select>
+          } @else if (field.kind === 'number') {
+            <input
+              type="number"
+              [id]="id"
+              [formControl]="form.controls[field.id]"
+              [required]="field.required"
+              [attr.aria-describedby]="description(field)"
+              [attr.aria-invalid]="!!error"
+              [attr.step]="field.purpose === 'vehicleYear' ? '1' : 'any'"
+              (blur)="onBlur(field)"
+              (input)="onInput(field, $event)"
+            />
+          } @else {
+            <input
+              [type]="inputType(field)"
+              [id]="id"
+              [formControl]="form.controls[field.id]"
+              [required]="field.required"
+              [attr.aria-describedby]="description(field)"
+              [attr.aria-invalid]="!!error"
+              [attr.maxlength]="field.kind === 'text' ? 512 : null"
+              (blur)="onBlur(field)"
+              (input)="onInput(field, $event)"
+            />
+          }
+        }
+        @if (field.helpText) {
+          <p class="field-help" [id]="id + '-help'">{{ field.helpText }}</p>
+        }
+        @if (error) {
+          <p class="field-error" [id]="id + '-error'">
+            <img src="icons/exclamation-circle.svg" alt="" width="15" height="15" />
+            {{ error }}
+          </p>
+        }
+      </div>
+    }
+  </div>
+  <footer class="form-actions">
+    <button class="primary-button" type="submit">Continuar</button>
+  </footer>
+  <p class="return-note">Podrás volver a editar estos datos.</p>
+  <p class="sr-only" role="status">{{ announcement() }}</p>
+</form>

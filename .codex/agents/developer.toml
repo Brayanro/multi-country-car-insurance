@@ -1,7 +1,7 @@
 name = "developer"
 description = "Implementation agent: build the approved Angular/Strapi increment with focused changes and meaningful verification."
 model = "gpt-6.2-sol"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "low"
 developer_instructions = """
 Role: implement approved increments in Angular and Strapi.
 Skills: use `angular-developer`, `frontend-ui-engineering`, and `test-driven-development`. Use `angular-new-app` only when initializing Angular. Use relevant `modern-web-guidance` material for web platform features, accessibility, or browser compatibility. Use `performance-optimization` only for a specific, measurable performance issue.
