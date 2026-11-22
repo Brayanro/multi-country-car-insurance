@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="778" viewBox="0 0 390 778" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">Simulated payment confirmation concept — mobile</title><desc id="desc">Proposed later-story view. All steps are complete. A successful simulation shows a fictitious quote reference, country, and plan and states that there was no real charge.</desc>
+<g xml:lang="es">
+<rect x="0" y="0" width="390" height="778" rx="0" fill="#F5F7FC" stroke="none" stroke-width="1"/>
+<g id="global-header">
+<rect x="0" y="0" width="390" height="64" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<path d="M0 63 L390 63" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<path d="M33 20 L43 24 V31 Q43 40 33 45 Q23 40 23 31 V24 Z" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M28 32 L32 36 L39 28" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="39" fill="#15243B" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="start">Seguro de auto</text>
+</g>
+<g id="wizard-progress">
+<circle cx="31.0" cy="93" r="11" fill="#1748AF" stroke="#1748AF" stroke-width="1"/>
+<path d="M27.0 93 l3 3 l5 -6" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="50.0" y="98" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Datos</text>
+<circle cx="147.66666666666669" cy="93" r="11" fill="#1748AF" stroke="#1748AF" stroke-width="1"/>
+<path d="M143.66666666666669 93 l3 3 l5 -6" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="166.66666666666669" y="98" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Plan</text>
+<circle cx="264.33333333333337" cy="93" r="11" fill="#1748AF" stroke="#1748AF" stroke-width="1"/>
+<path d="M260.33333333333337 93 l3 3 l5 -6" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="283.33333333333337" y="98" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Resumen</text>
+<path d="M20 121 L370 121" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+</g>
+<g id="step-content">
+<rect x="20" y="164" width="350" height="390" rx="10" fill="#FFFFFF" stroke="#CCD8EE" stroke-width="1"/>
+<circle cx="56" cy="213" r="18" fill="#E8F5EC" stroke="#1F5B39" stroke-width="1"/>
+<path d="M49 213 l5 5 l9 -10" stroke="#1F5B39" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="38" y="275" fill="#15243B" font-family="Georgia, serif" font-size="33" font-weight="400" text-anchor="start">Pago simulado</text>
+<text x="38" y="309" fill="#344763" font-family="Arial, sans-serif" font-size="13" font-weight="400" text-anchor="start">La simulación terminó. No se realizó un cobro.</text>
+<rect x="38" y="338" width="314" height="101" rx="7" fill="#EAF0FF" stroke="none" stroke-width="1"/>
+<text x="52" y="366" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Número de cotización</text>
+<text x="52" y="405" fill="#1748AF" font-family="Arial, sans-serif" font-size="25" font-weight="700" text-anchor="start">DEMO-CL-0042</text>
+<text x="38" y="474" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Chile · Plan Ruta</text>
+<text x="38" y="517" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Volver al inicio</text>
+<path d="M38 521 L155.6 521" stroke="#1748AF" stroke-width="1" stroke-linecap="round"/>
+</g>
+</g></svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="668" viewBox="0 0 390 668" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">Country selection — mobile</title><desc id="desc">Choose Colombia or Chile by country-name links. The wizard starts only after a country is chosen.</desc>
+<g xml:lang="es">
+<rect x="0" y="0" width="390" height="668" rx="0" fill="#F5F7FC" stroke="none" stroke-width="1"/>
+<g id="global-header">
+<rect x="0" y="0" width="390" height="64" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<path d="M0 63 L390 63" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<path d="M33 20 L43 24 V31 Q43 40 33 45 Q23 40 23 31 V24 Z" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M28 32 L32 36 L39 28" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="39" fill="#15243B" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="start">Seguro de auto</text>
+</g>
+<text x="20" y="131" fill="#15243B" font-family="Georgia, serif" font-size="35" font-weight="400" text-anchor="start">¿Dónde quieres</text>
+<text x="20" y="174" fill="#15243B" font-family="Georgia, serif" font-size="35" font-weight="400" text-anchor="start">cotizar?</text>
+<text x="20" y="211" fill="#344763" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Elige el país donde está registrado tu vehículo.</text>
+<rect x="20" y="258" width="350" height="86" rx="8" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<rect x="36" y="279" width="46" height="42" rx="5" fill="#EAF0FF" stroke="none" stroke-width="1"/>
+<text x="59" y="305" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">CO</text>
+<text x="100" y="309" fill="#15243B" font-family="Georgia, serif" font-size="24" font-weight="400" text-anchor="start">Colombia</text>
+<path d="M327 301 h16 m-6 -6 l6 6 l-6 6" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="20" y="360" width="350" height="86" rx="8" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<rect x="36" y="381" width="46" height="42" rx="5" fill="#EAF0FF" stroke="none" stroke-width="1"/>
+<text x="59" y="407" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">CL</text>
+<text x="100" y="411" fill="#15243B" font-family="Georgia, serif" font-size="24" font-weight="400" text-anchor="start">Chile</text>
+<path d="M327 403 h16 m-6 -6 l6 6 l-6 6" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="20" y="484" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Usa datos ficticios para cotizar.</text>
+</g></svg>

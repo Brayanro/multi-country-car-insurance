@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="920" viewBox="0 0 1200 920" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">Colombia vehicle and policyholder details — desktop</title><desc id="desc">Step one of three. Fields follow the published order with native labels and controls. An untouched required select has a placeholder and no error. </desc>
+<g xml:lang="es">
+<rect x="0" y="0" width="1200" height="920" rx="0" fill="#F5F7FC" stroke="none" stroke-width="1"/>
+<g id="global-header">
+<rect x="0" y="0" width="1200" height="76" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<path d="M0 75 L1200 75" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<path d="M69 25 L79 29 V36 Q79 45 69 50 Q59 45 59 36 V29 Z" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M64 37 L68 41 L75 33" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="92" y="46" fill="#15243B" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="start">Seguro de auto</text>
+</g>
+<g id="wizard-progress">
+<circle cx="391" cy="105" r="11" fill="#2E6DF6" stroke="#2E6DF6" stroke-width="1"/>
+<text x="391" y="109" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">1</text>
+<text x="410" y="110" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Datos</text>
+<path d="M475 105 L531 105" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<circle cx="565" cy="105" r="11" fill="#F5F7FC" stroke="#586D91" stroke-width="1"/>
+<text x="565" y="109" fill="#405575" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">2</text>
+<text x="584" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Plan</text>
+<path d="M649 105 L705 105" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<circle cx="739" cy="105" r="11" fill="#F5F7FC" stroke="#586D91" stroke-width="1"/>
+<text x="739" y="109" fill="#405575" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">3</text>
+<text x="758" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Resumen</text>
+<path d="M136 133 L1064 133" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+</g>
+<g id="step-content" transform="translate(0 -32)">
+<text x="600.0" y="224" fill="#15243B" font-family="Georgia, serif" font-size="48" font-weight="400" text-anchor="middle">Datos para cotizar</text>
+<text x="600.0" y="262" fill="#344763" font-family="Arial, sans-serif" font-size="17" font-weight="400" text-anchor="middle">Usa datos ficticios del titular y del vehículo.</text>
+<text x="244" y="293" fill="#405575" font-family="Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start">* Campo obligatorio</text>
+<text x="244" y="330" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Nombre del titular *</text>
+<rect x="244" y="342" width="344" height="44" rx="6" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<text x="256" y="369" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Persona Demo</text>
+<text x="612" y="330" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Tipo de documento *</text>
+<rect x="612" y="342" width="344" height="44" rx="6" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<text x="624" y="369" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Cédula de ciudadanía</text>
+<path d="M932 359 l5 5 l5 -5" stroke="#405575" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="244" y="440" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Número de documento *</text>
+<rect x="244" y="452" width="344" height="44" rx="6" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<text x="256" y="479" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">DEMO-ID</text>
+<text x="244" y="517" fill="#405575" font-family="Arial, sans-serif" font-size="13" font-weight="400" text-anchor="start">Usa un número ficticio.</text>
+<text x="612" y="440" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Fecha de nacimiento *</text>
+<rect x="612" y="452" width="344" height="44" rx="6" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<text x="624" y="479" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">16/04/1992</text>
+<path d="M925 468 h16 v13 h-16 z M925 472 h16 M929 466 v4 M937 466 v4" stroke="#405575" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="244" y="550" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Placa *</text>
+<rect x="244" y="562" width="344" height="44" rx="6" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<text x="256" y="589" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">DEMO-CO</text>
+<text x="612" y="550" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Año del vehículo *</text>
+<rect x="612" y="562" width="344" height="44" rx="6" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<text x="624" y="589" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">2021</text>
+<text x="244" y="660" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Marca *</text>
+<rect x="244" y="672" width="344" height="44" rx="6" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<text x="256" y="699" fill="#405575" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Selecciona una marca</text>
+<path d="M564 689 l5 5 l5 -5" stroke="#405575" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="244" y="741" width="19" height="19" rx="4" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<text x="276" y="757" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">El auto tiene accesorios adicionales</text>
+<path d="M244 793 L956 793" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<rect x="796" y="815" width="160" height="48" rx="6" fill="#2E6DF6" stroke="none" stroke-width="1"/>
+<text x="876.0" y="844.0" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Continuar</text>
+</g>
+</g></svg>

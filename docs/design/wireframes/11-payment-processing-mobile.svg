@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="658" viewBox="0 0 390 658" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">Payment processing concept — mobile</title><desc id="desc">Future story concept shown to review flow cohesion and recoverability.</desc>
+<g xml:lang="es">
+<rect x="0" y="0" width="390" height="658" rx="0" fill="#F5F7FC" stroke="none" stroke-width="1"/>
+<g id="global-header">
+<rect x="0" y="0" width="390" height="64" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<path d="M0 63 L390 63" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<path d="M33 20 L43 24 V31 Q43 40 33 45 Q23 40 23 31 V24 Z" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M28 32 L32 36 L39 28" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="39" fill="#15243B" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="start">Seguro de auto</text>
+</g>
+<g id="wizard-progress">
+<circle cx="31.0" cy="93" r="11" fill="#1748AF" stroke="#1748AF" stroke-width="1"/>
+<path d="M27.0 93 l3 3 l5 -6" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="50.0" y="98" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Datos</text>
+<circle cx="147.66666666666669" cy="93" r="11" fill="#1748AF" stroke="#1748AF" stroke-width="1"/>
+<path d="M143.66666666666669 93 l3 3 l5 -6" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="166.66666666666669" y="98" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Plan</text>
+<circle cx="264.33333333333337" cy="93" r="11" fill="#2E6DF6" stroke="#2E6DF6" stroke-width="1"/>
+<text x="264.33333333333337" y="97" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">3</text>
+<text x="283.33333333333337" y="98" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Resumen</text>
+<path d="M20 121 L370 121" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+</g>
+<g id="step-content">
+<text x="20" y="174" fill="#15243B" font-family="Georgia, serif" font-size="32" font-weight="400" text-anchor="start">Revisa tu cotización</text>
+<rect x="20" y="215" width="350" height="204" rx="8" fill="#FFFFFF" stroke="#CCD8EE" stroke-width="1"/>
+<text x="38" y="255" fill="#15243B" font-family="Georgia, serif" font-size="22" font-weight="400" text-anchor="start">Procesando la simulación…</text>
+<text x="38" y="287" fill="#344763" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Tu cotización sigue disponible.</text>
+<rect x="38" y="335" width="174" height="48" rx="6" fill="#E0E7F4" stroke="none" stroke-width="1"/>
+<text x="125.0" y="364.0" fill="#405575" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Procesando…</text>
+</g>
+</g></svg>

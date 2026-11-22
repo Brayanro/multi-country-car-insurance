@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">Plan selection concept — desktop</title><desc id="desc">Proposed later-story view. A native radio group lets a Chilean driver choose one local-currency plan. The recommended label can be distinguished from the selected state.</desc>
+<g xml:lang="es">
+<rect x="0" y="0" width="1200" height="820" rx="0" fill="#F5F7FC" stroke="none" stroke-width="1"/>
+<g id="global-header">
+<rect x="0" y="0" width="1200" height="76" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<path d="M0 75 L1200 75" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<path d="M69 25 L79 29 V36 Q79 45 69 50 Q59 45 59 36 V29 Z" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M64 37 L68 41 L75 33" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="92" y="46" fill="#15243B" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="start">Seguro de auto</text>
+</g>
+<g id="wizard-progress">
+<circle cx="391" cy="105" r="11" fill="#1748AF" stroke="#1748AF" stroke-width="1"/>
+<path d="M387 105 l3 3 l5 -6" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="410" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Datos</text>
+<path d="M475 105 L531 105" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<circle cx="565" cy="105" r="11" fill="#2E6DF6" stroke="#2E6DF6" stroke-width="1"/>
+<text x="565" y="109" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">2</text>
+<text x="584" y="110" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Plan</text>
+<path d="M649 105 L705 105" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<circle cx="739" cy="105" r="11" fill="#F5F7FC" stroke="#586D91" stroke-width="1"/>
+<text x="739" y="109" fill="#405575" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">3</text>
+<text x="758" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Resumen</text>
+<path d="M136 133 L1064 133" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+</g>
+<g id="step-content" transform="translate(0 -32)">
+<text x="600.0" y="224" fill="#15243B" font-family="Georgia, serif" font-size="48" font-weight="400" text-anchor="middle">Elige tu plan</text>
+<text x="600.0" y="262" fill="#344763" font-family="Arial, sans-serif" font-size="17" font-weight="400" text-anchor="middle">Compara precio y coberturas.</text>
+<rect x="244" y="305" width="344" height="192" rx="8" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
+<circle cx="268" cy="334" r="9" fill="#FFFFFF" stroke="#586D91" stroke-width="1.5"/>
+<text x="287" y="341" fill="#15243B" font-family="Georgia, serif" font-size="25" font-weight="400" text-anchor="start">Esencial</text>
+<text x="260" y="381" fill="#1748AF" font-family="Arial, sans-serif" font-size="26" font-weight="700" text-anchor="start">$24.900 CLP</text>
+<path d="M260 400 L572 400" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<text x="260" y="427" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">✓</text>
+<text x="282" y="427" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Responsabilidad civil</text>
+<text x="260" y="452" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">✓</text>
+<text x="282" y="452" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Asistencia en ruta</text>
+<rect x="612" y="305" width="344" height="192" rx="8" fill="#EAF0FF" stroke="#1748AF" stroke-width="2"/>
+<circle cx="636" cy="334" r="9" fill="#FFFFFF" stroke="#1748AF" stroke-width="1.5"/>
+<circle cx="636" cy="334" r="4" fill="#1748AF" stroke="none" stroke-width="1"/>
+<text x="655" y="341" fill="#15243B" font-family="Georgia, serif" font-size="25" font-weight="400" text-anchor="start">Ruta</text>
+<rect x="843" y="320" width="102" height="26" rx="4" fill="#1748AF" stroke="none" stroke-width="1"/>
+<text x="894" y="338" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">Recomendado</text>
+<text x="628" y="381" fill="#1748AF" font-family="Arial, sans-serif" font-size="26" font-weight="700" text-anchor="start">$34.900 CLP</text>
+<path d="M628 400 L940 400" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<text x="628" y="427" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">✓</text>
+<text x="650" y="427" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Incluye daños propios</text>
+<text x="628" y="452" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">✓</text>
+<text x="650" y="452" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Asistencia en ruta</text>
+<text x="244" y="592" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Volver a datos</text>
+<path d="M244 596 L346.9 596" stroke="#1748AF" stroke-width="1" stroke-linecap="round"/>
+<rect x="774" y="562" width="182" height="48" rx="6" fill="#2E6DF6" stroke="none" stroke-width="1"/>
+<text x="865.0" y="591.0" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Continuar</text>
+</g>
+</g></svg>
