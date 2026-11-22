@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">US-02 plan comparison — desktop</title>
+<desc id="desc">Colombia comparison example. Esencial is checked. Ruta is recommended and unchecked. Both plans show a Colombian peso price, short description, coverage and benefits.</desc>
+<g xml:lang="es">
+<rect x="0" y="0" width="1200" height="820" rx="0" fill="#F5F7FC" stroke="none" stroke-width="1"/>
+<g id="global-header">
+<rect x="0" y="0" width="1200" height="76" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<path d="M0 75 L1200 75" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<path d="M69 25 L79 29 V36 Q79 45 69 50 Q59 45 59 36 V29 Z" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M64 37 L68 41 L75 33" stroke="#1748AF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="92" y="46" fill="#15243B" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="start">Seguro de auto</text>
+</g>
+<g id="wizard-progress">
+<circle cx="391" cy="105" r="11" fill="#1748AF" stroke="#1748AF" stroke-width="1"/>
+<path d="M387 105 l3 3 l5 -6" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="410" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Datos</text>
+<path d="M475 105 L531 105" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<circle cx="565" cy="105" r="11" fill="#2E6DF6" stroke="#2E6DF6" stroke-width="1"/>
+<text x="565" y="109" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">2</text>
+<text x="584" y="110" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Plan</text>
+<path d="M649 105 L705 105" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+<circle cx="739" cy="105" r="11" fill="#F5F7FC" stroke="#586D91" stroke-width="1"/>
+<text x="739" y="109" fill="#405575" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">3</text>
+<text x="758" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Resumen</text>
+<path d="M136 133 L1064 133" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
+</g>
+<g id="step-content">
+<text x="600" y="196" fill="#15243B" font-family="Georgia, serif" font-size="48" text-anchor="middle">Elige tu plan</text>
+<g id="plan-choice-comparison" font-family="Arial, sans-serif">
+<text x="244" y="248" fill="#15243B" font-size="15" font-weight="700">Planes disponibles</text>
+<g id="example-checked">
+<rect x="244" y="268" width="344" height="275" rx="8" fill="#EAF0FF" stroke="#1748AF" stroke-width="2"/>
+<circle cx="268" cy="298" r="9" fill="#FFFFFF" stroke="#1748AF" stroke-width="1.5"/>
+<circle cx="268" cy="298" r="4" fill="#1748AF"/>
+<text x="287" y="306" fill="#15243B" font-family="Georgia, serif" font-size="25">Esencial</text>
+<text x="260" y="343" fill="#1748AF" font-size="28" font-weight="700">COP 129.900,50</text>
+<text x="260" y="372" fill="#344763" font-size="16">Protección para tus recorridos diarios.</text>
+<path d="M260 389 H572" stroke="#CCD8EE"/>
+<text x="260" y="418" fill="#15243B" font-size="15" font-weight="700">Coberturas</text>
+<text x="260" y="443" fill="#344763" font-size="16">•  Responsabilidad civil</text>
+<text x="260" y="479" fill="#15243B" font-size="15" font-weight="700">Beneficios</text>
+<text x="260" y="504" fill="#344763" font-size="16">•  Asistencia en carretera</text>
+</g>
+<g id="example-recommended">
+<rect x="612" y="268" width="344" height="275" rx="8" fill="#FFFFFF" stroke="#586D91"/>
+<circle cx="636" cy="298" r="9" fill="#FFFFFF" stroke="#586D91" stroke-width="1.5"/>
+<text x="655" y="306" fill="#15243B" font-family="Georgia, serif" font-size="25">Ruta</text>
+<rect x="838" y="285" width="102" height="26" rx="4" fill="#1748AF"/>
+<text x="889" y="303" fill="#FFFFFF" font-size="12" font-weight="700" text-anchor="middle">Recomendado</text>
+<text x="628" y="343" fill="#1748AF" font-size="28" font-weight="700">COP 159.900,00</text>
+<text x="628" y="372" fill="#344763" font-size="16">Protección ampliada para tu vehículo.</text>
+<path d="M628 389 H940" stroke="#CCD8EE"/>
+<text x="628" y="418" fill="#15243B" font-size="15" font-weight="700">Coberturas</text>
+<text x="628" y="443" fill="#344763" font-size="16">•  Daños propios</text>
+<text x="628" y="479" fill="#15243B" font-size="15" font-weight="700">Beneficios</text>
+<text x="628" y="504" fill="#344763" font-size="16">•  Asistencia en carretera</text>
+</g>
+<text x="244" y="599" fill="#1748AF" font-size="15" font-weight="700" text-decoration="underline">Volver a datos</text>
+<rect x="796" y="568" width="160" height="48" rx="6" fill="#2E6DF6"/>
+<text x="876" y="598" fill="#FFFFFF" font-size="15" font-weight="700" text-anchor="middle">Continuar</text>
+</g>
+</g>
+</g>
+</svg>

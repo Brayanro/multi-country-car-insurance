@@ -122,6 +122,14 @@ The project owner requested an audit against the approved US-01 architecture and
 
 - The project owner wrote “approve ADR-004”. The orchestrator recorded the [architecture approval](docs/approvals/US-02-architecture-approval.md) and updated ADR-004's approval metadata. The workflow stopped at the completed architecture checkpoint as requested.
 
+### 2026-11-22 · US-02 design proposal
+
+- After architecture approval, the owner wrote “continue”. The orchestrator treated this as authorization for the design proposal through the next human checkpoint and resumed `/root/us02_architect` (`gpt-6.2-sol` / `high`). The prompt requested reuse of the approved design system and Plans concepts, with any additions limited to US-02 states and interactions.
+- The Architect used `interface-design`, `frontend-ui-engineering`, `accessibility`, and `modern-web-guidance`. The Architect produced [the US-02 plan selection proposal](docs/design/US-02-plan-selection.md) and one desktop comparison SVG. The Architect rendered four frames with Sharp, checked source links, acceptance-criteria coverage, SVG names and state indicators with Python, measured five contrast pairs, and verified money examples with Node `Intl`. The orchestrator read the proposal against the approved scope and visually inspected the rendered desktop comparison. Application and assistive-technology verification remain pending implementation.
+- The original activity remains in Codex under the same Architect collaboration path. Design approval is pending an explicit human decision.
+
+- The project owner wrote “approve the US-02 design”. The orchestrator recorded the [design approval](docs/approvals/US-02-design-approval.md), captured the design and wireframe hashes, and updated the design's approval metadata. The design checkpoint is complete.
+
 ## Skill selection and controls
 
 The project-specific `story-to-spec` skill defines the insurance assessment source and specification format. Other installed skills are third-party workflow or technical guidance. Select skills by stage and task as listed in `AGENTS.md`. Conditional skills are loaded only when the work warrants them. Project instructions and assessment requirements take precedence over conflicting skill guidance. Skills do not bypass security restrictions or human approval checkpoints. Record skills actually used in execution evidence and keep this proposed flow distinct from completed work.
