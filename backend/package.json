@@ -7,7 +7,7 @@
     "start": "strapi start",
     "develop": "strapi develop",
     "typecheck": "tsc --noEmit",
-    "test:content": "node --test test/public-content.test.mjs"
+    "test:content": "node --test --test-concurrency=1 test/*.test.mjs"
   },
   "dependencies": {
     "@quote/contract": "workspace:*",

@@ -6,7 +6,7 @@ import {
   READ_PLANS_ACTION,
 } from "./api/quote-content/routes/quote-content";
 import { seedForm } from "./seed-forms";
-import { planCountries, seedPlans } from "./seed-plans";
+import { PLAN_EXPANSION_KEY, planCountries, seedPlans } from "./seed-plans";
 
 async function restrictPublicRole(strapi: Core.Strapi) {
   await strapi.db.transaction(async () => {
@@ -59,19 +59,24 @@ async function seedContent(strapi: Core.Strapi) {
 
   await strapi.db.transaction(async () => {
     if (await seedState.get({ key: "us02-seeded" })) return;
+    const expansion: Partial<Record<(typeof planCountries)[number], string>> =
+      {};
     for (const country of planCountries) {
       for (const fixture of seedPlans(country)) {
-        await strapi
+        const plan = await strapi
           .documents(PLAN_UID)
           .create({ data: fixture, status: "published" });
+        if (fixture.name === "Integral") expansion[country] = plan.documentId;
       }
     }
+    await seedState.set({ key: PLAN_EXPANSION_KEY, value: expansion });
     await seedState.set({ key: "us02-seeded", value: true });
   });
 }
 
 export default {
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    if (strapi.config.get("quoteCatalogMaintenance")) return;
     await restrictPublicRole(strapi);
     await seedContent(strapi);
   },
