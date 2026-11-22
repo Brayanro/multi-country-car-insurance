@@ -60,7 +60,6 @@ import { QuoteState } from '../quote/quote-state';
           <img class="ml-auto shrink-0" src="icons/arrow-right.svg" alt="" width="20" height="20" />
         </a>
       </div>
-      <p class="picker-footer">Usa datos ficticios para cotizar.</p>
     </main>
   `,
 })
