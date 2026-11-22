@@ -1,5 +1,7 @@
-import { isCountry } from "@quote/contract";
+import { isCountry, MAX_PLANS } from "@quote/contract";
 import { FORM_UID, projectForm } from "../form-projection";
+
+import { PLAN_UID, projectPlans } from "../plan-projection";
 
 type ReadContext = {
   params: Record<string, unknown>;
@@ -9,14 +11,17 @@ type ReadContext = {
   body: unknown;
 };
 
+function startRead(ctx: ReadContext) {
+  ctx.set("Cache-Control", "no-store");
+  return (status: number, code: string) => {
+    ctx.body = { error: { code } };
+    ctx.status = status;
+  };
+}
+
 export default {
   async readForm(ctx: ReadContext) {
-    ctx.set("Cache-Control", "no-store");
-    const fail = (status: number, code: string) => {
-      ctx.body = { error: { code } };
-      ctx.status = status;
-    };
-
+    const fail = startRead(ctx);
     const country = ctx.params["country"];
     if (!isCountry(country)) return fail(404, "UNSUPPORTED_COUNTRY");
     if (ctx.querystring) return fail(400, "INVALID_REQUEST");
@@ -42,6 +47,33 @@ export default {
       return fail(503, "FORM_UNAVAILABLE");
     }
     ctx.body = form;
+    ctx.status = 200;
+  },
+  async readPlans(ctx: ReadContext) {
+    const fail = startRead(ctx);
+    const country = ctx.params["country"];
+    if (!isCountry(country)) return fail(404, "UNSUPPORTED_COUNTRY");
+    if (ctx.querystring) return fail(400, "INVALID_REQUEST");
+
+    let documents;
+    try {
+      documents = await strapi.documents(PLAN_UID).findMany({
+        status: "published",
+        filters: { country, active: true },
+        populate: ["coverages", "benefits"],
+        limit: MAX_PLANS + 1,
+      });
+    } catch {
+      strapi.log.error("Quote plan document retrieval failed.");
+      return fail(503, "CONTENT_UNAVAILABLE");
+    }
+
+    const catalog = projectPlans(documents, country);
+    if (!catalog) {
+      strapi.log.warn("A published quote plan catalog was rejected.");
+      return fail(503, "PLANS_UNAVAILABLE");
+    }
+    ctx.body = catalog;
     ctx.status = 200;
   },
 };

@@ -1,0 +1,7 @@
+{
+  "collectionName": "components_quote_plan_items",
+  "info": { "displayName": "Quote plan list entry" },
+  "attributes": {
+    "text": { "type": "string", "maxLength": 240, "required": true }
+  }
+}

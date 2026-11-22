@@ -1,0 +1,154 @@
+@let state = view();
+@let choice = selected();
+<div class="details">
+  <h1 #heading id="screen-heading" tabindex="-1" class="mt-6 mb-5 lg:my-8 lg:text-center">
+    Elige tu plan
+  </h1>
+  <div
+    role="status"
+    class="text-sm text-secondary"
+    [class.mb-4]="
+      status() && ((state.phase === 'ready' && state.lostChoice) || state.phase === 'checking')
+    "
+    [class.sr-only]="
+      state.phase === 'unavailable' || (state.phase === 'ready' && !state.lostChoice)
+    "
+  >
+    {{ status() }}
+  </div>
+
+  @if (state.phase === 'ready' && state.plans.length) {
+    <fieldset class="min-w-0">
+      <legend class="mb-3 text-sm font-bold">Planes disponibles</legend>
+      <div class="grid gap-4 lg:grid-cols-2 lg:gap-6">
+        @for (plan of state.plans; track plan.id) {
+          @let checked = plan.id === choice?.id;
+          <article
+            class="min-w-0 rounded-lg border px-4 pt-1 pb-5 wrap-anywhere"
+            [class]="
+              checked ? 'border-link bg-context ring-1 ring-link' : 'border-control bg-paper'
+            "
+          >
+            <div class="flex flex-wrap items-center justify-between gap-x-2">
+              <div class="flex min-w-0 items-center gap-2">
+                <input
+                  type="radio"
+                  name="quote-plan"
+                  class="size-5 shrink-0 accent-link"
+                  [id]="'plan-' + plan.id"
+                  [attr.aria-describedby]="
+                    'price-' + plan.id + (plan.recommended ? ' recommended-' + plan.id : '')
+                  "
+                  [checked]="checked"
+                  (change)="store.choose(country(), plan.id)"
+                />
+                <label
+                  class="inline-flex min-h-11 min-w-0 items-center font-heading text-2xl"
+                  [attr.for]="'plan-' + plan.id"
+                  >{{ plan.name }}</label
+                >
+              </div>
+              @if (plan.recommended) {
+                <span
+                  [id]="'recommended-' + plan.id"
+                  class="rounded-sm bg-link px-2 py-1 text-xs font-bold text-white"
+                >
+                  Recomendado
+                </span>
+              }
+            </div>
+            <p [id]="'price-' + plan.id" class="text-2xl font-bold text-link sm:text-[1.75rem]">
+              {{ displayPrice(plan.basePrice) }}
+            </p>
+            <p class="mt-1 text-secondary">{{ plan.shortDescription }}</p>
+            @if (plan.coverages.length || plan.benefits.length) {
+              <div class="mt-3 space-y-3 border-t border-divider pt-3">
+                @if (plan.coverages.length) {
+                  <div>
+                    <h2 class="font-interface text-sm font-bold">Coberturas</h2>
+                    <ul class="mt-1 list-disc space-y-1 ps-4 text-sm text-secondary">
+                      @for (coverage of plan.coverages; track $index) {
+                        <li>{{ coverage }}</li>
+                      }
+                    </ul>
+                  </div>
+                }
+                @if (plan.benefits.length) {
+                  <div>
+                    <h2 class="font-interface text-sm font-bold">Beneficios</h2>
+                    <ul class="mt-1 list-disc space-y-1 ps-4 text-sm text-secondary">
+                      @for (benefit of plan.benefits; track $index) {
+                        <li>{{ benefit }}</li>
+                      }
+                    </ul>
+                  </div>
+                }
+              </div>
+            }
+          </article>
+        }
+      </div>
+    </fieldset>
+  } @else if (state.phase === 'ready') {
+    <section class="rounded-lg border border-divider bg-paper px-4 py-5 sm:px-6">
+      <h2>No hay planes disponibles</h2>
+      <p class="mt-2 text-sm text-secondary">Por ahora no hay planes para {{ countryLabel() }}.</p>
+    </section>
+  } @else if (state.phase === 'unavailable' || state.phase === 'retrying') {
+    <section
+      class="rounded-lg border px-4 py-5 sm:px-6"
+      [class]="
+        state.phase === 'unavailable'
+          ? 'border-error bg-error-tint text-error'
+          : 'border-divider bg-paper'
+      "
+    >
+      @if (state.phase === 'unavailable') {
+        <h2>Planes no disponibles</h2>
+        <p class="mt-2 text-sm">No pudimos cargar los planes. Intenta de nuevo.</p>
+      }
+      <button
+        type="button"
+        class="primary-button mt-4 inline-flex min-h-12 items-center justify-center rounded-md bg-action px-6 font-bold text-white hover:bg-action-hover aria-disabled:opacity-60"
+        [attr.aria-disabled]="state.phase === 'retrying' ? 'true' : null"
+        (click)="retry($event)"
+      >
+        Reintentar
+      </button>
+    </section>
+  } @else if (state.phase === 'loading') {
+    <div
+      class="mt-3 rounded-lg border border-divider bg-paper px-4 py-5 sm:px-6"
+      aria-hidden="true"
+    >
+      <div class="h-3 rounded bg-context"></div>
+      <div class="mt-2 h-3 w-3/5 rounded bg-context"></div>
+    </div>
+  }
+
+  <div class="mt-4 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+    <a
+      class="inline-flex min-h-12 self-start items-center font-bold text-link underline underline-offset-4"
+      [routerLink]="['/', country(), 'quote', 'details']"
+      >Volver a datos</a
+    >
+    @if (state.phase === 'ready' && state.plans.length) {
+      <div class="flex flex-col gap-2 md:items-end">
+        @if (!choice) {
+          <p id="plan-action-help" class="text-sm text-secondary">
+            Selecciona un plan para continuar
+          </p>
+        }
+        <button
+          type="button"
+          class="primary-button min-h-12 rounded-md bg-action px-6 font-bold text-white enabled:hover:bg-action-hover disabled:bg-divider disabled:text-muted md:min-w-40"
+          [disabled]="!choice"
+          [attr.aria-describedby]="choice ? null : 'plan-action-help'"
+          (click)="proceed()"
+        >
+          Continuar
+        </button>
+      </div>
+    }
+  </div>
+</div>

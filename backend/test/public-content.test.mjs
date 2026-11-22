@@ -11,7 +11,7 @@ const { createStrapi, compileStrapi } = createRequire(import.meta.url)(
   "@strapi/strapi",
 );
 
-test("US-01 T-US01-05/08/09 · US01-R03/R05: publish, change and unpublish an isolated CMS fixture", async () => {
+test("T-US01-05/08/09 and T-US02-01/02/05: publish, change and unpublish isolated CMS content", async () => {
   const fixture = await mkdtemp(join(tmpdir(), "quote-cms-test-"));
   const secret = () => randomBytes(32).toString("hex");
   Object.assign(process.env, {
@@ -29,6 +29,7 @@ test("US-01 T-US01-05/08/09 · US01-R03/R05: publish, change and unpublish an is
   const context = await compileStrapi({ appDir: resolve(".") });
   let app = createStrapi(context);
   const readPermission = "api::quote-content.quote-content.readForm";
+  const readPlansPermission = "api::quote-content.quote-content.readPlans";
   const roles = () => app.db.query("plugin::users-permissions.role");
   const permissions = () =>
     app.db.query("plugin::users-permissions.permission");
@@ -50,6 +51,61 @@ test("US-01 T-US01-05/08/09 · US01-R03/R05: publish, change and unpublish an is
       assert.equal(response.headers.get("cache-control"), "no-store");
       return response.json();
     };
+
+    // T-US02-01/02/05: the dedicated collection publishes independently.
+    const plansUri = uri.replace("/form", "/plans");
+    const readPlans = async (target = plansUri) => {
+      const response = await fetch(target);
+      assert.equal(response.status, 200);
+      assert.equal(response.headers.get("cache-control"), "no-store");
+      return response.json();
+    };
+    const initialPlans = await readPlans();
+    assert.equal(initialPlans.country, "co");
+
+    const chilePlans = await readPlans(plansUri.replace("/co/", "/cl/"));
+    assert.equal(chilePlans.country, "cl");
+    for (const catalog of [initialPlans, chilePlans]) {
+      assert.deepEqual(
+        catalog.plans.map(({ name }) => name),
+        ["Esencial", "Ruta", "Integral"],
+      );
+      assert.ok(catalog.plans.every(({ benefits }) => benefits.length > 1));
+    }
+    assert.ok(
+      chilePlans.plans.every(({ basePrice }) => basePrice.currency === "CLP"),
+    );
+    const plans = app.documents("api::quote-content.plan");
+    const selectedId = initialPlans.plans[0].id;
+    await plans.update({
+      documentId: selectedId,
+      status: "draft",
+      data: {
+        name: "Plan ficticio revisado",
+        basePrice: 129900.5,
+        active: false,
+      },
+    });
+    assert.deepEqual(await readPlans(), initialPlans);
+    await plans.publish({ documentId: selectedId });
+    assert.equal(
+      (await readPlans()).plans.some(({ id }) => id === selectedId),
+      false,
+    );
+    await plans.update({
+      documentId: selectedId,
+      status: "published",
+      data: { active: true },
+    });
+    assert.deepEqual(
+      (await readPlans()).plans.find(({ id }) => id === selectedId)?.basePrice,
+      { amountMinor: 12990050, currency: "COP" },
+    );
+    for (const { id } of initialPlans.plans)
+      await plans.unpublish({ documentId: id });
+    assert.deepEqual((await readPlans()).plans, []);
+    assert.equal((await fetch(plansUri + "?status=draft")).status, 400);
+    assert.equal((await fetch(new URL("/api/plans", plansUri))).status, 404);
 
     const initial = await current();
     assert.equal(
@@ -127,7 +183,10 @@ test("US-01 T-US01-05/08/09 · US01-R03/R05: publish, change and unpublish an is
     assert.equal((await chile.json()).country, "cl");
 
     // US01-R05: anonymous permissions are distinct from Strapi administrators.
-    assert.deepEqual(await roleActions("public"), [readPermission]);
+    assert.deepEqual(await roleActions("public"), [
+      readPermission,
+      readPlansPermission,
+    ]);
     const base = new URL(uri).origin;
     assert.equal((await fetch(`${base}/admin/init`)).status, 200);
     assert.equal(
@@ -146,7 +205,10 @@ test("US-01 T-US01-05/08/09 · US01-R03/R05: publish, change and unpublish an is
 
     app = createStrapi(context);
     await app.load();
-    assert.deepEqual(await roleActions("public"), [readPermission]);
+    assert.deepEqual(await roleActions("public"), [
+      readPermission,
+      readPlansPermission,
+    ]);
     assert.deepEqual(await roleActions("authenticated"), authenticatedActions);
     const co = await app
       .documents("api::quote-content.form-configuration")
@@ -158,6 +220,17 @@ test("US-01 T-US01-05/08/09 · US01-R03/R05: publish, change and unpublish an is
       co,
       null,
       "restarting the initialized fixture preserves unpublication",
+    );
+    const restartedPlans = await app
+      .documents("api::quote-content.plan")
+      .findMany({
+        status: "published",
+        filters: { country: "co" },
+      });
+    assert.deepEqual(
+      restartedPlans,
+      [],
+      "a restart preserves deliberately unpublished plans",
     );
   } finally {
     await app.destroy();

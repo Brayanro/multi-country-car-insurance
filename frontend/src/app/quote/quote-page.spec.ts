@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import { routes } from '../app.routes';
@@ -43,6 +43,31 @@ const configuration = (country: 'co' | 'cl') => ({
     },
   ],
 });
+
+const catalog = (amountMinor: number) => ({
+  schemaVersion: 1,
+  country: 'co',
+  plans: [
+    {
+      id: 'plan-a',
+      name: 'Plan A',
+      shortDescription: 'Descripción',
+      basePrice: { amountMinor, currency: 'COP' },
+      order: 1,
+      recommended: true,
+      coverages: [],
+      benefits: [],
+    },
+  ],
+});
+
+function storeValidDetails() {
+  TestBed.inject(QuoteState).save('co', {
+    identity: { kind: 'text', value: 'fictitious' },
+    birth: { kind: 'date', value: '1990-02-10' },
+    year: { kind: 'number', value: new Date().getFullYear() },
+  });
+}
 
 describe('US-01 wizard form', () => {
   afterEach(() => {
@@ -102,5 +127,86 @@ describe('US-01 wizard form', () => {
     harness.detectChanges();
     expect(screen.textContent).toContain('RUT');
     expect(screen.textContent).not.toContain('Número de documento');
+  });
+
+  it('T-US02-04 requires an explicit choice and rejects a repriced plan before Summary', async () => {
+    const { harness, backend } = await initialScreen();
+    storeValidDetails();
+    backend.expectOne('/api/quote-content/v1/co/form').flush(configuration('co'));
+    await harness.navigateByUrl('/co/quote/plans');
+    const endpoint = '/api/quote-content/v1/co/plans';
+    backend.expectOne(endpoint).flush(catalog(10000));
+    await harness.fixture.whenStable();
+    harness.detectChanges();
+    const screen = harness.routeNativeElement!;
+    const choice = screen.querySelector<HTMLInputElement>('input[type="radio"]')!;
+    const next = screen.querySelector<HTMLButtonElement>('button')!;
+    expect(choice.checked).toBe(false);
+    expect(next.disabled).toBe(true);
+
+    choice.click();
+    harness.detectChanges();
+    expect(next.disabled).toBe(false);
+    next.click();
+    await harness.fixture.whenStable();
+    backend.expectOne(endpoint).flush(catalog(20000));
+    await harness.fixture.whenStable();
+    harness.detectChanges();
+    expect(screen.querySelector<HTMLInputElement>('input[type="radio"]')?.checked).toBe(false);
+    expect(screen.textContent).toContain('Tu plan cambió');
+    expect(screen.querySelector<HTMLButtonElement>('button')?.disabled).toBe(true);
+
+    screen.querySelector<HTMLInputElement>('input[type="radio"]')?.click();
+    harness.detectChanges();
+    screen.querySelector<HTMLButtonElement>('button')?.click();
+    await harness.fixture.whenStable();
+    backend.expectOne(endpoint).flush(catalog(20000));
+    await harness.fixture.whenStable();
+    harness.detectChanges();
+    expect(screen.querySelector('[aria-current="step"]')?.textContent).toContain('Resumen');
+  });
+
+  it('T-US02-04/06 gates direct Summary entry and reuses a failed read in Plans recovery', async () => {
+    const { harness, backend } = await initialScreen();
+    const router = TestBed.inject(Router);
+    const endpoint = '/api/quote-content/v1/co/plans';
+    backend.expectOne('/api/quote-content/v1/co/form').flush(configuration('co'));
+
+    await harness.navigateByUrl('/co/quote/summary');
+    await harness.fixture.whenStable();
+    expect(router.url).toBe('/co/quote/details');
+    backend.expectNone(endpoint);
+
+    storeValidDetails();
+    await harness.navigateByUrl('/co/quote/summary');
+    await harness.fixture.whenStable();
+    expect(router.url).toBe('/co/quote/plans');
+    backend.expectOne(endpoint).flush(catalog(10000));
+    await harness.fixture.whenStable();
+    harness.detectChanges();
+    harness.routeNativeElement?.querySelector<HTMLInputElement>('input[type="radio"]')?.click();
+    await harness.navigateByUrl('/co/quote/details');
+
+    await harness.navigateByUrl('/co/quote/summary');
+    backend.expectOne(endpoint).flush(
+      { error: { code: 'PLANS_UNAVAILABLE' } },
+      {
+        status: 503,
+        statusText: 'Service Unavailable',
+      },
+    );
+    await harness.fixture.whenStable();
+    expect(router.url).toBe('/co/quote/plans');
+    backend.expectNone(endpoint);
+    harness.detectChanges();
+    const retry = harness.routeNativeElement?.querySelector('button');
+    expect(retry?.textContent).toContain('Reintentar');
+    retry?.click();
+    backend.expectOne(endpoint).flush(catalog(10000));
+    await harness.fixture.whenStable();
+    harness.detectChanges();
+    expect(
+      harness.routeNativeElement?.querySelector<HTMLInputElement>('input[type="radio"]')?.checked,
+    ).toBe(true);
   });
 });

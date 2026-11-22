@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quote_plans",
+  "info": {
+    "singularName": "plan",
+    "pluralName": "plans",
+    "displayName": "Quote plan"
+  },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "country": {
+      "type": "enumeration",
+      "enum": ["co", "cl"],
+      "required": true
+    },
+    "name": { "type": "string", "maxLength": 240, "required": true },
+    "shortDescription": { "type": "text", "maxLength": 240, "required": true },
+    "basePrice": { "type": "decimal", "min": 0, "required": true },
+    "currency": {
+      "type": "enumeration",
+      "enum": ["COP", "CLP"],
+      "required": true
+    },
+    "order": { "type": "integer", "min": 0, "required": true },
+    "active": { "type": "boolean", "default": false, "required": true },
+    "recommended": { "type": "boolean", "default": false, "required": true },
+    "coverages": {
+      "type": "component",
+      "repeatable": true,
+      "component": "quote.plan-item",
+      "max": 20
+    },
+    "benefits": {
+      "type": "component",
+      "repeatable": true,
+      "component": "quote.plan-item",
+      "max": 20
+    }
+  }
+}

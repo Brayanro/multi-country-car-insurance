@@ -1,7 +1,8 @@
+import { isRecord, type Country } from "./content.ts";
+export { isCountry, isRecord, type Country } from "./content.ts";
 import { compilePattern, matchesPattern } from "./pattern.ts";
 export { matchesPattern };
 
-export type Country = "co" | "cl";
 export type FieldValue = string | number | boolean;
 export type FieldKind = "text" | "number" | "select" | "date" | "checkbox";
 type FieldPurpose =
@@ -68,14 +69,6 @@ const MAX_OPTIONS = 60;
 const MAX_RULES = 12;
 const MAX_TEXT = 240;
 const MAX_INPUT = 256;
-
-export function isCountry(value: unknown): value is Country {
-  return value === "co" || value === "cl";
-}
-
-export function isRecord(value: unknown): value is Record<string, unknown> {
-  return !!value && typeof value === "object" && !Array.isArray(value);
-}
 
 export function isSafeId(value: unknown): value is string {
   return (
@@ -517,3 +510,14 @@ export function reconcileDraft(
   }
   return Object.fromEntries(entries);
 }
+
+export {
+  decodePlanCatalog,
+  decodePlanPrice,
+  isPlanId,
+  MAX_PLANS,
+  planCurrency,
+  type Plan,
+  type PlanCatalog,
+  type PlanPrice,
+} from "./plans.ts";

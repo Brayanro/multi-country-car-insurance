@@ -1,7 +1,12 @@
 import type { Core } from "@strapi/strapi";
 import { FORM_UID } from "./api/quote-content/form-projection";
-import { READ_FORM_ACTION } from "./api/quote-content/routes/quote-content";
+import { PLAN_UID } from "./api/quote-content/plan-projection";
+import {
+  READ_FORM_ACTION,
+  READ_PLANS_ACTION,
+} from "./api/quote-content/routes/quote-content";
 import { seedForm } from "./seed-forms";
+import { planCountries, seedPlans } from "./seed-plans";
 
 async function restrictPublicRole(strapi: Core.Strapi) {
   await strapi.db.transaction(async () => {
@@ -17,29 +22,27 @@ async function restrictPublicRole(strapi: Core.Strapi) {
       select: ["id", "action"],
       where: { role: publicRole.id },
     });
-    const reader = grants.find(({ action }) => action === READ_FORM_ACTION);
+    const expectedActions = [READ_FORM_ACTION, READ_PLANS_ACTION];
+    const retained = expectedActions.map((action) =>
+      grants.find((grant) => grant.action === action),
+    );
     const obsolete = grants
-      .filter(({ id }) => id !== reader?.id)
+      .filter((grant) => !retained.includes(grant))
       .map(({ id }) => id);
     if (obsolete.length) {
       await permissions.deleteMany({ where: { id: { $in: obsolete } } });
     }
-    if (!reader) {
-      await permissions.create({
-        data: { action: READ_FORM_ACTION, role: publicRole.id },
-      });
+    for (const [index, action] of expectedActions.entries()) {
+      if (!retained[index])
+        await permissions.create({ data: { action, role: publicRole.id } });
     }
   });
 }
 
-export default {
-  async bootstrap({ strapi }: { strapi: Core.Strapi }) {
-    await restrictPublicRole(strapi);
-
-    const seedState = strapi.store({ type: "core", name: "quote-content" });
-    if (await seedState.get({ key: "us01-seeded" })) return;
-
-    for (const country of ["co", "cl"] as const) {
+async function seedContent(strapi: Core.Strapi) {
+  const seedState = strapi.store({ type: "core", name: "quote-content" });
+  if (!(await seedState.get({ key: "us01-seeded" }))) {
+    for (const country of planCountries) {
       const documents = strapi.documents(FORM_UID);
       const draft = await documents.findFirst({
         status: "draft",
@@ -52,5 +55,24 @@ export default {
         });
     }
     await seedState.set({ key: "us01-seeded", value: true });
+  }
+
+  await strapi.db.transaction(async () => {
+    if (await seedState.get({ key: "us02-seeded" })) return;
+    for (const country of planCountries) {
+      for (const fixture of seedPlans(country)) {
+        await strapi
+          .documents(PLAN_UID)
+          .create({ data: fixture, status: "published" });
+      }
+    }
+    await seedState.set({ key: "us02-seeded", value: true });
+  });
+}
+
+export default {
+  async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    await restrictPublicRole(strapi);
+    await seedContent(strapi);
   },
 };

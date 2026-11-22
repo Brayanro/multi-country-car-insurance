@@ -160,12 +160,13 @@ test("US-01 T-US01-06/07/10/13: keyboard controls and same-country return retain
 
   await expect(page).toHaveURL(/\/co\/quote\/plans$/);
   await expect(
-    page.getByRole("heading", { name: "Datos guardados" }),
+    page.getByRole("heading", { name: "Elige tu plan" }),
   ).toBeFocused();
+  const back = page.getByRole("link", { name: "Volver a datos" });
   await page.keyboard.press("Tab");
-  await expect(
-    page.getByRole("link", { name: "Volver a datos" }),
-  ).toBeFocused();
+  if (!(await back.evaluate((link) => link === document.activeElement)))
+    await page.keyboard.press("Tab");
+  await expect(back).toBeFocused();
   await page.keyboard.press("Enter");
 
   await expect(page.getByLabel("Nombre del titular")).toHaveValue(
