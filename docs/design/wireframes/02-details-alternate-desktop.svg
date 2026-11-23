@@ -48,8 +48,6 @@
 <rect x="612" y="562" width="344" height="44" rx="6" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
 <text x="624" y="589" fill="#405575" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Selecciona una marca</text>
 <path d="M932 579 l5 5 l5 -5" stroke="#405575" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="244" y="631" width="19" height="19" rx="4" fill="#FFFFFF" stroke="#586D91" stroke-width="1"/>
-<text x="276" y="647" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">El auto tiene accesorios adicionales</text>
 <path d="M244 683 L956 683" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round"/>
 <rect x="796" y="705" width="160" height="48" rx="6" fill="#2E6DF6" stroke="none" stroke-width="1"/>
 <text x="876.0" y="734.0" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Continuar</text>

@@ -46,6 +46,28 @@ async function restrictPublicRole(strapi: Core.Strapi) {
   });
 }
 
+async function removeRetiredFormField(strapi: Core.Strapi) {
+  await strapi.db.transaction(async () => {
+    const forms = strapi.db.query(FORM_UID);
+    const versions = await forms.findMany({
+      where: { country: { $in: planCountries } },
+      populate: ["fields"],
+    });
+    for (const version of versions) {
+      const fields = version.fields.filter(
+        (field: { fieldKey: string }) => field.fieldKey !== "accessories",
+      );
+      if (fields.length === version.fields.length) continue;
+
+      // Update each stored version in place. Publishing would copy unrelated draft edits.
+      const data = await strapi.documents(FORM_UID).updateComponents(version, {
+        fields: fields.map(({ id }: { id: number }) => ({ id })),
+      });
+      await forms.update({ where: { id: version.id }, data });
+    }
+  });
+}
+
 async function seedContent(strapi: Core.Strapi) {
   const seedState = strapi.store({ type: "core", name: "quote-content" });
   if (!(await seedState.get({ key: "us01-seeded" }))) {
@@ -104,5 +126,6 @@ export default {
     if (strapi.config.get("quoteCatalogMaintenance")) return;
     await restrictPublicRole(strapi);
     await seedContent(strapi);
+    await removeRetiredFormField(strapi);
   },
 };

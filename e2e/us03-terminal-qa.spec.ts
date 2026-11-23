@@ -261,9 +261,6 @@ for (const scenario of scenarios) {
     await expect(page.getByLabel("Marca").locator("option:checked")).toHaveText(
       "Selecciona una opción",
     );
-    await expect(
-      page.getByLabel("El auto tiene accesorios adicionales"),
-    ).not.toBeChecked();
     if (scenario.country === "co") {
       await expect(
         page.getByLabel("Tipo de documento").locator("option:checked"),

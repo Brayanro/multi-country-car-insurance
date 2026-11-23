@@ -1,0 +1,15 @@
+# US-01 Accessory Field Removal Final Approval
+
+- **Recorded:** 2026-11-23 COT.
+- **Approver:** Project owner.
+- **Decision:** Approved; scoped correction closed.
+- **Original approval message:** “I explicitly approve the removal of the additional vehicle accessories field, including the documented QA limitations.”
+- **Reviewed scope:** Removal from both country seeds and existing Strapi form catalogs; startup cleanup of legacy Colombia and Chile form versions; cleanup of field-specific UI, design and test references; preservation of generic dynamic-form behavior and unrelated catalog content.
+- **Implementation:** [Strapi cleanup and bootstrap](../../backend/src/index.ts), [country seeds](../../backend/src/seed-forms.ts), [regression tests](../../backend/test/public-content.test.mjs), and relevant E2E and design examples.
+- **QA evidence:** [US-01 QA report](../../reports/qa/US-01-qa-report.md). Unit and Angular tests passed (17 shared, 30 Angular), Strapi content tests passed (2/2), and CMS typecheck, lint and formatting passed. Both country forms omit the field after fresh Compose startup and startup against the existing development volume. The full fresh browser suite was **34/35**, not passing: one unrelated US-02 keyboard-focus case failed. The focused existing-volume browser suites were **11/13**: two unrelated US-01 tests assumed the default `Ejemplo Motor` option while the retained live catalog uses edited Mazda/Chevrolet options. These three browser failures are accepted as documented limitations and are not represented as passing.
+- **Existing database verification limitation:** No before-migration snapshot of the development database was captured. Exact preservation of that live catalog was not established through a before/after comparison. The isolated Strapi regression verified transactional removal from divergent draft and published CO/CL forms while retaining unrelated fields and data. The existing database and both Compose volumes remain present.
+- **Independent review:** [US-01 review](../../reviews/US-01-review.md) found no code defects and recommended approval with non-blocking QA limitations.
+- **Prior approvals:** [US-01 specification](US-01-spec-approval.md), [US-01 architecture](US-01-architecture-approval.md), and [US-01 design](US-01-design-approval.md) remain unchanged; the correction did not alter those approved requirements or decisions.
+- **Workflow status:** The project owner explicitly accepted the documented QA limitations. This scoped correction is approved and closed. This decision does not mark the browser suite as passing or close unrelated project-level verification.
+- **Git status at approval time:** No files were staged or committed; nothing had been pushed.
+- **Session evidence:** The Developer, QA and Reviewer activity remains in the Codex collaboration paths `/root/field_removal_developer`, `/root/field_removal_qa`, and `/root/field_removal_review`, as recorded in [FLOW.md](../../FLOW.md). No native session IDs or local raw exports were available for this follow-up.

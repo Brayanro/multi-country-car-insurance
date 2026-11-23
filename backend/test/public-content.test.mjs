@@ -167,10 +167,13 @@ test("T-US01-05/08/09 and T-US02-01/02/05 and T-US03-03/11/M02: publish, change 
     });
 
     const initial = await current();
-    assert.equal(
-      initial.fields.find(({ id }) => id === "accessories").defaultValue,
-      false,
-    );
+    for (const country of ["co", "cl"]) {
+      const response = await fetch(uri.replace("/co/", `/${country}/`));
+      assert.equal(response.status, 200);
+      const form = await response.json();
+      assert.equal(form.country, country);
+      assert.ok(form.fields.every(({ id }) => id !== "accessories"));
+    }
     assert.equal(
       initial.fields.some(({ id }) => id === "agency"),
       false,
@@ -198,13 +201,11 @@ test("T-US01-05/08/09 and T-US02-01/02/05 and T-US03-03/11/M02: publish, change 
       status: "draft",
       data: {
         fields: [
-          ...draft.fields
-            .filter(({ fieldKey }) => fieldKey !== "accessories")
-            .map((field) =>
-              field.fieldKey === "vehicle-year"
-                ? { ...field, defaultValue: { value: serverLocalTooOld } }
-                : field,
-            ),
+          ...draft.fields.map((field) =>
+            field.fieldKey === "vehicle-year"
+              ? { ...field, defaultValue: { value: serverLocalTooOld } }
+              : field,
+          ),
           added,
         ],
       },
@@ -217,10 +218,6 @@ test("T-US01-05/08/09 and T-US02-01/02/05 and T-US03-03/11/M02: publish, change 
       published.fields.find(({ id }) => id === "vehicle-year").defaultValue,
       serverLocalTooOld,
       "the API serves structurally valid defaults for the browser to validate against its civil date",
-    );
-    assert.equal(
-      published.fields.some(({ id }) => id === "accessories"),
-      false,
     );
     assert.equal(
       published.fields.find(({ id }) => id === "agency").label,
@@ -335,6 +332,53 @@ test("T-US01-05/08/09 and T-US02-01/02/05 and T-US03-03/11/M02: publish, change 
         action: "plugin::users-permissions.auth.register",
       },
     });
+    const legacyField = {
+      fieldKey: "accessories",
+      label: "Legacy checkbox",
+      errorMessage: "Revisa esta opción.",
+      kind: "checkbox",
+      order: 80,
+    };
+    const forms = () => app.db.query("api::quote-content.form-configuration");
+    const readVersions = () =>
+      forms().findMany({
+        orderBy: { id: "asc" },
+        populate: { fields: { populate: ["options", "rules"] } },
+      });
+    for (const country of ["co", "cl"]) {
+      const source = await documents.findFirst({
+        status: "draft",
+        filters: { country },
+        populate: { fields: { populate: ["options", "rules"] } },
+      });
+      const retained = source.fields.map(
+        ({ id, options, rules, ...field }) => ({
+          ...field,
+          options: options?.map(({ id, ...option }) => option),
+          rules: rules?.map(({ id, ...rule }) => rule),
+        }),
+      );
+      const legacy = await documents.create({
+        status: "published",
+        data: { country, fields: [...retained, legacyField] },
+      });
+      await documents.update({
+        documentId: legacy.documentId,
+        data: {
+          fields: [
+            ...retained,
+            legacyField,
+            { ...legacyField, fieldKey: "requires-inspection" },
+          ],
+        },
+      });
+    }
+    const expectedVersions = (await readVersions()).map((version) => ({
+      ...version,
+      fields: version.fields.filter(
+        ({ fieldKey }) => fieldKey !== "accessories",
+      ),
+    }));
     await app.destroy();
 
     app = createStrapi(context);
@@ -345,12 +389,21 @@ test("T-US01-05/08/09 and T-US02-01/02/05 and T-US03-03/11/M02: publish, change 
       readTermsPermission,
     ]);
     assert.deepEqual(await roleActions("authenticated"), authenticatedActions);
+    const actualVersions = await readVersions();
+    assert.deepEqual(
+      actualVersions.map(({ updatedAt, ...version }) => version),
+      expectedVersions.map(({ updatedAt, ...version }) => version),
+      "the cleanup preserves publication, component identity, order and unpublished changes",
+    );
+    assert.equal(
+      await app.db.query("quote.field").count({
+        where: { fieldKey: "accessories" },
+      }),
+      0,
+    );
     const co = await app
       .documents("api::quote-content.form-configuration")
-      .findFirst({
-        status: "published",
-        filters: { country: "co" },
-      });
+      .findOne({ documentId: draft.documentId, status: "published" });
     assert.equal(
       co,
       null,

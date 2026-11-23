@@ -63,16 +63,6 @@ const makeField = {
   errorMessage: "Selecciona una marca.",
   options: makeOptions,
 };
-const accessoriesField = {
-  fieldKey: "accessories",
-  label: "El auto tiene accesorios adicionales",
-  kind: "checkbox",
-  order: 80,
-  required: false,
-  helpText: "",
-  errorMessage: "Revisa esta opción.",
-  defaultValue: { value: false },
-};
 const documentTypeField = {
   fieldKey: "document-type",
   label: "Tipo de documento",
@@ -119,7 +109,6 @@ export function seedForm(country: Country) {
       plateField,
       yearField,
       makeField,
-      accessoriesField,
     ],
   };
 }

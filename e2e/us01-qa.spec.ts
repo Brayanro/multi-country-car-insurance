@@ -83,7 +83,7 @@ test("US-01 T-US01-02/07/10/16: progressive validation and responsive accessible
     errorText: "Selecciona una marca.",
   });
 
-  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Continuar" })).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.getByLabel("Nombre del titular")).toBeFocused();
   expect(await form.locator(".field-error").count()).toBe(7);
@@ -148,12 +148,6 @@ test("US-01 T-US01-06/07/10/13: keyboard controls and same-country return retain
   await expect(make).toHaveValue(/example|demo/i);
 
   await page.keyboard.press("Tab");
-  const accessories = page.getByLabel("El auto tiene accesorios adicionales");
-  await expect(accessories).toBeFocused();
-  await page.keyboard.press("Space");
-  await expect(accessories).toBeChecked();
-
-  await page.keyboard.press("Tab");
   const continueButton = page.getByRole("button", { name: "Continuar" });
   await expect(continueButton).toBeFocused();
   await page.keyboard.press("Enter");
@@ -179,9 +173,6 @@ test("US-01 T-US01-06/07/10/13: keyboard controls and same-country return retain
   await expect(page.getByLabel("Placa")).toHaveValue("QA-PLATE");
   await expect(page.getByLabel("Año del vehículo")).toHaveValue("2021");
   await expect(page.getByLabel("Marca")).toHaveValue(/example|demo/i);
-  await expect(
-    page.getByLabel("El auto tiene accesorios adicionales"),
-  ).toBeChecked();
 });
 
 test("US-01 T-US01-05/09/12/14: refreshed published fields reconcile the saved draft", async ({
@@ -194,18 +185,26 @@ test("US-01 T-US01-05/09/12/14: refreshed published fields reconcile the saved d
     country: string;
     fields: Array<Record<string, unknown>>;
   };
-  const changedFields = original.fields
-    .filter((field) => field["id"] !== "accessories")
-    .map((field) =>
-      field["id"] === "identity-document"
-        ? {
-            ...field,
-            label: "Identificación actualizada",
-            helpText: "Usa un valor ficticio actualizado.",
-            order: 25,
-          }
-        : field,
-    );
+  const temporaryField = {
+    id: "requires-inspection",
+    label: "Requiere inspección",
+    helpText: "",
+    errorMessage: "Revisa esta opción.",
+    kind: "checkbox",
+    required: false,
+    order: 80,
+    rules: [],
+  };
+  const changedFields = original.fields.map((field) =>
+    field["id"] === "identity-document"
+      ? {
+          ...field,
+          label: "Identificación actualizada",
+          helpText: "Usa un valor ficticio actualizado.",
+          order: 25,
+        }
+      : field,
+  );
   changedFields.push({
     id: "agency",
     label: "Agencia de ejemplo",
@@ -224,7 +223,11 @@ test("US-01 T-US01-05/09/12/14: refreshed published fields reconcile the saved d
       status: 200,
       contentType: "application/json",
       headers: { "Cache-Control": "no-store" },
-      body: JSON.stringify(requests === 1 ? original : updated),
+      body: JSON.stringify(
+        requests === 1
+          ? { ...original, fields: [...original.fields, temporaryField] }
+          : updated,
+      ),
     });
   });
 
@@ -236,14 +239,14 @@ test("US-01 T-US01-05/09/12/14: refreshed published fields reconcile the saved d
   await expect(page.locator("#quote-field-identity-document")).toHaveValue("");
   await page.getByLabel("Número de documento").fill("QA-IDENTITY-01");
 
+  await page.getByLabel(temporaryField.label).check();
+
   await page.reload();
   await expect(page.getByLabel("Identificación actualizada")).toHaveValue(
     "QA-IDENTITY-01",
   );
   await expect(page.getByLabel("Agencia de ejemplo")).toBeVisible();
-  await expect(
-    page.getByLabel("El auto tiene accesorios adicionales"),
-  ).toHaveCount(0);
+  await expect(page.getByLabel(temporaryField.label)).toHaveCount(0);
   expect(requests).toBe(2);
   expect(await page.locator('script[src*="main"]').getAttribute("src")).toBe(
     originalBundle,
@@ -263,7 +266,7 @@ test("US-01 T-US01-05/09/12/14: refreshed published fields reconcile the saved d
   const persisted = await page.evaluate(() =>
     JSON.parse(sessionStorage.getItem("quote-draft-v1:co") ?? "{}"),
   );
-  expect(persisted.draft).not.toHaveProperty("accessories");
+  expect(persisted.draft).not.toHaveProperty(temporaryField.id);
   expect(persisted.draft["identity-document"]).toEqual({
     kind: "text",
     value: "QA-IDENTITY-01",
