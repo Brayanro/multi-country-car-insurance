@@ -92,5 +92,5 @@ For an optional local development workflow without Compose, first run `pnpm --fi
 ## Requirements pending for project delivery
 
 - Native screen-reader and operating-system high-contrast verification remain open. Browser checks covered keyboard navigation, accessibility status text, and mobile reflow.
-- The project owner personally reviewed the original Codex session exports and approved their publication. Git commit `cd9eb241647bc628665ca99b1c1c7b351e04a9f5` contains all 71 original-session JSONL files; [`logs/README.md`](logs/README.md) distinguishes project work sessions from guardian-review captures and excluded setup/side conversations.
+- The project owner personally reviewed the original Codex session exports and approved their publication. Git commit `cd9eb241647bc628665ca99b1c1c7b351e04a9f5` contains the original 71 JSONL files. On 2026-11-23, the owner separately reviewed and explicitly approved publication of eight later session exports; the decision is recorded in [`docs/approvals/session-evidence-publication-approval.md`](docs/approvals/session-evidence-publication-approval.md). The updated [`logs/README.md`](logs/README.md) indexes 79 originals and distinguishes project sessions from auxiliary captures and exclusions.
 - Evaluator access remains pending independent confirmation that the assessment sender can open the final Git repository.
