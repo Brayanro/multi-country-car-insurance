@@ -92,5 +92,5 @@ For an optional local development workflow without Compose, first run `pnpm --fi
 ## Requirements pending for project delivery
 
 - Native screen-reader and operating-system high-contrast verification remain open. Browser checks covered keyboard navigation, accessibility status text, and mobile reflow.
-- The original agent activity is preserved in Codex. Safe, unedited copies for the repository remain pending. See [session evidence guidance](logs/README.md).
-- Evaluator access remains unverified. Share the final Git repository with the assessment sender and confirm that they can open it.
+- The project owner personally reviewed the original Codex session exports and approved their publication. Git commit `cd9eb241647bc628665ca99b1c1c7b351e04a9f5` contains all 71 original-session JSONL files; [`logs/README.md`](logs/README.md) distinguishes project work sessions from guardian-review captures and excluded setup/side conversations.
+- Evaluator access remains pending independent confirmation that the assessment sender can open the final Git repository.

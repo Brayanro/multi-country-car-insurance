@@ -79,3 +79,15 @@ The JSONL originals were inspected read-only and left byte-for-byte unchanged. A
 - **Raw JSONL:** No file is cleared for submission. The 30 project work-thread exports require manual privacy review; account metadata, local paths, email-shaped strings, and opaque payloads prevent a safety determination from pattern scanning alone. The 36 guardian-review captures are excluded from role evidence and submission unless their purpose and privacy are reviewed. The setup/configuration and side-conversation exports are unrelated or unclassifiable and are excluded.
 - `.gitignore` excludes `logs/original-sessions/` from ordinary Git submission. Keep these originals locally and unchanged. A workspace/archive submission must omit this directory explicitly; do not force-add it. No Codex original was deleted or edited as part of this review.
 - **Remaining evidence gaps:** Export/copy provenance is not established by the files; opaque payload contents were not inspected; individual resumed turns are not all mapped to distinct complete exports. A private manual review is required if raw session evidence must be submitted.
+
+## Human privacy clearance and Git verification
+
+### 2026-11-22 · Owner-reviewed publication clearance
+
+The project owner confirmed personally reviewing the original Codex session exports and approved their publication. This human clearance supersedes the earlier statement above that no raw JSONL file was cleared for submission. The earlier technical scan findings remain recorded as historical evidence; they were not the basis for the owner's decision.
+
+The Git evidence was checked read-only: commit `cd9eb241647bc628665ca99b1c1c7b351e04a9f5` added the session evidence, and `git ls-tree -r --name-only HEAD -- logs/original-sessions` listed all 71 JSONL files. `git diff HEAD --quiet -- logs/original-sessions` confirmed the working copies match the committed originals. No original JSONL was edited as part of this clearance.
+
+The 71 files remain classified by evidence role: 30 project work threads are indexed in the project-work table; 36 guardian-review captures are auxiliary review records and are not attributed to agent roles; and 5 setup-validation or side-conversation captures are listed as exclusions from project-work evidence. The index also records 70 distinct `session_meta.id` values because one ID has an additional capture. These auxiliary records remain visibly distinct from relevant agent sessions even though the owner approved publication of the original exports.
+
+Evaluator access is not established by repository tracking or this privacy clearance. Confirmation that the assessment sender can open the final Git repository remains pending.
