@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="1064" viewBox="0 0 390 1064" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">US-03 editable Summary — mobile</title>
+<desc id="desc">Chile example. The review shows the masked document, same-country edit actions, selected plan and localized price, a representative terms excerpt and consent, and a demo-only radio group followed by one Pay action.</desc>
+<rect x="0" y="0" width="390" height="1064" rx="0" fill="#F5F7FC" stroke="none"/>
+<g xml:lang="es">
+<rect x="0" y="0" width="390" height="64" rx="0" fill="#FFFFFF" stroke="none"/>
+<path d="M0 64h390" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M31 19l10 4v7q0 9-10 14q-10-5-10-14v-7Z" stroke="#1748AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M26 31l4 4l7-8" stroke="#1748AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="52" y="40" fill="#15243B" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="start">Seguro de auto</text>
+<circle cx="73" cy="93" r="11" fill="#1748AF" stroke="none"/>
+<path d="M69 93l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="91" y="98" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Datos</text>
+<circle cx="178" cy="93" r="11" fill="#1748AF" stroke="none"/>
+<path d="M174 93l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="196" y="98" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Plan</text>
+<circle cx="275" cy="93" r="11" fill="#2E6DF6" stroke="none"/>
+<text x="275" y="97" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">3</text>
+<text x="293" y="98" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Resumen</text>
+<path d="M20 122h350" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="195.0" y="175" fill="#15243B" font-family="Georgia, serif" font-size="32" font-weight="400" text-anchor="middle">Revisa tu cotización</text>
+<rect x="20" y="205" width="350" height="310" rx="8" fill="#FFFFFF" stroke="#CCD8EE"/>
+<text x="40" y="235" fill="#15243B" font-family="Georgia, serif" font-size="22" font-weight="400" text-anchor="start">Titular y vehículo</text>
+<text x="350" y="233" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="end" text-decoration="underline">Editar datos</text>
+<path d="M40 253h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="282" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Nombre del titular</text>
+<text x="350" y="282" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">Persona Demo</text>
+<path d="M40 295h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="324" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">RUT</text>
+<text x="350" y="324" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">••.•••.042-K</text>
+<path d="M40 337h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="366" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Fecha de nacimiento</text>
+<text x="350" y="366" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">16/04/1992</text>
+<path d="M40 379h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="408" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Patente</text>
+<text x="350" y="408" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">DEMO42</text>
+<path d="M40 421h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="450" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Año del vehículo</text>
+<text x="350" y="450" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">2021</text>
+<path d="M40 463h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="492" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Marca</text>
+<text x="350" y="492" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">Ejemplo Motor</text>
+<rect x="20" y="533" width="350" height="174" rx="8" fill="#EAF0FF" stroke="none"/>
+<text x="40" y="565" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Plan elegido</text>
+<text x="350" y="565" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="end" text-decoration="underline">Cambiar plan</text>
+<text x="40" y="602" fill="#15243B" font-family="Georgia, serif" font-size="28" font-weight="400" text-anchor="start">Esencial</text>
+<text x="40" y="636" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Precio final</text>
+<text x="40" y="674" fill="#1748AF" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="start">CLP 24.900</text>
+<text x="20" y="749" fill="#15243B" font-family="Georgia, serif" font-size="22" font-weight="400" text-anchor="start">Términos y condiciones</text>
+<text x="20" y="784" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">La cobertura se aplica al vehículo identificado</text>
+<text x="20" y="808" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">por su patente y está sujeta a los límites</text>
+<text x="20" y="832" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">del plan seleccionado.</text>
+<rect x="20" y="848" width="18" height="18" rx="3" fill="#1748AF" stroke="#1748AF"/>
+<path d="M24 857l4 4l6-7" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="50" y="863" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Acepto los términos y condiciones</text>
+<path d="M20 888h350" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="20" y="918" fill="#15243B" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="start">Resultado del pago (solo demostración)</text>
+<text x="20" y="944" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">No se realizará un cobro real.</text>
+<circle cx="29" cy="973" r="9" fill="#FFFFFF" stroke="#1748AF"/>
+<circle cx="29" cy="973" r="5" fill="#1748AF" stroke="none"/>
+<text x="48" y="978" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Aprobado</text>
+<circle cx="154" cy="973" r="9" fill="#FFFFFF" stroke="#586D91"/>
+<text x="173" y="978" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Rechazado</text>
+<rect x="20" y="996" width="350" height="48" rx="6" fill="#2E6DF6" stroke="none"/>
+<text x="195.0" y="1025.0" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Simular pago</text>
+</g>
+</svg>

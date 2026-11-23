@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="632" viewBox="0 0 1200 632" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">US-03 confirmation — desktop</title>
+<desc id="desc">Terminal confirmation for the Colombia example. A centered check and approval heading lead to the selectable quote reference. The same receipt is restored after reload.</desc>
+<rect x="0" y="0" width="1200" height="632" rx="0" fill="#F5F7FC" stroke="none"/>
+<g xml:lang="es">
+<rect x="0" y="0" width="1200" height="76" rx="0" fill="#FFFFFF" stroke="none"/>
+<path d="M0 76h1200" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M69 25l10 4v7q0 9-10 14q-10-5-10-14v-7Z" stroke="#1748AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M64 37l4 4l7-8" stroke="#1748AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="90" y="46" fill="#15243B" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="start">Seguro de auto</text>
+<circle cx="425" cy="105" r="11" fill="#1748AF" stroke="none"/>
+<path d="M421 105l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="443" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Datos</text>
+<circle cx="555" cy="105" r="11" fill="#1748AF" stroke="none"/>
+<path d="M551 105l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="573" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Plan</text>
+<circle cx="679" cy="105" r="11" fill="#1748AF" stroke="none"/>
+<path d="M675 105l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="697" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Resumen</text>
+<path d="M136 134h928" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="296" y="182" width="608" height="290" rx="10" fill="#FFFFFF" stroke="#CCD8EE"/>
+<circle cx="600.0" cy="237" r="19" fill="#E8F5EC" stroke="#1F5B39"/>
+<path d="M592.0 237l6 6l10-11" stroke="#1F5B39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="600.0" y="312" fill="#15243B" font-family="Georgia, serif" font-size="48" font-weight="400" text-anchor="middle">Pago simulado aprobado</text>
+<rect x="328" y="345" width="544" height="94" rx="8" fill="#EAF0FF" stroke="none"/>
+<text x="600.0" y="376" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">Número de cotización</text>
+<text x="600.0" y="414" fill="#1748AF" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="middle">DEMO-0042</text>
+</g>
+</svg>

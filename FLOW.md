@@ -217,6 +217,24 @@ The project owner requested an audit against the approved US-01 architecture and
 
 - The project owner wrote “approve adr-005”. The orchestrator recorded the [architecture approval](docs/approvals/US-03-architecture-approval.md), including the approved proposal hash, and updated ADR-005's approval metadata. The workflow stopped at the completed architecture checkpoint.
 
+### 2026-11-22 · US-03 design proposal and approval checkpoint
+
+- The project owner requested UI/UX design through the human design approval checkpoint. The orchestrator invoked the configured Architect at `/root/us03_design` (`gpt-6.2-sol` / `high`) to apply approved US-03 and ADR-005 to the existing US-01 and US-02 design patterns, Angular wizard and Tailwind conventions.
+- The Architect used `spec-driven-development`, `angular-developer`, `frontend-ui-engineering`, `accessibility` and cached `modern-web-guidance`, including W3C guidance on control grouping, status messages and reflow. The Architect created the [design proposal](docs/design/US-03-summary-and-payment.md) and five SVG wireframes. These cover editable Summary and terminal confirmation at desktop and mobile widths, plus inline terms and payment state variants.
+- The Architect rendered the five SVGs with bundled Node and Sharp and verified local links, the ten acceptance criteria, SVG accessible names and the approved ADR hash. The orchestrator inspected all five rendered frames. Static verification supports the review. Runtime validation remains for implementation and QA. The original activity is retained in Codex under the collaboration path. A native session ID and a safe, unedited repository export were not verified.
+- The design awaits explicit human approval. The workflow stopped at this checkpoint.
+
+### 2026-11-22 · US-03 design revisions
+
+- The project owner marked sample content for removal, requested a centered payment approval checkmark and asked for a better Summary layout. The owner clarified that the initial country selection is sufficient. The orchestrator resumed `/root/us03_design` (`gpt-6.2-sol` / `high`) to revise the existing design and five wireframes.
+- The revision groups the selected plan, terms, consent and Pay in one desktop column beside the quote details and keeps the same reading order on mobile. It centers the approval checkmark and quote reference, removes redundant receipt copy and country names from interface copy, and removes the accessory example row. The approved rules still call for displaying configured entered fields and loading the active country's published terms.
+- The Architect rendered the revised wireframes with bundled Node and Sharp. The orchestrator inspected the five revised layouts. Human design approval remains pending.
+- The project owner asked for the mobile **Titular y vehículo** section to use the same card treatment as desktop. The orchestrator resumed `/root/us03_design` to revise the mobile Summary wireframe and matching design notes. The Architect rendered the updated SVG with Sharp, and the orchestrator visually checked the card, edit link and mobile reading order.
+
+### 2026-11-22 · US-03 design approved
+
+- The project owner wrote “approve the design” after reviewing the revised Summary and confirmation wireframes. The orchestrator recorded the [design approval](docs/approvals/US-03-design-approval.md) and captured the design document and five wireframe hashes. The workflow stopped at the completed design checkpoint.
+
 ## Skill selection and controls
 
 The project-specific `story-to-spec` skill defines the insurance assessment source and specification format. Other installed skills are third-party workflow or technical guidance. Select skills by stage and task as listed in `AGENTS.md`. Conditional skills are loaded only when the work warrants them. Project instructions and assessment requirements take precedence over conflicting skill guidance. Skills do not bypass security restrictions or human approval checkpoints. Record skills actually used in execution evidence and keep this proposed flow distinct from completed work.

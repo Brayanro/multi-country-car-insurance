@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="902" viewBox="0 0 1200 902" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">US-03 editable Summary — desktop</title>
+<desc id="desc">Colombia example. The review shows the masked document, same-country edit actions, selected plan and localized price, a representative terms excerpt and consent, and a demo-only radio group followed by one Pay action.</desc>
+<rect x="0" y="0" width="1200" height="902" rx="0" fill="#F5F7FC" stroke="none"/>
+<g xml:lang="es">
+<rect x="0" y="0" width="1200" height="76" rx="0" fill="#FFFFFF" stroke="none"/>
+<path d="M0 76h1200" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M69 25l10 4v7q0 9-10 14q-10-5-10-14v-7Z" stroke="#1748AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M64 37l4 4l7-8" stroke="#1748AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="90" y="46" fill="#15243B" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="start">Seguro de auto</text>
+<circle cx="425" cy="105" r="11" fill="#1748AF" stroke="none"/>
+<path d="M421 105l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="443" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Datos</text>
+<circle cx="555" cy="105" r="11" fill="#1748AF" stroke="none"/>
+<path d="M551 105l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="573" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Plan</text>
+<circle cx="679" cy="105" r="11" fill="#2E6DF6" stroke="none"/>
+<text x="679" y="109" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">3</text>
+<text x="697" y="110" fill="#15243B" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Resumen</text>
+<path d="M136 134h928" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="600.0" y="199" fill="#15243B" font-family="Georgia, serif" font-size="48" font-weight="400" text-anchor="middle">Revisa tu cotización</text>
+<rect x="136" y="242" width="432" height="391" rx="8" fill="#FFFFFF" stroke="#CCD8EE"/>
+<text x="156" y="282" fill="#15243B" font-family="Georgia, serif" font-size="28" font-weight="400" text-anchor="start">Titular y vehículo</text>
+<text x="548" y="280" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="end" text-decoration="underline">Editar datos</text>
+<path d="M156 300h392" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="329" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Nombre del titular</text>
+<text x="350" y="329" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Persona Demo</text>
+<path d="M156 342h392" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="371" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Tipo de documento</text>
+<text x="350" y="371" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Cédula de ciudadanía</text>
+<path d="M156 384h392" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="413" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Número de documento</text>
+<text x="350" y="413" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">••••0042</text>
+<path d="M156 426h392" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="455" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Fecha de nacimiento</text>
+<text x="350" y="455" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">16/04/1992</text>
+<path d="M156 468h392" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="497" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Placa</text>
+<text x="350" y="497" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">DEM042</text>
+<path d="M156 510h392" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="539" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Año del vehículo</text>
+<text x="350" y="539" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">2021</text>
+<path d="M156 552h392" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="581" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Marca</text>
+<text x="350" y="581" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Ejemplo Motor</text>
+<rect x="600" y="242" width="464" height="174" rx="8" fill="#EAF0FF" stroke="none"/>
+<text x="620" y="274" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Plan elegido</text>
+<text x="1044" y="274" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="end" text-decoration="underline">Cambiar plan</text>
+<text x="620" y="311" fill="#15243B" font-family="Georgia, serif" font-size="28" font-weight="400" text-anchor="start">Esencial</text>
+<text x="620" y="345" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Precio final</text>
+<text x="620" y="383" fill="#1748AF" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="start">COP 129.900,50</text>
+<text x="600" y="464" fill="#15243B" font-family="Georgia, serif" font-size="28" font-weight="400" text-anchor="start">Términos y condiciones</text>
+<text x="600" y="499" fill="#344763" font-family="Arial, sans-serif" font-size="16" font-weight="400" text-anchor="start">Las coberturas, los límites y las exclusiones se establecen</text>
+<text x="600" y="523" fill="#344763" font-family="Arial, sans-serif" font-size="16" font-weight="400" text-anchor="start">en las condiciones del plan seleccionado.</text>
+<rect x="600" y="543" width="18" height="18" rx="3" fill="#FFFFFF" stroke="#586D91"/>
+<text x="630" y="558" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Acepto los términos y condiciones</text>
+<path d="M600 583h464" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="600" y="613" fill="#15243B" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="start">Resultado del pago (solo demostración)</text>
+<text x="600" y="639" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">No se realizará un cobro real.</text>
+<circle cx="609" cy="668" r="9" fill="#FFFFFF" stroke="#1748AF"/>
+<circle cx="609" cy="668" r="5" fill="#1748AF" stroke="none"/>
+<text x="628" y="673" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Aprobado</text>
+<circle cx="734" cy="668" r="9" fill="#FFFFFF" stroke="#586D91"/>
+<text x="753" y="673" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Rechazado</text>
+<text x="600" y="709" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Acepta los términos para continuar.</text>
+<rect x="600" y="724" width="176" height="48" rx="6" fill="#E0E7F4" stroke="none"/>
+<text x="688.0" y="753.0" fill="#405575" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Simular pago</text>
+</g>
+</svg>
