@@ -1,6 +1,6 @@
 # US-02 QA Report
 
-**Status:** Independent QA complete, including catalog maintenance and card design follow-ups · Recommended for independent review
+**Status:** Independent QA complete, including catalog maintenance and card design follow-ups; browser failure correction independently re-verified · Recommended for independent review
 **Story:** US-02 — Plan list  
 **Specification:** `spec/US-02.md` (Draft 1, human approved)  
 **Architecture:** `docs/adr/ADR-001-multi-country-content.md`, `docs/adr/ADR-002-dynamic-form-contract.md`, `docs/adr/ADR-003-frontend-quote-state.md`, and `docs/adr/ADR-004-plan-catalog-and-selection.md` (human approved)  
@@ -103,3 +103,35 @@ The first independent live-test attempt (`--output=/private/tmp/us02-card-revisi
 ## QA recommendation
 
 All seven US-02 acceptance criteria passed at story scope. No blocking defect was identified. Proceed to independent code review. Final human approval and project-level verification remain outstanding.
+
+### Browser failure correction re-verification (2026-11-23)
+
+**Agent:** QA subagent `/root/browser_failures_qa`; configured QA model `gpt-6-luna` (`xhigh`). **Skill used:** `test-driven-development` and `browser-testing-with-devtools` guidance. Browser execution used Playwright with installed Google Chrome. This was independent verification of the Developer's three E2E-only corrections; no production code was changed by QA.
+
+**Scope and root causes:**
+
+- The CO development CMS has editor-modified vehicle make options `Mazda` and `Chevrolet`. The affected US-01 E2E checks assumed the seeded `Ejemplo Motor` label or typed `e` and expected an example/demo option. Those assumptions did not represent the current published catalog. The corrected tests select the first enabled live option and verify that its value survives navigation/reload.
+- The existing CO development catalog publishes Ruta at COP `179.900,00`, while the original E2E assertion assumed the seed price COP `159.900,00`. The corrected US-02 check reads the published Ruta amount from the public catalog and formats that value for the browser assertion.
+- The earlier US-02 keyboard-focus failure was not reproduced in this independent run. The corrected test follows the user's Tab sequence from the focused page heading into the first radio, uses ArrowDown to select Ruta, verifies Continue changes from disabled to enabled, then tabs to Back and Continue and activates it with Enter. This verifies the intended keyboard interaction without programmatically focusing a radio. No application focus defect was observed.
+
+**Acceptance/test mapping and results:**
+
+- US-01 T-US01-01/03/07/10/11/13 and T-US01-06/07/10/13 — configured make option, keyboard entry, draft retention, and same-country return: passed on both environments; the selected live option survived return/reload.
+- T-US02-02/03/04/07 — published plan content and price, recommendation state, explicit selection, keyboard focus, and Continue handoff: passed on both environments. Continue was disabled before selection and enabled after ArrowDown selected Ruta; Tab/Enter reached the summary.
+- `rg -n 'Ejemplo Motor|example\|demo|159\.900,00|159900' e2e` — no matches; no E2E expectation remains tied to the modified make labels or the old Ruta price.
+
+**Existing development environment:** The default Compose project served `http://127.0.0.1:8080` using its existing named Strapi volume. A read-only request inside the CMS container confirmed CO vehicle makes Mazda/Chevrolet and CO Ruta `amountMinor: 17990000` (COP `179.900,00`). CL still published its seeded `Ejemplo Motor` and `Demo Auto` options. No CMS writes, database reset, or volume deletion were performed for this QA run. After verification, the default CMS and web containers were stopped to restore their initially stopped state; the named volume was preserved.
+
+- `QUOTE_BROWSER_CHANNEL=chrome pnpm exec playwright test e2e/us01.spec.ts e2e/us01-qa.spec.ts e2e/us02-qa.spec.ts --workers=1 --output=/private/tmp/browser-failures-qa-existing-focused` — passed, 15/15.
+- `QUOTE_BROWSER_CHANNEL=chrome pnpm exec playwright test --workers=1 --output=/private/tmp/browser-failures-qa-existing-full` — passed, 35/35 in 25.2 seconds.
+
+**Isolated fresh-seeded Compose environment:** The `accessory-field-fresh` stack was served at `http://127.0.0.1:8080` at the time of these runs. Its seed had not been edited by this QA run. Both commands completed before the orchestrator stopped only that stack's containers to free port 8080; its volumes were preserved.
+
+- `QUOTE_BROWSER_CHANNEL=chrome pnpm exec playwright test e2e/us01.spec.ts e2e/us01-qa.spec.ts e2e/us02-qa.spec.ts --workers=1 --output=/private/tmp/browser-failures-qa-seeded-focused` — passed, 15/15.
+- `QUOTE_BROWSER_CHANNEL=chrome pnpm exec playwright test --workers=1 --output=/private/tmp/browser-failures-qa-seeded-full` — passed, 35/35 in 25.4 seconds.
+
+The initial attempt to start the default project encountered port 8080 owned by the isolated stack; the orchestrator stopped only the isolated stack's containers. The default web container then exited once with an nginx `host not found in upstream "cms"` startup error. After the orchestrator inspected the network, recreating only the stateless default web container yielded healthy web and CMS services; the existing named volume remained attached. These were environment startup issues, not browser test failures.
+
+The three previously reported browser failures did not recur in either environment after the E2E updates. The fresh run verified the correction against seed data, and the existing-volume run verified it against edited catalog data. No full quote-flow behavior changed in production code. Manual screen-reader testing and browser engines other than Chromium were outside this focused re-verification; existing story-scope limitations above remain in force.
+
+**QA recommendation:** The affected E2E checks and the full 35-case Chromium suite pass against both the edited development catalog and isolated fresh seed. No application defect was identified. Independent Code Review remains a separate workflow step.

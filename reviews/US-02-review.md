@@ -115,3 +115,40 @@ The orchestrator reports that the focused automated suite passed 2/2 and the dir
 | None | — | Plan card template and focused browser tests | AC-US02-01, AC-US02-03, AC-US02-04, AC-US02-07; approved card layout and whole-card selection revision | No findings | QA-reported focused suite 2/2 and direct live-app probe 1/1; reviewed test coverage and DOM semantics |
 
 The supplemental review leaves the original **Approved** recommendation unchanged.
+
+## Supplemental review — browser failure corrections
+
+**Date:** 2026-11-23. This additive review preserves the prior review and findings history. It covers the E2E-only correction for the US-02 keyboard-focus case and the two failures caused by the existing development Strapi catalog. No production source or test files were changed during review.
+
+### Reviewer and scope
+
+- **Story:** US-01 and US-02 browser regression coverage; this follow-up is recorded under US-02 because the keyboard and catalog-price coverage belongs to US-02.
+- **Reviewer:** Independent reviewer, `/root/browser_failures_review`.
+- **Configured model:** `gpt-6-luna` / `high`.
+- **Skill:** `code-review-and-quality`.
+- **Specs:** [US-01](../spec/US-01.md), [US-02](../spec/US-02.md).
+- **ADRs:** [ADR-001](../docs/adr/ADR-001-multi-country-content.md), [ADR-002](../docs/adr/ADR-002-dynamic-form-contract.md), [ADR-003](../docs/adr/ADR-003-frontend-quote-state.md), [ADR-004](../docs/adr/ADR-004-plan-catalog-and-selection.md).
+- **QA evidence:** [US-02 QA report](../reports/qa/US-02-qa-report.md), correction re-verification dated 2026-11-23.
+- **Changes reviewed:** `e2e/us01.spec.ts`, `e2e/us01-qa.spec.ts`, and `e2e/us02-qa.spec.ts`, plus the approved stories, relevant country/content and plan-selection decisions, QA root-cause notes, and reported run results.
+
+### Review and findings
+
+The two US-01 tests now derive the selected make from the first enabled option in the live form and assert that same option value survives navigation and reload. This follows US01-SR-02 and AC-US01-01/09: make choices are Strapi-managed and form values persist. It removes the former dependency on the seed label `Ejemplo Motor` and the `example|demo` prefix. In the US-02 flow helper, the selected live option is likewise obtained from the published form instead of naming a seed-only vehicle make.
+
+The Colombia plan check obtains the published Ruta amount from the country-scoped public plans endpoint and formats it before asserting the displayed price and accessible description. This follows AC-US02-01/02 and ADR-004's rule that the published Strapi base price is final. It no longer asserts the stale seed amount `159.900,00`; the QA read-only inspection confirmed the existing development catalog's `179.900,00` value.
+
+The keyboard case starts with the page heading focused, tabs into the native first radio, and uses ArrowDown to choose Ruta. It verifies initial unselected/disabled state, selected/focused state and enabled Continue, then tabs through Back and Continue and activates with Enter. This exercises the approved native keyboard path in AC-US02-04/07. The old reported expectation that a disabled Continue button receive focus is not present. The QA report says that earlier failure was not reproduced in its isolated run; the revised path passed on both catalog states.
+
+The browser checks retain explicit assertions for the approved fictitious plan fixture names, benefit counts/content, and other seed prices. The supplied read-only inspection identifies only the vehicle make options and CO Ruta price as manually edited values in the existing catalog; the changed assertions are independent of those values. The fixture-level API assertions still intentionally detect an unexpected seed/catalog fixture change. No blocking dependency on the verified manual edits remains in the three reviewed E2E files.
+
+| Finding ID | Severity | Artifact                   | Acceptance criterion / ADR                                                   | Status      | Resolution evidence                                                                                    |
+| ---------- | -------- | -------------------------- | ---------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------ |
+| None       | —        | Three E2E correction files | US01-SR-02, AC-US01-01/09; AC-US02-01/02/04/07; ADR-001, ADR-002 and ADR-004 | No findings | Reviewed correction diff and QA's read-only catalog inspection and both-environment test results below |
+
+### Verification evidence and limits
+
+The independent QA follow-up reports focused tests passing **15/15** and the full Chromium suite passing **35/35** against both the edited existing development catalog and an isolated fresh seeded Compose catalog. The reported commands are recorded in the QA report; this reviewer inspected those results and did not independently rerun Playwright. The existing catalog read was performed without CMS writes, database reset, or volume deletion. QA also reports that only the isolated stack's containers were stopped after its runs and its volumes were preserved.
+
+The review therefore confirms that the previous 3/35 failing browser cases are resolved in the two evidenced catalog states; it does not claim a reviewer-executed browser run or a non-Chromium/browser screen-reader check. The QA report preserves the startup incidents and existing verification limits. No production behavior changed, and the earlier QA/review history remains intact.
+
+**Re-review result:** No correction is requested. The scoped follow-up is **Approved**, and the original US-02 recommendation remains unchanged. Final human approval remains separate.

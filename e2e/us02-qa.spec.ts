@@ -19,7 +19,13 @@ async function completeDetails(
     .fill("FICTITIOUS-ID");
   await page.getByLabel("Fecha de nacimiento").fill("1990-02-10");
   await page.getByLabel("Año del vehículo").fill("2021");
-  await page.getByLabel("Marca").selectOption({ label: "Ejemplo Motor" });
+  const make = page.getByLabel("Marca");
+  const makeValue = await make
+    .locator("option:enabled")
+    .first()
+    .getAttribute("value");
+  expect(makeValue).toBeTruthy();
+  await make.selectOption(makeValue!);
   await page.getByRole("button", { name: "Continuar" }).click();
   await expect(page).toHaveURL(new RegExp(`/${country}/quote/plans$`));
 }
@@ -85,13 +91,28 @@ test("T-US02-01/02/03: public catalogs are country-scoped, ordered, and no-store
 
 test("T-US02-02/03/04/07: Colombia comparison keeps recommendation separate and hands off one keyboard choice", async ({
   page,
+  request,
 }) => {
+  const response = await request.get("/api/quote-content/v1/co/plans");
+  expect(response.ok()).toBe(true);
+  const catalog = (await response.json()) as {
+    plans: Array<{ name: string; basePrice: { amountMinor: number } }>;
+  };
+  const routePlan = catalog.plans.find(({ name }) => name === "Ruta");
+  expect(routePlan).toBeDefined();
+  const routePrice = new Intl.NumberFormat("es-CO", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(routePlan!.basePrice.amountMinor / 100);
+
   await page.setViewportSize({ width: 1280, height: 900 });
   await completeDetails(page, "co");
   const heading = page.getByRole("heading", { name: "Elige tu plan" });
   await expect(heading).toBeFocused();
   await expect(page.getByText("COP 129.900,50")).toBeVisible();
-  await expect(page.getByText("COP 159.900,00")).toBeVisible();
+  await expect(
+    page.getByText(`COP ${routePrice}`, { exact: true }),
+  ).toBeVisible();
   await expect(page.getByText("COP 199.900,00")).toBeVisible();
   await expect(page.getByRole("radio")).toHaveCount(3);
   await expect(
@@ -118,11 +139,13 @@ test("T-US02-02/03/04/07: Colombia comparison keeps recommendation separate and 
   await expect(essential).not.toBeChecked();
   await expect(route).not.toBeChecked();
   await expect(route).toHaveAccessibleDescription(
-    /COP.*159\.900,00.*Recomendado/,
+    `COP ${routePrice} Recomendado`,
   );
-  await expect(page.getByRole("button", { name: "Continuar" })).toBeDisabled();
+  const next = page.getByRole("button", { name: "Continuar" });
+  await expect(next).toBeDisabled();
 
-  await essential.focus();
+  await page.keyboard.press("Tab");
+  await expect(essential).toBeFocused();
   await page.keyboard.press("ArrowDown");
   await expect(route).toBeFocused();
   await expect(route).toBeChecked();
@@ -136,7 +159,7 @@ test("T-US02-02/03/04/07: Colombia comparison keeps recommendation separate and 
   });
 
   const back = page.getByRole("link", { name: "Volver a datos" });
-  const next = page.getByRole("button", { name: "Continuar" });
+  await expect(next).toBeEnabled();
   await page.keyboard.press("Tab");
   await expect(back).toBeFocused();
   await page.keyboard.press("Tab");

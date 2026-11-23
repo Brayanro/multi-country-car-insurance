@@ -30,14 +30,22 @@ test("US-01 T-US01-01/03/07/10/11/13: navigate, validate and recover a country d
   await page.getByLabel("Fecha de nacimiento").fill("1992-04-16");
   await page.getByLabel("Placa").fill("DEMO-CO");
   await page.getByLabel("Año del vehículo").fill("2021");
-  await page.getByLabel("Marca").selectOption({ label: "Ejemplo Motor" });
+  const make = page.getByLabel("Marca");
+  const makeValue = await make
+    .locator("option:enabled")
+    .first()
+    .getAttribute("value");
+  expect(makeValue).toBeTruthy();
+  await make.selectOption(makeValue!);
   await page.getByRole("button", { name: "Continuar" }).click();
 
   await expect(page).toHaveURL(/\/co\/quote\/plans$/);
   await page.getByRole("link", { name: "Volver a datos" }).click();
   await expect(name).toHaveValue("Persona Demo");
+  await expect(make).toHaveValue(makeValue!);
   await page.reload();
   await expect(name).toHaveValue("Persona Demo");
+  await expect(make).toHaveValue(makeValue!);
   await expect(page.getByLabel("Año del vehículo")).toHaveValue("2021");
 
   await page.goto("/CL/quote/details");

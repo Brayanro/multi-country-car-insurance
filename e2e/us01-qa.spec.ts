@@ -144,8 +144,13 @@ test("US-01 T-US01-06/07/10/13: keyboard controls and same-country return retain
   await page.keyboard.press("Tab");
   const make = page.getByLabel("Marca");
   await expect(make).toBeFocused();
-  await page.keyboard.press("e");
-  await expect(make).toHaveValue(/example|demo/i);
+  const firstMake = make.locator("option:enabled").first();
+  const makeLabel = (await firstMake.innerText()).trim();
+  const makeValue = await firstMake.getAttribute("value");
+  expect(makeLabel).not.toBe("");
+  expect(makeValue).toBeTruthy();
+  await page.keyboard.press(Array.from(makeLabel)[0]);
+  await expect(make).toHaveValue(makeValue!);
 
   await page.keyboard.press("Tab");
   const continueButton = page.getByRole("button", { name: "Continuar" });
@@ -172,7 +177,7 @@ test("US-01 T-US01-06/07/10/13: keyboard controls and same-country return retain
   );
   await expect(page.getByLabel("Placa")).toHaveValue("QA-PLATE");
   await expect(page.getByLabel("Año del vehículo")).toHaveValue("2021");
-  await expect(page.getByLabel("Marca")).toHaveValue(/example|demo/i);
+  await expect(make).toHaveValue(makeValue!);
 });
 
 test("US-01 T-US01-05/09/12/14: refreshed published fields reconcile the saved draft", async ({
