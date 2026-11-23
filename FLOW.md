@@ -206,6 +206,17 @@ The project owner requested an audit against the approved US-01 architecture and
 
 - The project owner wrote “approve draft 2”. The orchestrator recorded the [specification approval](docs/approvals/US-03-spec-approval.md), including the approved draft hash, and updated the specification's approval metadata. The workflow stopped at the completed specification checkpoint.
 
+### 2026-11-22 · US-03 architecture proposal and approval checkpoint
+
+- The project owner authorized architecture assessment through its human approval checkpoint. The orchestrator invoked the configured Architect at `/root/us03_architect` (`gpt-6.2-sol` / `high`) to reuse ADR-001 through ADR-004 and the existing wizard and Strapi read boundaries, and document only the architecture needed to deliver the approved US-03 specification.
+- The Architect used `spec-driven-development`, `angular-developer` and the bundled `modern-web-guidance` on rendering text. The Architect extracted the relevant assessment pages with bundled `pypdf`, checked the existing routes, proxy, content controller and state, and consulted official Angular, Strapi, HTTP caching and Web Storage references. The Architect produced proposed [ADR-005](docs/adr/ADR-005-country-terms-and-simulated-payment.md) for the published terms contract, consent refresh, a guarded deterministic simulation, and terminal receipt recovery. Review clarified when editable Summary prerequisites apply, the scope of any future quote reset, and the conditions for reusing consent after terms recovery.
+- The orchestrator reproduced the approved specification hash and checked the proposal's local links, US-03 trace identifiers and pending status. `git diff --check` passed. Runtime verification is deferred to implementation. The original activity is retained in Codex under the collaboration path. A native session ID and a safe, unedited repository export were not verified.
+- ADR-005 awaits explicit human architecture approval. The workflow stopped at this checkpoint.
+
+### 2026-11-22 · US-03 architecture approved
+
+- The project owner wrote “approve adr-005”. The orchestrator recorded the [architecture approval](docs/approvals/US-03-architecture-approval.md), including the approved proposal hash, and updated ADR-005's approval metadata. The workflow stopped at the completed architecture checkpoint.
+
 ## Skill selection and controls
 
 The project-specific `story-to-spec` skill defines the insurance assessment source and specification format. Other installed skills are third-party workflow or technical guidance. Select skills by stage and task as listed in `AGENTS.md`. Conditional skills are loaded only when the work warrants them. Project instructions and assessment requirements take precedence over conflicting skill guidance. Skills do not bypass security restrictions or human approval checkpoints. Record skills actually used in execution evidence and keep this proposed flow distinct from completed work.
