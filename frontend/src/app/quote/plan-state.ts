@@ -88,6 +88,16 @@ export class PlanState {
     this.save(country, null);
   }
 
+  removeStoredCandidate(country: Country) {
+    const key = candidateKey(country);
+    sessionStorage.removeItem(key);
+    return sessionStorage.getItem(key) === null;
+  }
+
+  clearCandidateMemory(country: Country) {
+    this.candidates.update((values) => ({ ...values, [country]: null }));
+  }
+
   read(country: Country, phase: ReadMode) {
     const generation = ++this.generation;
     this.request?.unsubscribe();

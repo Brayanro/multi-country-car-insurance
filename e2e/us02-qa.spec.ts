@@ -143,8 +143,13 @@ test("T-US02-02/03/04/07: Colombia comparison keeps recommendation separate and 
   await expect(next).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/co\/quote\/summary$/);
-  await expect(page.getByRole("heading", { name: "Resumen" })).toBeVisible();
-  await page.getByRole("link", { name: "Volver a planes" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Revisa tu cotización" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Ruta", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Cambiar plan" }).click();
   await expect(page).toHaveURL(/\/co\/quote\/plans$/);
   await expect(route).toBeChecked();
   await page.reload();

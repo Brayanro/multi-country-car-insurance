@@ -11,7 +11,7 @@ const { createStrapi, compileStrapi } = createRequire(import.meta.url)(
   "@strapi/strapi",
 );
 
-test("T-US01-05/08/09 and T-US02-01/02/05: publish, change and unpublish isolated CMS content", async () => {
+test("T-US01-05/08/09 and T-US02-01/02/05 and T-US03-03/11: publish, change and unpublish isolated CMS content", async () => {
   const fixture = await mkdtemp(join(tmpdir(), "quote-cms-test-"));
   const secret = () => randomBytes(32).toString("hex");
   Object.assign(process.env, {
@@ -30,6 +30,7 @@ test("T-US01-05/08/09 and T-US02-01/02/05: publish, change and unpublish isolate
   let app = createStrapi(context);
   const readPermission = "api::quote-content.quote-content.readForm";
   const readPlansPermission = "api::quote-content.quote-content.readPlans";
+  const readTermsPermission = "api::quote-content.quote-content.readTerms";
   const roles = () => app.db.query("plugin::users-permissions.role");
   const permissions = () =>
     app.db.query("plugin::users-permissions.permission");
@@ -106,6 +107,64 @@ test("T-US01-05/08/09 and T-US02-01/02/05: publish, change and unpublish isolate
     assert.deepEqual((await readPlans()).plans, []);
     assert.equal((await fetch(plansUri + "?status=draft")).status, 400);
     assert.equal((await fetch(new URL("/api/plans", plansUri))).status, 404);
+
+    const termsUri = uri.replace("/form", "/terms");
+    const readTerms = async (target = termsUri) => {
+      const response = await fetch(target);
+      assert.equal(response.status, 200);
+      assert.equal(response.headers.get("cache-control"), "no-store");
+      return response.json();
+    };
+    const terms = app.documents("api::quote-content.terms");
+    const coTerms = await readTerms();
+    const clTermsUri = termsUri.replace("/co/", "/cl/");
+    const clTerms = await readTerms(clTermsUri);
+    assert.equal(coTerms.country, "co");
+    assert.equal(clTerms.country, "cl");
+    assert.notEqual(coTerms.text, clTerms.text);
+    assert.notEqual(coTerms.revision, clTerms.revision);
+    const termsDraft = await terms.findFirst({
+      status: "draft",
+      filters: { country: "co" },
+    });
+    const text = "Condiciones revisadas.\n\nTexto literal <b>.";
+    await terms.update({
+      documentId: termsDraft.documentId,
+      status: "draft",
+      data: { body: text },
+    });
+    assert.deepEqual(await readTerms(), coTerms);
+    await terms.publish({ documentId: termsDraft.documentId });
+    const revised = await readTerms();
+    assert.deepEqual(Object.keys(revised).sort(), [
+      "country",
+      "revision",
+      "schemaVersion",
+      "text",
+    ]);
+    assert.equal(revised.text, text);
+    assert.notEqual(revised.revision, coTerms.revision);
+    await terms.publish({ documentId: termsDraft.documentId });
+    assert.deepEqual(await readTerms(), revised);
+    assert.deepEqual(await readTerms(clTermsUri), clTerms);
+    assert.equal((await fetch(termsUri + "?status=draft")).status, 400);
+    assert.equal(
+      (await fetch(new URL("/api/quote-terms", termsUri))).status,
+      404,
+    );
+    assert.equal((await fetch(termsUri, { method: "POST" })).status, 405);
+    const duplicate = await terms.create({
+      status: "published",
+      data: { country: "co", body: "Duplicado" },
+    });
+    assert.equal((await fetch(termsUri)).status, 503);
+    await terms.unpublish({ documentId: duplicate.documentId });
+    await terms.unpublish({ documentId: termsDraft.documentId });
+    const unpublishedTerms = await fetch(termsUri);
+    assert.equal(unpublishedTerms.status, 404);
+    assert.deepEqual(await unpublishedTerms.json(), {
+      error: { code: "TERMS_NOT_PUBLISHED" },
+    });
 
     const initial = await current();
     assert.equal(
@@ -186,6 +245,7 @@ test("T-US01-05/08/09 and T-US02-01/02/05: publish, change and unpublish isolate
     assert.deepEqual(await roleActions("public"), [
       readPermission,
       readPlansPermission,
+      readTermsPermission,
     ]);
     const base = new URL(uri).origin;
     assert.equal((await fetch(`${base}/admin/init`)).status, 200);
@@ -208,6 +268,7 @@ test("T-US01-05/08/09 and T-US02-01/02/05: publish, change and unpublish isolate
     assert.deepEqual(await roleActions("public"), [
       readPermission,
       readPlansPermission,
+      readTermsPermission,
     ]);
     assert.deepEqual(await roleActions("authenticated"), authenticatedActions);
     const co = await app
@@ -220,6 +281,14 @@ test("T-US01-05/08/09 and T-US02-01/02/05: publish, change and unpublish isolate
       co,
       null,
       "restarting the initialized fixture preserves unpublication",
+    );
+    assert.equal(
+      await app.documents("api::quote-content.terms").findFirst({
+        status: "published",
+        filters: { country: "co" },
+      }),
+      null,
+      "a restart preserves deliberately unpublished terms",
     );
     const restartedPlans = await app
       .documents("api::quote-content.plan")

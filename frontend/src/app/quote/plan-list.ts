@@ -12,25 +12,10 @@ import {
   type ElementRef,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import type { Country, PlanPrice } from '@quote/contract';
+import type { Country } from '@quote/contract';
 import { PlanState } from './plan-state';
 
-const priceFormat = {
-  COP: new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    currencyDisplay: 'code',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }),
-  CLP: new Intl.NumberFormat('es-CL', {
-    style: 'currency',
-    currency: 'CLP',
-    currencyDisplay: 'code',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }),
-};
+import { displayPrice } from './price-format';
 
 @Component({
   selector: 'app-plan-list',
@@ -109,10 +94,7 @@ export class PlanList {
     this.complete.emit();
   }
 
-  protected displayPrice(price: PlanPrice) {
-    const scale = price.currency === 'COP' ? 100 : 1;
-    return priceFormat[price.currency].format(price.amountMinor / scale);
-  }
+  protected readonly displayPrice = displayPrice;
 
   private focusHeading() {
     afterNextRender(() => this.heading().nativeElement.focus(), { injector: this.injector });

@@ -79,6 +79,7 @@ export class QuoteState {
   private readonly clock = inject(QUOTE_CLOCK);
   private readonly current = signal<LoadState>({ phase: 'idle' });
   private readonly drafts = signal<Partial<Record<Country, QuoteDraft>>>({});
+  private readonly draftRevisions = signal<Partial<Record<Country, number>>>({});
   private request?: Subscription;
   private generation = 0;
 
@@ -136,7 +137,38 @@ export class QuoteState {
     return this.drafts()[country] ?? restore(country);
   }
 
+  removeStoredDraft(country: Country) {
+    const key = storageKey(country);
+    sessionStorage.removeItem(key);
+    return sessionStorage.getItem(key) === null;
+  }
+
+  clearDraftMemory(country: Country) {
+    this.drafts.update((drafts) => ({ ...drafts, [country]: {} }));
+    this.draftRevisions.update((revisions) => ({
+      ...revisions,
+      [country]: (revisions[country] ?? 0) + 1,
+    }));
+  }
+
+  draftRevision(country: Country) {
+    return this.draftRevisions()[country] ?? 0;
+  }
+
   save(country: Country, draft: QuoteDraft) {
+    const previous = this.draft(country);
+    const changed =
+      Object.keys(previous).length !== Object.keys(draft).length ||
+      Object.entries(draft).some(([id, entry]) => {
+        const prior = previous[id];
+        return prior?.kind !== entry.kind || prior?.value !== entry.value;
+      });
+    if (changed) {
+      this.draftRevisions.update((revisions) => ({
+        ...revisions,
+        [country]: (revisions[country] ?? 0) + 1,
+      }));
+    }
     this.drafts.update((drafts) => ({ ...drafts, [country]: draft }));
     const state = this.current();
     if (state.phase === 'ready' && state.country === country && state.validation) {

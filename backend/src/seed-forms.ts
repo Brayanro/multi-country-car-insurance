@@ -96,7 +96,7 @@ export function seedForm(country: Country) {
     order: 30,
     required: true,
     purpose: "identityDocument",
-    helpText: "Usa un número ficticio.",
+    helpText: "",
     errorMessage: "Ingresa el número de documento.",
   };
   const plateField = {

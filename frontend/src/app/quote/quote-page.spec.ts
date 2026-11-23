@@ -3,7 +3,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { routes } from '../app.routes';
 import { QuoteState } from './quote-state';
 
@@ -163,6 +163,9 @@ describe('US-01 wizard form', () => {
     backend.expectOne(endpoint).flush(catalog(20000));
     await harness.fixture.whenStable();
     harness.detectChanges();
+    backend
+      .expectOne('/api/quote-content/v1/co/terms')
+      .flush({ schemaVersion: 1, country: 'co', revision: 'a'.repeat(64), text: 'Condiciones.' });
     expect(screen.querySelector('[aria-current="step"]')?.textContent).toContain('Resumen');
   });
 
@@ -208,5 +211,291 @@ describe('US-01 wizard form', () => {
     expect(
       harness.routeNativeElement?.querySelector<HTMLInputElement>('input[type="radio"]')?.checked,
     ).toBe(true);
+  });
+});
+
+describe('US-03 Summary', () => {
+  afterEach(() => {
+    TestBed.inject(HttpTestingController).verify();
+    sessionStorage.clear();
+  });
+
+  const termsUri = '/api/quote-content/v1/co/terms';
+  const termsResponse = (revision = 'a', text = 'Condiciones del plan.') => ({
+    schemaVersion: 1,
+    country: 'co',
+    revision: revision.repeat(64),
+    text,
+  });
+
+  async function review() {
+    TestBed.configureTestingModule({
+      providers: [provideRouter(routes), provideHttpClient(), provideHttpClientTesting()],
+    });
+    storeValidDetails();
+    sessionStorage.setItem(
+      'quote-plan-v1:co',
+      JSON.stringify({
+        version: 1,
+        country: 'co',
+        id: 'plan-a',
+        price: { amountMinor: 10000, currency: 'COP' },
+      }),
+    );
+    const harness = await RouterTestingHarness.create('/co/quote/summary');
+    const backend = TestBed.inject(HttpTestingController);
+    const form = configuration('co');
+    Object.assign(form.fields.find((field) => field.id === 'identity')!, {
+      purpose: 'identityDocument',
+    });
+    backend.expectOne('/api/quote-content/v1/co/form').flush(form);
+    await harness.fixture.whenStable();
+    backend.expectOne('/api/quote-content/v1/co/plans').flush(catalog(10000));
+    await harness.fixture.whenStable();
+    backend.expectOne(termsUri).flush(termsResponse());
+    const update = () => harness.detectChanges();
+    update();
+    const screen = harness.routeNativeElement!;
+    const consent = () => screen.querySelector<HTMLInputElement>('input[type="checkbox"]')!;
+    const pay = () =>
+      [...screen.querySelectorAll('button')].find((button) =>
+        button.textContent?.includes('Pagar'),
+      )!;
+    const choose = (outcome: 'approved' | 'rejected') => {
+      screen.querySelector<HTMLInputElement>(`input[value="${outcome}"]`)!.click();
+      update();
+    };
+    const accept = () => {
+      consent().click();
+      update();
+    };
+    return { harness, backend, screen, consent, accept, pay, choose, update };
+  }
+
+  it('T-US03-01/02/03 shows review, masks identity and gates Pay on country terms consent', async () => {
+    const { screen, pay, accept } = await review();
+    expect(screen.textContent).toContain('Plan A');
+    expect(screen.textContent).toContain('ious');
+    expect(screen.textContent).not.toContain('fictitious');
+    expect(screen.textContent).toContain('Condiciones del plan.');
+    expect(screen.querySelector('fieldset legend')?.textContent).toContain('Resultado de prueba');
+    expect(screen.textContent).not.toContain('No se realizará un cobro real.');
+    expect(pay().getAttribute('aria-disabled')).toBe('true');
+    accept();
+    expect(pay().getAttribute('aria-disabled')).not.toBe('true');
+  });
+
+  it('T-US03-03 invalidates consent when an underlying identity value changes', async () => {
+    const { screen, pay, accept, update } = await review();
+    accept();
+    const state = TestBed.inject(QuoteState);
+    const draft = state.draft('co');
+    state.save('co', {
+      ...draft,
+      identity: { kind: 'text', value: '123456ious' },
+    });
+    update();
+    expect(screen.textContent).toContain('••••••ious');
+    expect(pay().getAttribute('aria-disabled')).toBe('true');
+  });
+
+  it('T-US03-03/11 invalidates changed consent and recovers a failed pre-Pay read without paying', async () => {
+    const { backend, screen, pay, consent, accept, update } = await review();
+    accept();
+    pay().click();
+    const refresh = backend.expectOne(termsUri);
+    pay().click();
+    backend.expectNone(termsUri);
+    refresh.flush(termsResponse('b', 'Términos actualizados.'));
+    update();
+    expect(screen.textContent).toContain('Los términos cambiaron');
+    expect(screen.textContent).toContain('Términos actualizados.');
+    expect(consent().checked).toBe(false);
+    expect(pay().getAttribute('aria-disabled')).toBe('true');
+
+    accept();
+    pay().click();
+    backend.expectOne(termsUri).flush(termsResponse('b', 'Texto inconsistente.'));
+    update();
+    expect(screen.textContent).toContain('No pudimos cargar los términos.');
+    expect(screen.textContent).not.toContain('Texto inconsistente.');
+    expect(pay().getAttribute('aria-disabled')).toBe('true');
+    screen.querySelector<HTMLButtonElement>('#terms-retry')!.click();
+    backend.expectOne(termsUri).flush(termsResponse('b', 'Términos actualizados.'));
+    update();
+    expect(consent().checked).toBe(true);
+    expect(screen.textContent).not.toContain('Procesando');
+    expect(screen.querySelector('#receipt-heading')).toBeNull();
+    expect(screen.textContent).toContain('Plan A');
+  });
+
+  it('T-US03-05/06 rejects, retries and locks the completed receipt', async () => {
+    const { harness, backend, screen, pay, consent, accept, choose, update } = await review();
+    expect(screen.querySelector<HTMLInputElement>('input[value="approved"]')?.checked).toBe(true);
+    accept();
+    choose('rejected');
+    pay().click();
+    backend.expectOne(termsUri).flush(termsResponse());
+    update();
+    expect(pay().getAttribute('aria-disabled')).toBe('true');
+    pay().click();
+    backend.expectNone(termsUri);
+    await vi.waitFor(() => {
+      update();
+      expect(screen.textContent).toContain('Pago rechazado.');
+    });
+    expect(consent().checked).toBe(true);
+    expect(screen.textContent).toContain('Plan A');
+    choose('approved');
+    pay().click();
+    backend.expectOne(termsUri).flush(termsResponse());
+    await vi.waitFor(() => {
+      update();
+      expect(screen.querySelector('#receipt-heading')?.textContent).toContain('Pago aprobado');
+    });
+    const number = screen.querySelector('dd')?.textContent?.trim();
+    expect(number).toMatch(/^DEMO-[A-F0-9]{24}$/);
+    expect(JSON.parse(sessionStorage.getItem('quote-receipt-v1:co')!)).toMatchObject({
+      number,
+      version: 2,
+      review: {
+        planName: 'Plan A',
+        rows: [{ id: 'identity', value: '••••••ious' }, expect.anything(), expect.anything()],
+      },
+    });
+    expect(screen.textContent).toContain('Plan A');
+    expect(screen.textContent).not.toContain('fictitious');
+    expect(pay()).toBeUndefined();
+
+    await harness.navigateByUrl('/co/quote/details');
+    await harness.fixture.whenStable();
+    update();
+    expect(TestBed.inject(Router).url).toBe('/co/quote/summary');
+    expect(screen.querySelector('app-details-form')).toBeNull();
+    backend.expectNone('/api/quote-content/v1/co/form');
+    backend.expectNone(termsUri);
+    expect(screen.querySelector('dd')?.textContent?.trim()).toBe(number);
+  });
+
+  it('T-US03-08 cancels a Pay refresh on navigation and restores only same-country completed receipts', async () => {
+    const { harness, backend, accept, pay } = await review();
+    accept();
+    pay().click();
+    const refresh = backend.expectOne(termsUri);
+    await harness.navigateByUrl('/co/quote/details');
+    expect(refresh.cancelled).toBe(true);
+    expect(sessionStorage.getItem('quote-receipt-v1:co')).toBeNull();
+
+    const number = 'DEMO-' + 'A'.repeat(24);
+    sessionStorage.setItem(
+      'quote-receipt-v1:cl',
+      JSON.stringify({ version: 1, country: 'cl', number }),
+    );
+    await harness.navigateByUrl('/cl/quote/plans');
+    await harness.fixture.whenStable();
+    expect(TestBed.inject(Router).url).toBe('/cl/quote/summary');
+    backend.expectNone('/api/quote-content/v1/cl/form');
+    backend.expectNone('/api/quote-content/v1/cl/plans');
+    backend.expectNone('/api/quote-content/v1/cl/terms');
+    expect(harness.routeNativeElement?.querySelector('dd')?.textContent?.trim()).toBe(number);
+  });
+
+  it.each([
+    ['removeItem', 'quote-draft-v1:co'],
+    ['getItem', 'quote-draft-v1:co'],
+    ['removeItem', 'quote-plan-v1:co'],
+    ['getItem', 'quote-plan-v1:co'],
+    ['removeItem', 'quote-receipt-v1:co'],
+  ] as const)('AC-US03-R03 keeps the lock when %s fails for %s', async (method, failingKey) => {
+    TestBed.configureTestingModule({
+      providers: [provideRouter(routes), provideHttpClient(), provideHttpClientTesting()],
+    });
+    storeValidDetails();
+    const number = 'DEMO-' + 'C'.repeat(24);
+    const receipt = JSON.stringify({ version: 1, country: 'co', number });
+    sessionStorage.setItem('quote-receipt-v1:co', receipt);
+    sessionStorage.setItem(
+      'quote-plan-v1:co',
+      JSON.stringify({
+        version: 1,
+        country: 'co',
+        id: 'plan-a',
+        price: { amountMinor: 10000, currency: 'COP' },
+      }),
+    );
+    sessionStorage.setItem('quote-plan-v1:cl', 'other plan');
+    sessionStorage.setItem('quote-draft-v1:cl', 'other draft');
+    sessionStorage.setItem(
+      'quote-receipt-v1:cl',
+      JSON.stringify({ version: 1, country: 'cl', number }),
+    );
+    const harness = await RouterTestingHarness.create('/co/quote/summary');
+    const backend = TestBed.inject(HttpTestingController);
+    const screen = harness.routeNativeElement!;
+    const restart = () => screen.querySelector<HTMLButtonElement>('app-quote-confirmation button')!;
+    expect(screen.textContent).toContain('El detalle de esta cotización no está disponible.');
+    const original = Storage.prototype[method];
+    const storage = vi.spyOn(Storage.prototype, method).mockImplementation(function (
+      this: Storage,
+      key,
+    ) {
+      if (key === failingKey) throw new Error('Storage unavailable');
+      return Reflect.apply(original, this, [key]) as never;
+    });
+    try {
+      restart().focus();
+      restart().click();
+      harness.detectChanges();
+      expect(screen.querySelector('[role="alert"]')?.textContent).toContain('No pudimos iniciar');
+      expect(document.activeElement).toBe(restart());
+      expect(screen.querySelector('dd')?.textContent?.trim()).toBe(number);
+      backend.expectNone('/api/quote-content/v1/co/form');
+    } finally {
+      storage.mockRestore();
+    }
+    expect(sessionStorage.getItem('quote-receipt-v1:co')).toBe(receipt);
+    await harness.navigateByUrl('/co/quote/plans');
+    await harness.fixture.whenStable();
+    expect(TestBed.inject(Router).url).toBe('/co/quote/summary');
+    expect(screen.querySelector('dd')?.textContent?.trim()).toBe(number);
+
+    restart().click();
+    await harness.fixture.whenStable();
+    backend.expectOne('/api/quote-content/v1/co/form').flush(configuration('co'));
+    harness.detectChanges();
+    expect(TestBed.inject(Router).url).toBe('/co/quote/details');
+    expect(screen.querySelector<HTMLInputElement>('#quote-field-identity')?.value).toBe('');
+    expect(sessionStorage.getItem('quote-receipt-v1:co')).toBeNull();
+    expect(sessionStorage.getItem('quote-plan-v1:co')).toBeNull();
+    expect(sessionStorage.getItem('quote-plan-v1:cl')).toBe('other plan');
+    expect(sessionStorage.getItem('quote-draft-v1:cl')).toBe('other draft');
+    expect(JSON.parse(sessionStorage.getItem('quote-receipt-v1:cl')!).country).toBe('cl');
+  });
+
+  it('AC-US03-R02 shows the full memory-only confirmation when saving the receipt fails', async () => {
+    const { backend, screen, pay, accept, update } = await review();
+    const original = Storage.prototype.setItem;
+    const storage = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (
+      this: Storage,
+      key,
+      value,
+    ) {
+      if (key === 'quote-receipt-v1:co') throw new Error('Quota exceeded');
+      original.call(this, key, value);
+    });
+    try {
+      accept();
+      pay().click();
+      backend.expectOne(termsUri).flush(termsResponse());
+      await vi.waitFor(() => {
+        update();
+        expect(screen.textContent).toContain('Si recargas la página');
+      });
+      expect(screen.textContent).toContain('Plan A');
+      expect(screen.textContent).toContain('••••••ious');
+      expect(sessionStorage.getItem('quote-receipt-v1:co')).toBeNull();
+    } finally {
+      storage.mockRestore();
+    }
   });
 });

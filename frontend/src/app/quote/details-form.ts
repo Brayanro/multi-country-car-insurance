@@ -130,6 +130,8 @@ export class DetailsForm implements OnChanges, OnDestroy {
 
   private save() {
     const config = this.configuration();
+    const state = this.store.state();
+    if (state.phase !== 'ready' || state.form !== config) return;
     const draft = Object.fromEntries(
       config.fields.map((field) => {
         const raw = this.form.controls[field.id].value;

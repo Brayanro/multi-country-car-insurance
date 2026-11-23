@@ -1,0 +1,79 @@
+<section
+  class="status-panel mx-auto mt-6 max-w-[38rem] rounded-lg border border-divider bg-paper p-5 text-center sm:mt-12 sm:p-8"
+>
+  <span
+    aria-hidden="true"
+    class="mx-auto inline-grid size-10 place-items-center rounded-full border border-success bg-success-tint text-success"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      class="size-6"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m5 12 4 4L19 6" />
+    </svg>
+  </span>
+  <h1 id="receipt-heading" tabindex="-1" class="mt-3">Pago aprobado</h1>
+  <dl class="mt-5 rounded-lg bg-context px-3 py-4 text-link">
+    <dt class="text-sm font-bold">Número de cotización</dt>
+    <dd class="mt-1 text-2xl font-bold [overflow-wrap:anywhere]">{{ receipt().number }}</dd>
+  </dl>
+  @if (!receipt().persisted) {
+    <p class="mt-3 text-sm text-secondary">
+      Si recargas la página, es posible que no puedas recuperar esta cotización.
+    </p>
+  }
+</section>
+
+@if (receipt().review; as review) {
+  <div class="mt-5 grid items-start gap-5 lg:grid-cols-[minmax(0,0.93fr)_minmax(0,1fr)] lg:gap-8">
+    <section
+      aria-labelledby="receipt-review-heading"
+      class="min-w-0 rounded-lg border border-divider bg-paper px-4 py-3 sm:px-5"
+    >
+      <h2 id="receipt-review-heading" class="mb-2 text-2xl">Titular y vehículo</h2>
+      <dl>
+        @for (row of review.rows; track row.id) {
+          <div
+            class="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-3 border-t border-divider py-3 text-sm [overflow-wrap:anywhere]"
+          >
+            <dt class="text-secondary">{{ row.label }}</dt>
+            <dd class="font-bold">{{ row.value }}</dd>
+          </div>
+        }
+      </dl>
+    </section>
+    <section
+      aria-labelledby="receipt-plan-heading"
+      class="rounded-lg bg-context p-5 [overflow-wrap:anywhere]"
+    >
+      <p class="text-sm font-bold text-secondary">Plan elegido</p>
+      <h2 id="receipt-plan-heading" class="mt-2">{{ review.planName }}</h2>
+      <p class="mt-3 text-sm font-bold text-secondary">Precio final</p>
+      <p class="mt-1 text-[1.75rem] leading-tight font-bold text-link">
+        {{ displayPrice(review.price) }}
+      </p>
+    </section>
+  </div>
+} @else {
+  <p class="mt-5 text-center text-secondary">El detalle de esta cotización no está disponible.</p>
+}
+
+<div class="mt-5 text-center">
+  @if (restartFailed()) {
+    <p role="alert" class="mx-auto mb-3 max-w-[38rem] rounded-md bg-error-tint p-3 text-error">
+      No pudimos iniciar una nueva cotización. Inténtalo de nuevo.
+    </p>
+  }
+  <button
+    type="button"
+    class="primary-button min-h-12 w-full rounded-md bg-action px-6 font-bold text-white hover:bg-action-hover sm:w-auto"
+    (click)="restart.emit()"
+  >
+    Iniciar una nueva cotización
+  </button>
+</div>

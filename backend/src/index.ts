@@ -4,7 +4,10 @@ import { PLAN_UID } from "./api/quote-content/plan-projection";
 import {
   READ_FORM_ACTION,
   READ_PLANS_ACTION,
+  READ_TERMS_ACTION,
 } from "./api/quote-content/routes/quote-content";
+import { TERMS_UID } from "./api/quote-content/terms-projection";
+import { seedTerms } from "./seed-terms";
 import { seedForm } from "./seed-forms";
 import { PLAN_EXPANSION_KEY, planCountries, seedPlans } from "./seed-plans";
 
@@ -22,7 +25,11 @@ async function restrictPublicRole(strapi: Core.Strapi) {
       select: ["id", "action"],
       where: { role: publicRole.id },
     });
-    const expectedActions = [READ_FORM_ACTION, READ_PLANS_ACTION];
+    const expectedActions = [
+      READ_FORM_ACTION,
+      READ_PLANS_ACTION,
+      READ_TERMS_ACTION,
+    ];
     const retained = expectedActions.map((action) =>
       grants.find((grant) => grant.action === action),
     );
@@ -71,6 +78,24 @@ async function seedContent(strapi: Core.Strapi) {
     }
     await seedState.set({ key: PLAN_EXPANSION_KEY, value: expansion });
     await seedState.set({ key: "us02-seeded", value: true });
+  });
+
+  await strapi.db.transaction(async () => {
+    if (await seedState.get({ key: "us03-seeded" })) return;
+    const documents = strapi.documents(TERMS_UID);
+    for (const country of planCountries) {
+      const existing = await documents.findFirst({
+        status: "draft",
+        filters: { country },
+      });
+      if (!existing) {
+        await documents.create({
+          data: seedTerms(country),
+          status: "published",
+        });
+      }
+    }
+    await seedState.set({ key: "us03-seeded", value: true });
   });
 }
 

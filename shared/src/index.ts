@@ -521,3 +521,5 @@ export {
   type PlanCatalog,
   type PlanPrice,
 } from "./plans.ts";
+
+export { decodeTerms, MAX_TERMS_LENGTH, type Terms } from "./terms.ts";

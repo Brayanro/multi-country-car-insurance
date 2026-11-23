@@ -10,12 +10,15 @@ import {
   untracked,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { isCountry, type Country } from '@quote/contract';
 import { CountryPicker } from '../country-selection/country-picker';
 import { DetailsForm } from './details-form';
 import { PlanList } from './plan-list';
 import { PlanState } from './plan-state';
+import { QuoteConfirmation } from './quote-confirmation';
+import { QuoteSummary } from './quote-summary';
+import { QuotePayment } from './quote-payment';
 import { QuoteState } from './quote-state';
 import { WizardProgress } from './wizard-progress';
 
@@ -23,38 +26,31 @@ type QuoteRoute = { country: Country; step: 'details' | 'plans' | 'summary' };
 
 @Component({
   selector: 'app-quote-page',
-  imports: [WizardProgress, DetailsForm, PlanList, RouterLink, CountryPicker],
+  imports: [WizardProgress, DetailsForm, PlanList, QuoteSummary, QuoteConfirmation, CountryPicker],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (page(); as page) {
       <main id="main-content" tabindex="-1" class="wizard pb-16">
-        @let summary = summaryReady(page);
-        <app-wizard-progress [step]="page.step === 'details' ? 1 : summary ? 3 : 2" />
-        @if (page.step === 'details') {
+        @let receipt = payment.receipt(page.country);
+        @let plan = summaryPlan(page);
+        <app-wizard-progress [step]="receipt ? 4 : page.step === 'details' ? 1 : plan ? 3 : 2" />
+        @if (page.step === 'details' && !receipt) {
           <div class="step-heading mt-6 mb-3.5 lg:my-4 lg:text-center">
             <h1 tabindex="-1" id="screen-heading">Datos para cotizar</h1>
-            @if (store.state().phase === 'ready') {
-              <p class="mt-2 text-base text-secondary">
-                Usa datos ficticios del titular y del vehículo.
-              </p>
-            }
           </div>
         }
         @let state = store.state();
-        @if (state.phase === 'ready' && state.country === page.country) {
+        @if (receipt) {
+          <app-quote-confirmation
+            [receipt]="receipt"
+            [restartFailed]="restartFailed()"
+            (restart)="restartQuote(page.country)"
+          />
+        } @else if (state.phase === 'ready' && state.country === page.country) {
           @if (page.step === 'details') {
             <app-details-form [configuration]="state.form" (complete)="advance(page.country)" />
-          } @else if (summary) {
-            <section
-              class="status-panel mt-9 rounded-lg border border-divider bg-paper px-4 py-5 sm:px-6"
-            >
-              <h1 tabindex="-1" id="summary-heading">Resumen</h1>
-              <a
-                class="mt-2 inline-flex min-h-11 items-center font-bold text-link underline underline-offset-4"
-                [routerLink]="['/', page.country, 'quote', 'plans']"
-                >Volver a planes</a
-              >
-            </section>
+          } @else if (plan) {
+            <app-quote-summary [country]="page.country" [form]="state.form" [plan]="plan" />
           } @else if (store.canContinue(page.country)) {
             <app-plan-list [country]="page.country" (complete)="openSummary(page.country)" />
           }
@@ -97,16 +93,23 @@ export class QuotePage {
   protected readonly store = inject(QuoteState);
   protected readonly page = signal<QuoteRoute | null>(null);
   protected readonly invalid = signal(false);
+  protected readonly restartFailed = signal(false);
   private readonly plans = inject(PlanState);
+  protected readonly payment = inject(QuotePayment);
   private checkedRoute?: QuoteRoute;
   private recoverCatalogFor?: Country;
   private routeKey = '';
   private priorPhase: string | undefined;
 
   constructor() {
-    inject(DestroyRef).onDestroy(() => this.plans.leave());
+    inject(DestroyRef).onDestroy(() => {
+      this.plans.leave();
+      this.payment.leave();
+    });
     // The router reuses this component across quote routes.
     this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
+      this.payment.leave();
+      this.restartFailed.set(false);
       const rawCountry = params.get('country');
       const rawStep = params.get('step');
       const country =
@@ -121,6 +124,20 @@ export class QuotePage {
         this.store.leave();
         this.page.set(null);
         this.invalid.set(true);
+        return;
+      }
+      const receipt = this.payment.receipt(country);
+      if (receipt) {
+        this.payment.holdReceipt(country, receipt);
+        this.store.leave();
+        this.plans.leave();
+        this.invalid.set(false);
+        if (rawCountry !== country || rawStep !== 'summary') {
+          this.page.set(null);
+          void this.router.navigate(['/', country, 'quote', 'summary'], { replaceUrl: true });
+        } else {
+          this.page.set({ country, step: 'summary' });
+        }
         return;
       }
       if (rawCountry !== country || !validStep) {
@@ -140,7 +157,13 @@ export class QuotePage {
     effect(() => {
       const page = this.page();
       const state = this.store.state();
-      if (!page || state.phase === 'idle' || state.country !== page.country) return;
+      if (
+        !page ||
+        this.payment.receipt(page.country) ||
+        state.phase === 'idle' ||
+        state.country !== page.country
+      )
+        return;
       const key = `${page.country}/${page.step}`;
       const previous = key === this.routeKey ? this.priorPhase : undefined;
       this.routeKey = key;
@@ -160,6 +183,7 @@ export class QuotePage {
       if (
         !page ||
         page.step === 'details' ||
+        this.payment.receipt(page.country) ||
         form.phase !== 'ready' ||
         form.country !== page.country
       )
@@ -183,31 +207,53 @@ export class QuotePage {
 
     effect(() => {
       const page = this.page();
-      if (page && this.summaryReady(page)) this.focus('summary-heading');
+      if (page?.step === 'summary' && this.payment.receipt(page.country))
+        this.focus('receipt-heading');
     });
   }
 
+  protected restartQuote(country: Country) {
+    const page = this.page();
+    if (page?.country !== country || page.step !== 'summary' || !this.payment.receipt(country))
+      return;
+    if (!this.payment.restart(country)) {
+      this.restartFailed.set(true);
+      return;
+    }
+    this.restartFailed.set(false);
+    this.redirect(country, 'details');
+  }
+
   protected advance(country: Country) {
-    if (this.store.canContinue(country))
+    if (
+      this.page()?.country === country &&
+      !this.payment.receipt(country) &&
+      this.store.canContinue(country)
+    )
       void this.router.navigate(['/', country, 'quote', 'plans']);
   }
 
   protected openSummary(country: Country) {
-    if (this.store.canContinue(country) && this.plans.selected(country)) {
+    if (
+      this.page()?.country === country &&
+      !this.payment.receipt(country) &&
+      this.store.canContinue(country) &&
+      this.plans.selected(country)
+    ) {
       void this.router.navigate(['/', country, 'quote', 'summary']);
     }
   }
 
-  protected summaryReady(page: QuoteRoute) {
+  protected summaryPlan(page: QuoteRoute) {
     const view = this.plans.view();
-    return (
-      page.step === 'summary' &&
+    return page.step === 'summary' &&
       view.phase === 'ready' &&
       view.country === page.country &&
       view.checkedForSummary &&
       this.store.canContinue(page.country) &&
-      !!this.plans.selected(page.country)
-    );
+      !this.payment.receipt(page.country)
+      ? this.plans.selected(page.country)
+      : null;
   }
 
   private checkSummary(page: QuoteRoute) {
