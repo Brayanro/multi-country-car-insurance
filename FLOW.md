@@ -318,6 +318,15 @@ The project owner requested an audit against the approved US-01 architecture and
 ### Final compliance follow-up · US-03 masking specification approval
 
 - The owner explicitly approved the [masking correction specification](spec/US-03-identity-masking-correction.md) and requested an architecture assessment through its approval checkpoint. The orchestrator recorded the [approval and draft hash](docs/approvals/US-03-identity-masking-spec-approval.md), preserving the earlier US-03 decisions.
+- The orchestrator delegated one proposed ADR to `/root/mask_arch` (Architect, `gpt-6.2-sol` / `high` as configured). The prompt scoped the assessment to CMS masking invariants, receipt compatibility, preservation of the quote reference and terminal lock, and regression traceability. It directed the Architect to reuse the approved architecture and leave design and implementation for later checkpoints.
+
+- The Architect used `spec-driven-development`, `angular-developer`, and cached `modern-web-guidance` privacy guidance. The resulting [ADR-006 proposal](docs/adr/ADR-006-identity-document-masking.md) pairs the existing identity key with its purpose, defines conservative legacy draft reconciliation, and restores legacy receipts by reference while retaining their terminal lock. It proposes a versioned masked review for new receipts using the existing storage key and reset sequence. Repository evidence identifies the collaboration path. A native session ID and unedited export were not verified.
+- The orchestrator checked the approved specification hash, local ADR links, acceptance and regression test identifiers, and read-only Git status. Architecture approval is pending. Design and implementation have not begun.
+
+### Final compliance follow-up · US-03 masking architecture approval
+
+- The owner explicitly approved [ADR-006](docs/adr/ADR-006-identity-document-masking.md). The orchestrator recorded the [decision and reviewed proposal hash](docs/approvals/US-03-identity-masking-architecture-approval.md), verified that the ADR changed only in approval metadata, and closed the approval checkpoint. Design and implementation have not begun.
+
 ## Skill selection and controls
 
 The project-specific `story-to-spec` skill defines the insurance assessment source and specification format. Other installed skills are third-party workflow or technical guidance. Select skills by stage and task as listed in `AGENTS.md`. Conditional skills are loaded only when the work warrants them. Project instructions and assessment requirements take precedence over conflicting skill guidance. Skills do not bypass security restrictions or human approval checkpoints. Record skills actually used in execution evidence and keep this proposed flow distinct from completed work.

@@ -89,6 +89,6 @@ For an optional local development workflow without Compose, first run `pnpm --fi
 
 ## Requirements pending for project delivery
 
-- Identity-document masking depends on the Strapi field purpose. Keep `identityDocument` on the document-number field in each country. Removing the purpose can expose the full entered value in Summary and in a newly created receipt. Use fictitious values for evaluation. The [correction proposal](spec/US-03-identity-masking-correction.md) has specification approval. The correction remains pending architecture and implementation.
+- Identity-document masking depends on the Strapi field purpose. Keep `identityDocument` on the document-number field in each country. Removing the purpose can expose the full entered value in Summary and in a newly created receipt. Use fictitious values for evaluation. The [correction proposal](spec/US-03-identity-masking-correction.md) has specification approval. [ADR-006](docs/adr/ADR-006-identity-document-masking.md) has human architecture approval. The correction remains pending implementation.
 
 Native screen-reader and operating-system high-contrast verification remain open. Browser checks covered keyboard navigation, accessibility status text and mobile reflow. Original agent activity is preserved in Codex. A safe, unedited repository export remains pending.
