@@ -251,6 +251,17 @@ The project owner requested an audit against the approved US-01 architecture and
 
 - The project owner wrote “approve the adr-005” in response to the proposed terminal quote amendment. The orchestrator recorded the [amendment approval](docs/approvals/US-03-terminal-quote-architecture-approval.md) and its proposal hash. The original ADR-005 approval remains in the history. The workflow stopped at the completed architecture checkpoint.
 
+### 2026-11-22 · US-03 terminal quote design proposal
+
+- The project owner authorized the terminal quote UI/UX revision through human design approval. The orchestrator resumed `/root/us03_design` (`gpt-6.2-sol` / `high`) with the approved specification revision, ADR-005 amendment and existing US-03 design.
+- The Architect used `spec-driven-development`, `angular-developer`, `frontend-ui-engineering`, `accessibility` and cached `modern-web-guidance`. The [companion design](docs/design/US-03-terminal-quote-revision.md) and three scoped wireframes cover the read-only receipt, restart, route and focus handling, and legacy and failure states. The existing rejection interaction remains applicable.
+- The Architect rendered the three SVGs with bundled Node and Sharp and checked the original design hashes. The orchestrator visually inspected the rendered frames and verified links, SVG accessible names and the four revised acceptance criteria. `git diff --check` passed. Runtime verification is deferred. The original activity remains in Codex under the collaboration path.
+- The terminal quote design awaits explicit human approval. The workflow stopped before implementation.
+
+### 2026-11-22 · US-03 terminal quote design approved
+
+- The project owner explicitly approved the terminal quote UI/UX revision and its desktop, mobile and notice-state wireframes. The orchestrator recorded the [design approval](docs/approvals/US-03-terminal-quote-design-approval.md), verified the approved artifact hashes, and used `git-workflow-and-versioning` to isolate the authorized design commit. The workflow stopped at the completed design checkpoint.
+
 ## Skill selection and controls
 
 The project-specific `story-to-spec` skill defines the insurance assessment source and specification format. Other installed skills are third-party workflow or technical guidance. Select skills by stage and task as listed in `AGENTS.md`. Conditional skills are loaded only when the work warrants them. Project instructions and assessment requirements take precedence over conflicting skill guidance. Skills do not bypass security restrictions or human approval checkpoints. Record skills actually used in execution evidence and keep this proposed flow distinct from completed work.

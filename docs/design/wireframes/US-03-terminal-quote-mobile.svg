@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="1044" viewBox="0 0 390 1044" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">US-03 terminal quote — mobile</title>
+<desc id="desc">A completed receipt shows an approval heading and opaque reference, then captured Details with a masked document, selected plan and final price. The only quote action starts a new quote.</desc>
+<rect x="0" y="0" width="390" height="1044" rx="0" fill="#F5F7FC" stroke="none"/>
+<g xml:lang="es">
+<rect x="0" y="0" width="390" height="64" rx="0" fill="#FFFFFF" stroke="none"/>
+<path d="M0 64h390" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M31 19l10 4v7q0 9-10 14q-10-5-10-14v-7Z" stroke="#1748AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M26 31l4 4l7-8" stroke="#1748AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="52" y="40" fill="#15243B" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="start">Seguro de auto</text>
+<circle cx="73" cy="93" r="11" fill="#1748AF" stroke="none"/>
+<path d="M69 93l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="91" y="98" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Datos</text>
+<circle cx="178" cy="93" r="11" fill="#1748AF" stroke="none"/>
+<path d="M174 93l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="196" y="98" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Plan</text>
+<circle cx="275" cy="93" r="11" fill="#1748AF" stroke="none"/>
+<path d="M271 93l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="293" y="98" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Resumen</text>
+<path d="M20 122h350" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="20" y="148" width="350" height="192" rx="10" fill="#FFFFFF" stroke="#CCD8EE"/>
+<circle cx="195.0" cy="183" r="19" fill="#E8F5EC" stroke="#1F5B39"/>
+<path d="M187.0 183l6 6l10-11" stroke="#1F5B39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="195.0" y="236" fill="#15243B" font-family="Georgia, serif" font-size="32" font-weight="400" text-anchor="middle">Pago aprobado</text>
+<rect x="40" y="256" width="310" height="68" rx="8" fill="#EAF0FF" stroke="none"/>
+<text x="195.0" y="281" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">Número de cotización</text>
+<text x="195.0" y="310" fill="#1748AF" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="middle">DEMO-0073</text>
+<rect x="20" y="360" width="350" height="331" rx="8" fill="#FFFFFF" stroke="#CCD8EE"/>
+<text x="40" y="396" fill="#15243B" font-family="Georgia, serif" font-size="22" font-weight="400" text-anchor="start">Titular y vehículo</text>
+<path d="M40 414h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="440" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Nombre del titular</text>
+<text x="350" y="440" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">Persona Demo</text>
+<path d="M40 456h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="482" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">RUT</text>
+<text x="350" y="482" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">••.•••.042-K</text>
+<path d="M40 498h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="524" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Fecha de nacimiento</text>
+<text x="350" y="524" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">16/04/1992</text>
+<path d="M40 540h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="566" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Patente</text>
+<text x="350" y="566" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">DEMO42</text>
+<path d="M40 582h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="608" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Año del vehículo</text>
+<text x="350" y="608" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">2021</text>
+<path d="M40 624h310" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="40" y="650" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Marca</text>
+<text x="350" y="650" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="end">Ejemplo Motor</text>
+<rect x="20" y="711" width="350" height="166" rx="8" fill="#EAF0FF" stroke="none"/>
+<text x="40" y="741" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Plan elegido</text>
+<text x="40" y="777" fill="#15243B" font-family="Georgia, serif" font-size="28" font-weight="400" text-anchor="start">Esencial</text>
+<text x="40" y="812" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Precio final</text>
+<text x="40" y="850" fill="#1748AF" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="start">CLP 24.900</text>
+<rect x="20" y="897" width="350" height="48" rx="6" fill="#2E6DF6" stroke="none"/>
+<text x="195.0" y="926.0" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Iniciar una nueva cotización</text>
+</g>
+</svg>

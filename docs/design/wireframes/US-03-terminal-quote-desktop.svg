@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="918" viewBox="0 0 1200 918" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">US-03 terminal quote — desktop</title>
+<desc id="desc">A completed receipt shows an approval heading and opaque reference, then captured Details with a masked document, selected plan and final price. The only quote action starts a new quote.</desc>
+<rect x="0" y="0" width="1200" height="918" rx="0" fill="#F5F7FC" stroke="none"/>
+<g xml:lang="es">
+<rect x="0" y="0" width="1200" height="76" rx="0" fill="#FFFFFF" stroke="none"/>
+<path d="M0 76h1200" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M69 25l10 4v7q0 9-10 14q-10-5-10-14v-7Z" stroke="#1748AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M64 37l4 4l7-8" stroke="#1748AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="90" y="46" fill="#15243B" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="start">Seguro de auto</text>
+<circle cx="425" cy="105" r="11" fill="#1748AF" stroke="none"/>
+<path d="M421 105l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="443" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Datos</text>
+<circle cx="555" cy="105" r="11" fill="#1748AF" stroke="none"/>
+<path d="M551 105l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="573" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Plan</text>
+<circle cx="679" cy="105" r="11" fill="#1748AF" stroke="none"/>
+<path d="M675 105l3 3l5-6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="697" y="110" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Resumen</text>
+<path d="M136 134h928" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="296" y="172" width="608" height="218" rx="10" fill="#FFFFFF" stroke="#CCD8EE"/>
+<circle cx="600.0" cy="216" r="19" fill="#E8F5EC" stroke="#1F5B39"/>
+<path d="M592.0 216l6 6l10-11" stroke="#1F5B39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="600.0" y="277" fill="#15243B" font-family="Georgia, serif" font-size="48" font-weight="400" text-anchor="middle">Pago aprobado</text>
+<rect x="328" y="297" width="544" height="76" rx="8" fill="#EAF0FF" stroke="none"/>
+<text x="600.0" y="322" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">Número de cotización</text>
+<text x="600.0" y="355" fill="#1748AF" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="middle">DEMO-0042</text>
+<rect x="136" y="422" width="556" height="373" rx="8" fill="#FFFFFF" stroke="#CCD8EE"/>
+<text x="156" y="458" fill="#15243B" font-family="Georgia, serif" font-size="28" font-weight="400" text-anchor="start">Titular y vehículo</text>
+<path d="M156 476h516" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="502" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Nombre del titular</text>
+<text x="388" y="502" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Persona Demo</text>
+<path d="M156 518h516" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="544" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Tipo de documento</text>
+<text x="388" y="544" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Cédula de ciudadanía</text>
+<path d="M156 560h516" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="586" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Número de documento</text>
+<text x="388" y="586" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">••••0042</text>
+<path d="M156 602h516" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="628" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Fecha de nacimiento</text>
+<text x="388" y="628" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">16/04/1992</text>
+<path d="M156 644h516" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="670" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Placa</text>
+<text x="388" y="670" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">DEM042</text>
+<path d="M156 686h516" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="712" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Año del vehículo</text>
+<text x="388" y="712" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">2021</text>
+<path d="M156 728h516" stroke="#CCD8EE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="156" y="754" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">Marca</text>
+<text x="388" y="754" fill="#15243B" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">Ejemplo Motor</text>
+<rect x="724" y="422" width="340" height="166" rx="8" fill="#EAF0FF" stroke="none"/>
+<text x="744" y="452" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Plan elegido</text>
+<text x="744" y="488" fill="#15243B" font-family="Georgia, serif" font-size="28" font-weight="400" text-anchor="start">Esencial</text>
+<text x="744" y="523" fill="#405575" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start">Precio final</text>
+<text x="744" y="561" fill="#1748AF" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="start">COP 129.900,50</text>
+<rect x="462" y="823" width="276" height="48" rx="6" fill="#2E6DF6" stroke="none"/>
+<text x="600.0" y="852.0" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Iniciar una nueva cotización</text>
+</g>
+</svg>

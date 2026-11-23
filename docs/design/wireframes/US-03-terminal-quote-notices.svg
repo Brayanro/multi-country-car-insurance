@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="564" viewBox="0 0 1200 564" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">US-03 terminal receipt notices</title>
+<desc id="desc">Three in-place excerpts show the legacy receipt notice, the warning below a memory-only receipt reference, and a restart failure with the retry action retained.</desc>
+<rect x="0" y="0" width="1200" height="564" rx="0" fill="#F5F7FC" stroke="none"/>
+<text x="40" y="61" fill="#15243B" font-family="Georgia, serif" font-size="38" font-weight="400" text-anchor="start">Receipt and restart notices</text>
+<text x="40" y="95" fill="#344763" font-family="Arial, sans-serif" font-size="16" font-weight="400" text-anchor="start">Compact excerpts showing where each notice appears in confirmation.</text>
+<text x="40" y="152" fill="#15243B" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="start">Legacy receipt</text>
+<rect x="40" y="170" width="360" height="355" rx="10" fill="#FFFFFF" stroke="#CCD8EE"/>
+<g xml:lang="es">
+<circle cx="220" cy="213" r="17" fill="#E8F5EC" stroke="#1F5B39"/>
+<path d="M213 213l5 5l9-10" stroke="#1F5B39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="220" y="261" fill="#15243B" font-family="Georgia, serif" font-size="30" font-weight="400" text-anchor="middle">Pago aprobado</text>
+<rect x="56" y="282" width="328" height="73" rx="8" fill="#EAF0FF" stroke="none"/>
+<text x="220" y="307" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">Número de cotización</text>
+<text x="220" y="337" fill="#1748AF" font-family="Arial, sans-serif" font-size="26" font-weight="700" text-anchor="middle">DEMO-0073</text>
+<text x="56" y="390" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">El detalle de esta cotización no está</text>
+<text x="56" y="414" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">disponible.</text>
+<rect x="56" y="446" width="328" height="48" rx="6" fill="#2E6DF6" stroke="none"/>
+<text x="220.0" y="475.0" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Iniciar una nueva cotización</text>
+</g>
+<text x="420" y="152" fill="#15243B" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="start">Reload recovery unavailable</text>
+<rect x="420" y="170" width="360" height="355" rx="10" fill="#FFFFFF" stroke="#CCD8EE"/>
+<g xml:lang="es">
+<circle cx="600" cy="213" r="17" fill="#E8F5EC" stroke="#1F5B39"/>
+<path d="M593 213l5 5l9-10" stroke="#1F5B39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<text x="600" y="261" fill="#15243B" font-family="Georgia, serif" font-size="30" font-weight="400" text-anchor="middle">Pago aprobado</text>
+<rect x="436" y="282" width="328" height="73" rx="8" fill="#EAF0FF" stroke="none"/>
+<text x="600" y="307" fill="#1748AF" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">Número de cotización</text>
+<text x="600" y="337" fill="#1748AF" font-family="Arial, sans-serif" font-size="26" font-weight="700" text-anchor="middle">DEMO-0073</text>
+<rect x="436" y="376" width="328" height="68" rx="6" fill="#F5F7FC" stroke="none"/>
+<text x="448" y="401" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">Si recargas la página, es posible que</text>
+<text x="448" y="425" fill="#344763" font-family="Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">no puedas recuperar esta cotización.</text>
+</g>
+<text x="800" y="152" fill="#15243B" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="start">Restart failed</text>
+<rect x="800" y="170" width="360" height="355" rx="10" fill="#FFFFFF" stroke="#CCD8EE"/>
+<g xml:lang="es">
+<rect x="816" y="278" width="328" height="76" rx="6" fill="#FFF2EF" stroke="none"/>
+<text x="828" y="307" fill="#9E2F26" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">No pudimos iniciar una nueva</text>
+<text x="828" y="331" fill="#9E2F26" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start">cotización. Inténtalo de nuevo.</text>
+<rect x="812" y="370" width="336" height="56" rx="8" fill="#FFFFFF" stroke="#1746B4"/>
+<rect x="816" y="374" width="328" height="48" rx="6" fill="#2E6DF6" stroke="none"/>
+<text x="980.0" y="403.0" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">Iniciar una nueva cotización</text>
+</g>
+</svg>
