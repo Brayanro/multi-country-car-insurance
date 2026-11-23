@@ -40,9 +40,9 @@ flowchart TD
 | 4. Approve ADR | Resolve consequential trade-offs | No | Human | `docs/approvals/` decision record | Return to architect on rejection |
 | 4a. Design the experience, when requested | Translate the approved specification and ADRs into reusable UI guidance and observable interactions | Yes | architect and applicable interface, accessibility, and web design skills | `docs/design/` proposal and wireframes | Return design feedback to architect |
 | 4b. Approve design | Review layouts, components, states, and interactions before implementation | No | Human | `docs/approvals/` decision record | Wait for explicit design approval |
-| 5. Implement story | Build a constrained increment | Yes | developer; `gpt-6.2-sol` / `medium`; `angular-developer`, `frontend-ui-engineering`, `test-driven-development`; conditional skills per `AGENTS.md` | `frontend/`, `backend/` and tests | Review scope and functional behavior |
+| 5. Implement story | Build a constrained increment | Yes | developer; `gpt-6.2-sol` / `low`; `angular-developer`, `frontend-ui-engineering`, `test-driven-development`; conditional skills per `AGENTS.md` | `frontend/`, `backend/` and tests | Review scope and functional behavior |
 | 6. Test | Verify story scope and applicable criteria | Yes | qa; `gpt-6-luna` / `xhigh`; `test-driven-development`; conditional skills per `AGENTS.md` | Tests and `reports/qa/US-XX-qa-report.md` | Record dependent flow-level checks as deferred until prerequisites exist |
-| 7. Review | Independent defect/security analysis | Yes | reviewer; `gpt-6.2-sol` / `medium`; `code-review-and-quality`; conditional skills per `AGENTS.md` | `reviews/US-XX-review.md` | Findings return to developer; QA and Reviewer re-verify |
+| 7. Review | Independent defect/security analysis | Yes | reviewer; `gpt-6-luna` / `high`; `code-review-and-quality`; conditional skills per `AGENTS.md` | `reviews/US-XX-review.md` | Findings return to developer; QA and Reviewer re-verify |
 | 8. Final approval and QA handoff | Confirm Definition of Done, traceability, and evidence | No | Human | Approval record + traceability references | Do not advance without explicit approval |
 
 ## Actual execution log
@@ -367,17 +367,17 @@ Use English Conventional Commit messages in `<type>(<optional-scope>): <descript
 
 Keep the configured model and effort assignments from `docs/agent-model-policy.md`. Choose the least number of agents and skills needed for a task. Avoid loading all skills or invoking agents without a concrete independent responsibility. The project targets a ChatGPT Plus subscription, so use focused prompts, narrow source reads, sequential checkpoints, and only the context needed for each stage. Do not claim a subscription allowance, cost, or usage outcome that has not been verified.
 
-## Required retrospective (complete with authentic experience)
-
 ## Traceability and verification levels
 
 Maintain `User Story → spec/US-XX.md → applicable approved ADRs → approved design (when requested) → implementation → stable test case IDs → reports/qa/US-XX-qa-report.md → reviews/US-XX-review.md → finding resolution evidence → human approval`. Reference repository paths and actual evidence. Reuse approved ADRs when they cover the story. Story reports cover the current story only. Complete quote-flow and cross-country verification are project-level checks before final delivery, not prerequisites for each story when later stories are pending.
 
+## Retrospective
+
 ### How would this flow change for a five-developer team?
-To be completed after applying the process. Consider ownership boundaries, review queues, parallel safe tasks, and shared quality gates.
+Assign a human owner to each story and a maintainer to the shared form, plan, and terms contracts. Run independent work in parallel once its spec and ADRs are approved. For example, QA can prepare country fixtures while implementation proceeds, while changes to shared contracts need coordinated review before dependent work lands. Use a shared review queue and automated unit, CMS integration, and two-country browser checks so every reviewer sees the same evidence before handoff.
 
 ### What did not work as expected, and what changed?
-To be completed using actual incidents only. Never invent a process failure.
+US-01 independent QA hit a model usage limit before the report was ready. The owner chose to retry the original QA agent using existing evidence, and that agent resumed without a model substitution. In US-03, the Angular development server returned its SPA fallback for API requests expected to return 404. QA moved the full browser suite to the static Compose deployment, where the route assertions passed. These incidents showed where to retain verified partial results and where to run checks against the delivery environment.
 
 ### Where did we deliberately avoid using AI, and why?
-To be completed using actual human checkpoints and decisions.
+The owner made the specification, architecture, design, and final acceptance decisions. For example, the owner requested removal of the wizard header country controls and accepted the terminal quote revision after manual verification. The owner also authorized Git operations separately. These decisions established business intent, accepted implementation trade-offs, and controlled repository changes. Agents prepared and verified the supporting artifacts.

@@ -1,22 +1,27 @@
 # Agent Model Selection Policy
 
-## Planned assignments — ChatGPT Plus
+## Current role defaults — ChatGPT Plus
 
 | Agent | Model ID | Reasoning effort | Rationale |
 | --- | --- | --- | --- |
 | `analyst` | `gpt-6-luna` | `xhigh` (Extra High) | Carefully extract and organize acceptance criteria and unresolved requirements from the assessment source; human verifies completeness. |
 | `architect` | `gpt-6.2-sol` | `high` | Evaluate multi-country architecture, API contracts, security and realistic trade-offs. |
-| `developer` | `gpt-6.2-sol` | `medium` | Implement focused Angular and Strapi changes while keeping routine work efficient. |
-| `reviewer` | `gpt-6.2-sol` | `medium` | Review bounded diffs for defects, security, accessibility and traceability; escalate difficult reviews if necessary. |
+| `developer` | `gpt-6.2-sol` | `low` | Implement focused Angular and Strapi changes while keeping routine work efficient. |
+| `reviewer` | `gpt-6-luna` | `high` | Review bounded diffs for defects, security, accessibility and traceability; escalate difficult reviews if necessary. |
 | `qa` | `gpt-6-luna` | `xhigh` (Extra High) | Derive extensive acceptance-driven test cases and failure scenarios; confirm executable tests really run. |
 
-## Decision record
+## Original decision and subsequent configuration
 
 - **Date:** 2026-11-21.
 - **Decision maker:** Project owner.
 - **Reason:** Optimize the included Codex usage on a ChatGPT Plus plan while retaining higher effort for requirements analysis and test-case reasoning.
-- **Previous policy:** Analyst Sol/medium; Architect Astra/high; Developer Sol/medium; Reviewer Astra/high; QA Sol/high.
-- **Trade-off:** Luna is efficient for focused extraction and structured tasks but may be less reliable at complex implementation or debugging; keep human approval, real automated tests, and explicit escalation when analysis or QA execution exceeds the role's strengths. Reviewer medium is suitable for scoped diffs, but security-critical reviews may need additional human scrutiny or a separately approved higher-effort pass.
+- **Assignments approved on 2026-11-21:** Analyst Luna/xhigh, Architect Sol/high, Developer Sol/medium, Reviewer Sol/medium, and QA Luna/xhigh.
+- **Policy before that decision:** Analyst Sol/medium; Architect Astra/high; Developer Sol/medium; Reviewer Astra/high; QA Sol/high.
+- **Trade-off:** Luna is efficient for focused extraction and structured tasks but may be less reliable at complex implementation or debugging; keep human approval, real automated tests, and explicit escalation when analysis or QA execution exceeds the role's strengths. Earlier runs used Developer Sol/medium and Reviewer Sol/medium. The current defaults match the versioned role TOMLs and the later US-03 terminal revision entries in `FLOW.md`. Each run keeps its recorded model and effort.
+
+## Tool choice
+
+Codex Desktop supports versioned role definitions and project skills in the same workspace as the implementation. Delegated activity stays visible to the orchestrator while the owner retains control over approvals and Git operations. The workflow uses approved specs as the implementation baseline because the assessment leaves business rules and content contracts open to clarification. Original session export remains a delivery limitation. See [session evidence guidance](../logs/README.md).
 
 ## Operational notes
 

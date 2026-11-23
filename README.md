@@ -66,6 +66,8 @@ pnpm build
 pnpm test:content
 ```
 
+On the audited macOS arm64 host, the default-cache Angular build aborted in the native LMDB addon. Use `CI=1 pnpm build` if the same failure occurs. The documented Compose path passed independently.
+
 The content test starts an isolated local Strapi fixture and verifies that published revisions are served while drafts stay private.
 
 With the Compose app listening on port 8080, install Playwright's Chromium browser once and run browser tests.
@@ -89,4 +91,6 @@ For an optional local development workflow without Compose, first run `pnpm --fi
 
 ## Requirements pending for project delivery
 
-Native screen-reader and operating-system high-contrast verification remain open. Browser checks covered keyboard navigation, accessibility status text and mobile reflow. Original agent activity is preserved in Codex. A safe, unedited repository export remains pending.
+- Native screen-reader and operating-system high-contrast verification remain open. Browser checks covered keyboard navigation, accessibility status text, and mobile reflow.
+- The original agent activity is preserved in Codex. Safe, unedited copies for the repository remain pending. See [session evidence guidance](logs/README.md).
+- Evaluator access remains unverified. Share the final Git repository with the assessment sender and confirm that they can open it.
