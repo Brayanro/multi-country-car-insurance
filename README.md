@@ -89,8 +89,8 @@ For an optional local development workflow without Compose, first run `pnpm --fi
 - The [US-03 QA report](reports/qa/US-03-qa-report.md) and [independent review](reviews/US-03-review.md) record verification of both complete country flows and the resolution of the US-02 handoff regression assertion.
 - The [terminal quote final approval](docs/approvals/US-03-terminal-quote-final-approval.md) records human acceptance after manual verification.
 
-## Requirements pending for project delivery
+## Final delivery status
 
-- Native screen-reader and operating-system high-contrast verification remain open. Browser checks covered keyboard navigation, accessibility status text, and mobile reflow.
-- The project owner personally reviewed the original Codex session exports and approved their publication. Git commit `cd9eb241647bc628665ca99b1c1c7b351e04a9f5` contains the original 71 JSONL files. On 2026-11-23, the owner separately reviewed and explicitly approved publication of eight later session exports; the decision is recorded in [`docs/approvals/session-evidence-publication-approval.md`](docs/approvals/session-evidence-publication-approval.md). The updated [`logs/README.md`](logs/README.md) indexes 79 originals and distinguishes project sessions from auxiliary captures and exclusions.
-- Evaluator access remains pending independent confirmation that the assessment sender can open the final Git repository.
+- **Native accessibility checks — Unverified.** Native screen-reader and operating-system high-contrast checks remain unverified. Browser checks covered keyboard navigation, accessibility status text, and mobile reflow.
+- **Original agent-session exports — Completed.** The project owner personally reviewed the original Codex session exports and approved their publication. Git commit `cd9eb241647bc628665ca99b1c1c7b351e04a9f5` contains the original 71 JSONL files. On 2026-11-23, the owner separately reviewed and explicitly approved publication of eight later session exports; the decision is recorded in [`docs/approvals/session-evidence-publication-approval.md`](docs/approvals/session-evidence-publication-approval.md). The updated [`logs/README.md`](logs/README.md) indexes 79 originals and distinguishes project sessions from auxiliary captures and exclusions.
+- **Evaluator repository access — Completed.** The project owner confirmed that repository sharing is complete.
