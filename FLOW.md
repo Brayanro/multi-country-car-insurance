@@ -235,6 +235,33 @@ The project owner requested an audit against the approved US-01 architecture and
 
 - The project owner wrote “approve the design” after reviewing the revised Summary and confirmation wireframes. The orchestrator recorded the [design approval](docs/approvals/US-03-design-approval.md) and captured the design document and five wireframe hashes. The workflow stopped at the completed design checkpoint.
 
+### 2026-11-22 · US-03 implementation and independent QA intake
+
+- The project owner authorized implementation through independent QA, review and final human approval. The orchestrator invoked `/root/us03_dev` (`gpt-6.2-sol` / `low`) to implement the approved specification, ADR-005 and design using TDD and the existing Angular and Strapi boundaries.
+- The Developer reported red checks for the missing terms decoder and Summary request before adding the shared terms contract, published Strapi read and seed, and Angular review and simulation. The Developer reported green scoped builds and two passing live Strapi content tests on an isolated fixture. The orchestrator reran `CI=1 pnpm test` on the current tree and observed 15 shared and 13 Angular tests pass. `pnpm lint` and `git diff --check` passed.
+- The orchestrator invoked independent QA at `/root/us03_qa` (`gpt-6-luna` / `xhigh`) for real-browser coverage of the complete wizard in both countries, including rejection, retry and receipt restoration. Both specialist sessions hit a usage limit during the initial window. The orchestrator resumed the same QA role after the reported retry time. Original specialist activity remains in Codex under the collaboration paths.
+
+- Independent QA added five Playwright cases and recorded the results in the [US-03 QA report](reports/qa/US-03-qa-report.md). The first broader Chrome run used the Angular dev server and exposed two dev-server fallback differences and a stale US-02 heading assertion, US03-QA-01. The orchestrator resumed the same Developer, who updated the handoff test to exercise the approved Summary. The orchestrator built and started `us03-static-qa` on loopback port 18083 with a fresh Compose volume. Both services became healthy. QA reran the full Chrome suite against Nginx and verified 22/22 tests, resolving US03-QA-01. The complete Colombia and Chile flows exercised rejection, retry with state retained, success and same-receipt reload.
+- The orchestrator delegated independent review to `/root/us03_review` (`gpt-6-luna` / `high`) using the approved artifacts, current changes and the QA report.
+
+### 2026-11-22 · US-03 final human approval checkpoint
+
+- The Developer used `test-driven-development`, `angular-developer`, `frontend-ui-engineering` and cached `modern-web-guidance` on forms and accessibility. The QA agent used `test-driven-development` and `angular-developer`, verified the stale assertion correction and confirmed two live Strapi integration tests in addition to the complete static-host browser suite.
+- The Reviewer used `code-review-and-quality`, reviewed the implementation and evidence, confirmed the resolution of US03-QA-01, and recommended approval with no code findings in the [US-03 independent review](reviews/US-03-review.md). No production correction or subsequent re-review was required.
+- Both full country flows are verified. Native screen-reader and operating-system high-contrast verification remain open for project delivery. The original activity remains in Codex under the recorded collaboration paths. A safe, unedited repository export has not been verified. US-03 is presented for explicit final human approval, with QA handoff pending.
+
+### 2026-11-22 · US-03 local evaluation stack
+
+- The project owner reported that the default local app and Strapi still showed the previous version. The earlier QA build ran in the separate `us03-static-qa` Compose project with a fresh volume. The orchestrator rebuilt the default web and CMS with `docker compose up -d --build --wait`, retaining the existing `multi-country-car-insurance_strapi-content` volume. Both services became healthy. A localhost check confirmed the US-03 bundle, HTTP 200 and a published Terms response for each country through Nginx, and HTTP 200 from the Strapi admin page. Final human approval remains pending.
+- The project owner then reported seeing the old Summary placeholder until refreshing. The current Angular source no longer contains the placeholder. The orchestrator ran the existing two country browser flows against the default Compose stack at port 8080. Both passed and reached the new Summary through Plans without a reload. The reported behavior is consistent with a tab still running the bundle loaded before the rebuild.
+
+### 2026-11-22 · US-03 copy revision and re-verification
+
+- The project owner requested removal of the specified fictitious-data, demo and retry copy and asked to rename the Summary action to **Pagar**. The orchestrator resumed `/root/us03_dev` for the text changes and matching test updates. The revised **Resultado de prueba** legend preserves the approved demo context. The Developer reported a focused Angular red run against the previous copy and a green run with 15 shared and 13 Angular tests, lint, format and whitespace checks.
+- The existing local Strapi volume already contained the document hint in four matching draft and published components. The orchestrator backed up the SQLite database, cleared the exact matching help text in one transaction and rebuilt the default Compose services. Both published form endpoints confirmed empty document help. The fresh seed also omits the hint.
+- The orchestrator resumed `/root/us03_qa` for independent browser re-verification. The initial local run exposed an edited Colombia brand list, and QA updated its helper to choose a configured brand. All five targeted Chrome cases passed on the rebuilt default stack, including both countries and the exact copy assertions. The original [QA report](reports/qa/US-03-qa-report.md) preserves the evidence. The orchestrator resumed `/root/us03_review` for focused re-review.
+- The Reviewer recorded no new findings in the [original review](reviews/US-03-review.md). Final human approval remains pending.
+
 ### 2026-11-22 · US-03 terminal quote revision checkpoint
 
 - The project owner proposed locking completed quotes across wizard routes, retaining a read-only completed review, and letting users restart in the same country. The orchestrator used `spec-driven-development` and compared the request with AC-US03-07, ADR-005 and the approved confirmation design. The read-only review requires expanding the approved minimal receipt, and the restart action requires extending the approved specification and design. The existing reset boundary and country isolation remain applicable.
@@ -261,6 +288,26 @@ The project owner requested an audit against the approved US-01 architecture and
 ### 2026-11-22 · US-03 terminal quote design approved
 
 - The project owner explicitly approved the terminal quote UI/UX revision and its desktop, mobile and notice-state wireframes. The orchestrator recorded the [design approval](docs/approvals/US-03-terminal-quote-design-approval.md), verified the approved artifact hashes, and used `git-workflow-and-versioning` to isolate the authorized design commit. The workflow stopped at the completed design checkpoint.
+
+### 2026-11-22 · US-03 terminal quote implementation intake
+
+- The project owner authorized the approved terminal quote revision through implementation, independent QA, review and final human approval. The orchestrator verified the specification, ADR amendment and design approval records. The worktree already contained the earlier US-03 implementation and copy changes. The index was empty.
+- The orchestrator resumed `/root/us03_dev` (`gpt-6.2-sol` / `low`) to implement the approved terminal route guard, frozen masked receipt, legacy compatibility and same-country reset using TDD. The assignment preserved the existing rejected-payment path and pre-existing worktree edits.
+- The Developer used `test-driven-development`, `angular-developer`, `frontend-ui-engineering` and cached `modern-web-guidance` on focus. The focused pre-change Angular run failed two cases for the missing version 2 receipt and terminal route guard. Reset fault tests also exposed lost focus on a failed reset. The Developer corrected it and verified the Angular production build. The orchestrator reran `CI=1 pnpm test` and observed 15 shared and 21 Angular tests pass. Lint, formatting and whitespace checks passed.
+- The orchestrator built and started isolated production Compose project `us03-terminal-qa` on loopback port 18084 with a fresh volume, then refreshed the web image for the final Developer correction. Both services passed Compose startup checks. The orchestrator resumed independent QA at `/root/us03_qa` (`gpt-6-luna` / `xhigh`) for both-country terminal navigation, snapshot, restart, legacy and rejected-payment regression tests.
+- QA added five focused cases in `e2e/us03-terminal-qa.spec.ts`. The first run exposed a test assertion mismatch between multiline text and Playwright's normalization. QA corrected the assertion, passed all five focused cases, then passed 27/27 Chrome cases across the full wizard suite. The [original QA report](reports/qa/US-03-qa-report.md) records the revision and evidence. The orchestrator resumed `/root/us03_review` (`gpt-6-luna` / `high`) for independent review against the approved artifacts and QA evidence.
+
+### 2026-11-22 · US-03 terminal quote final human approval checkpoint
+
+- Independent QA used `test-driven-development` and `angular-developer`. A strengthened reset assertion was updated to check the selected placeholder label because Angular encodes a null option value in the DOM. The final full Chrome rerun passed 27/27. It includes both countries' terminal navigation and immutable review, storage failure and restart, legacy receipt reset, and rejected-payment editing and retry. Test assertion history remains in the original QA report.
+- The Reviewer used `code-review-and-quality` and appended the [terminal quote re-review](reviews/US-03-review.md) with no new findings. Native screen-reader and operating-system high-contrast checks remain open at project level. Original specialist activity remains in Codex under the collaboration paths. A safe, unedited repository export was not verified.
+- The implemented revision is presented for explicit final human approval. QA handoff remains pending. The default Compose stack was not rebuilt during this revision.
+- At the project owner's request, the orchestrator later ran `docker compose up -d --build --wait` for local evaluation. Both default services were running, the terminal quote UI was present, and the published terms endpoints responded for both countries. The default Strapi volume was retained. The isolated `us03-terminal-qa` project was removed with its containers, images, network and volume. Final human approval remains pending.
+
+### 2026-11-22 · US-03 terminal quote final approval and handoff
+
+- The project owner explicitly approved the terminal quote revision after manual verification. The orchestrator recorded the [final human approval](docs/approvals/US-03-terminal-quote-final-approval.md) and closed the checkpoint. The QA report and independent review preserve the verification and finding history.
+- The project owner separately authorized two commits. The orchestrator used `git-workflow-and-versioning` to group the terminal implementation and its previously uncommitted US-03 dependencies with their regression tests, and to group QA, review, workflow and final approval evidence in a separate documentation commit.
 
 ## Skill selection and controls
 
