@@ -243,6 +243,13 @@ The project owner requested an audit against the approved US-01 architecture and
 ### 2026-11-22 · US-03 terminal quote specification revision approved
 
 - The project owner explicitly approved the terminal quote specification revision and authorized architecture assessment. The orchestrator recorded the [specification revision approval](docs/approvals/US-03-terminal-quote-spec-approval.md) and preserved the original specification and its approval record.
+- The orchestrator resumed `/root/us03_architect` (`gpt-6.2-sol` / `high`) to assess a targeted ADR-005 amendment covering terminal routes, immutable masked snapshots, older receipts and reset failure handling.
+- The Architect used `spec-driven-development`, `angular-developer` and bundled `modern-web-guidance` for plain-text rendering, and consulted official Angular and Web Storage references. The [proposed ADR-005 amendment](docs/adr/ADR-005-amendment-terminal-quote.md) reuses the existing receipt key, adds a versioned masked review and defines a country-scoped reset with one durable commit point. The Architect checked the storage bound, relative links and coverage of the four revised acceptance criteria. The orchestrator reproduced the approved specification revision hash and checked proposal status and whitespace. The original activity remains in Codex under the collaboration path. A native session ID and safe, unedited repository export were not verified.
+- The amendment awaits explicit human architecture approval. The workflow stopped before design or implementation.
+
+### 2026-11-22 · US-03 terminal quote architecture approved
+
+- The project owner wrote “approve the adr-005” in response to the proposed terminal quote amendment. The orchestrator recorded the [amendment approval](docs/approvals/US-03-terminal-quote-architecture-approval.md) and its proposal hash. The original ADR-005 approval remains in the history. The workflow stopped at the completed architecture checkpoint.
 
 ## Skill selection and controls
 
