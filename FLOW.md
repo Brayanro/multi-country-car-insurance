@@ -235,6 +235,15 @@ The project owner requested an audit against the approved US-01 architecture and
 
 - The project owner wrote “approve the design” after reviewing the revised Summary and confirmation wireframes. The orchestrator recorded the [design approval](docs/approvals/US-03-design-approval.md) and captured the design document and five wireframe hashes. The workflow stopped at the completed design checkpoint.
 
+### 2026-11-22 · US-03 terminal quote revision checkpoint
+
+- The project owner proposed locking completed quotes across wizard routes, retaining a read-only completed review, and letting users restart in the same country. The orchestrator used `spec-driven-development` and compared the request with AC-US03-07, ADR-005 and the approved confirmation design. The read-only review requires expanding the approved minimal receipt, and the restart action requires extending the approved specification and design. The existing reset boundary and country isolation remain applicable.
+- The orchestrator documented the [proposed US-03 revision](spec/US-03-terminal-quote-revision.md) with regression criteria for both countries and proposed handling of older receipts. The workflow stopped for explicit specification approval before architecture, design or implementation changes.
+
+### 2026-11-22 · US-03 terminal quote specification revision approved
+
+- The project owner explicitly approved the terminal quote specification revision and authorized architecture assessment. The orchestrator recorded the [specification revision approval](docs/approvals/US-03-terminal-quote-spec-approval.md) and preserved the original specification and its approval record.
+
 ## Skill selection and controls
 
 The project-specific `story-to-spec` skill defines the insurance assessment source and specification format. Other installed skills are third-party workflow or technical guidance. Select skills by stage and task as listed in `AGENTS.md`. Conditional skills are loaded only when the work warrants them. Project instructions and assessment requirements take precedence over conflicting skill guidance. Skills do not bypass security restrictions or human approval checkpoints. Record skills actually used in execution evidence and keep this proposed flow distinct from completed work.
