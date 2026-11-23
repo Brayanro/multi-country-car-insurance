@@ -84,3 +84,50 @@ The first focused terminal run passed the legacy case but four country cases fai
 ## QA recommendation
 
 The US-03 base scope, copy revision and terminal quote revision passed dedicated browser, CMS integration, unit and full cross-story browser coverage. US03-QA-01 is resolved with evidence. No blocking implementation defect was reproduced. Native screen-reader and operating-system high-contrast checks remain unverified.
+
+## Identity masking correction re-verification, 2026-11-22
+
+**Status:** QA pass for the approved US-03 identity masking correction. No confirmed implementation defect remains in the verified scope. Independent Reviewer re-review and final human approval remain pending.
+
+### Story and traceability
+
+- **User story:** US-03 — Summary and payment, with the shared US-01 dynamic form contract.
+- **Approved correction specification:** [spec/US-03-identity-masking-correction.md](../../spec/US-03-identity-masking-correction.md).
+- **Approved architecture:** [ADR-006](../../docs/adr/ADR-006-identity-document-masking.md), with existing ADR-002, ADR-003, ADR-005, and the terminal quote amendment.
+- **QA agent:** /root/mask_qa, configured and used as gpt-6-luna / xhigh.
+- **Skills:** test-driven-development and Angular testing guidance. I inspected the browser-testing-with-devtools guidance. The Chrome DevTools MCP server was not available, so browser verification used the repository's Playwright setup and installed Google Chrome.
+- **Environment:** Node 24.15.0, pnpm 11.29.0, Playwright 1.65.1, Google Chrome, and an isolated production Compose stack at 127.0.0.1:18085 with a fresh Strapi volume at 127.0.0.1:18385. The default local Compose stack and content were not used or changed.
+
+### Acceptance results
+
+| Acceptance criterion | Result | Evidence |
+| --- | --- | --- |
+| AC-US03-M01 — One required identity field uses the reserved key and purpose | Pass | pnpm test passed 17 shared tests. The decoder tests cover both country fixtures and reject a missing or moved marker, duplicate identity meaning, optional identity field, and incompatible field kind. |
+| AC-US03-M02 — Invalid identity metadata fails closed | Pass | T-US03-M02/M05 passed in both countries. An invalid initial response showed the existing form unavailable/Retry state, withheld the saved raw strings, and left the legacy draft byte-for-byte unchanged. Retry with a valid response restored the form. Live Strapi publication checks returned 503 FORM_UNAVAILABLE for invalid identity metadata in both countries and 200 after repair. |
+| AC-US03-M03 — Valid labels and order changes preserve masking | Pass | T-US03-M03/M04 passed in both countries. The browser received the actual published country response with the identity label changed and order moved to the first field. Summary and receipt rendered the new label and masked value. A live Strapi integration check independently published and read valid label/order changes for CO and CL with the reserved identity purpose intact. |
+| AC-US03-M04 — Legacy state does not disclose unverified values | Pass | T-US03-M04/M05 passed in both countries. Legacy v1 and v2 receipts retained their quote reference and terminal route while their detail rows were withheld. Raw legacy values were absent from visible and accessible body text. Reset cleared the receipt and opened blank Details. Legacy v1 draft recovery preserved the reserved identity value, cleared ambiguous text/date values under other IDs, and migrated to draft version 2 after a valid form response. |
+
+### Tests executed
+
+| Command | Observed result |
+| --- | --- |
+| CI=1 pnpm test | Passed. 17 shared contract tests and 30 Angular tests across three files. |
+| pnpm test:content | Passed. 2 Strapi integration tests. The public content lifecycle test exercised valid identity label/order publication, invalid marker publication and recovery in both countries. |
+| QUOTE_BROWSER_CHANNEL=chrome QUOTE_BASE_URL=http://127.0.0.1:18085 QUOTE_CMS_URL=http://127.0.0.1:18385 pnpm exec playwright test e2e/us03-masking-qa.spec.ts --workers=1 | Passed 8/8 focused masking cases across Colombia and Chile. |
+| QUOTE_BROWSER_CHANNEL=chrome QUOTE_BASE_URL=http://127.0.0.1:18085 QUOTE_CMS_URL=http://127.0.0.1:18385 pnpm exec playwright test --workers=1 | Passed 35/35 browser tests across US-01, US-02, US-03, and the masking correction on the isolated stack. |
+| pnpm exec prettier --check e2e/us03-masking-qa.spec.ts backend/test/public-content.test.mjs | Passed. |
+| git diff --check | Passed. |
+
+### Run history and limits
+
+The first Chrome launch under the default sandbox terminated before any browser assertion. Re-running with the permitted loopback/browser access completed. The first focused test draft also had QA fixture mistakes: it used an incorrect holder field ID and tried to inspect Summary before selecting a plan. After correcting the test setup, all eight focused cases passed. These were test harness issues, not reproduced product defects.
+
+The browser modified the published form response for valid label/order cases through Playwright's response handler. The separate disposable Strapi integration test independently verified that valid changes publish and project correctly and that invalid identity metadata fails closed. No edits were made to the default Strapi volume.
+
+The regression suite verifies text present in the DOM and an accessibility snapshot. Native screen-reader and operating-system high-contrast checks were not performed. Corrupted and invalid version 3 receipt shapes are also covered by frontend/src/app/quote/quote-receipt.spec.ts in the 30 passing Angular tests. No real identity data was used.
+
+### Findings and recommendation
+
+- **Confirmed product defects:** none.
+- **QA finding:** none opened.
+- **Recommendation:** QA pass for AC-US03-M01 through AC-US03-M04. Independent Reviewer re-review and final human approval remain necessary before QA handoff.

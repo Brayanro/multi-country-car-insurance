@@ -327,6 +327,34 @@ The project owner requested an audit against the approved US-01 architecture and
 
 - The owner explicitly approved [ADR-006](docs/adr/ADR-006-identity-document-masking.md). The orchestrator recorded the [decision and reviewed proposal hash](docs/approvals/US-03-identity-masking-architecture-approval.md), verified that the ADR changed only in approval metadata, and closed the approval checkpoint. Design and implementation have not begun.
 
+### US-03 identity masking correction implementation intake
+
+- The owner requested implementation against the [approved correction specification](spec/US-03-identity-masking-correction.md) and [ADR-006](docs/adr/ADR-006-identity-document-masking.md), followed by independent QA, independent review, and a final human approval checkpoint. The orchestrator delegated implementation with TDD to `/root/mask_dev` (Developer, `gpt-6.2-sol` / `low` as configured). Existing audit documentation edits were already present in the worktree. Staging and committing were excluded.
+- A separate design revision is unnecessary for the approved behavior. Invalid forms reuse the existing unavailable and Retry state. Legacy receipts reuse the existing reference-only confirmation and restart. Valid Summary and terminal reviews retain the existing layout and masking presentation. The correction changes form acceptance, draft reconciliation, and which receipt data may be shown. Any required change to an approved interaction returns to the owner before implementation.
+
+### US-03 identity masking correction Developer verification
+
+- The Developer used `test-driven-development`, `angular-developer`, `frontend-ui-engineering`, `git-workflow-and-versioning`, and the cached `modern-web-guidance` privacy guide. The guide search could not complete offline. Pre-change shared tests reproduced missing identity binding in both countries. The scoped Angular run reported 14 expected failures involving the missing form gate, draft migration, legacy detail exposure, and version 3 receipt behavior. The first CMS red-run attempt was blocked by sandbox loopback access before its assertions.
+- The Developer implemented the shared decoder binding, conservative legacy draft reconciliation, masked review projection, and version 3 receipt capture and restoration. The Developer updated the shared, Angular, and real Strapi regression tests and migrated the synthetic US-02 card-layout fixture. No UI template or approved interaction changed.
+- Developer green checks passed with `pnpm --filter @quote/contract build`, `CI=1 pnpm test` (17 shared and 30 Angular tests), `pnpm --filter quote-cms test:content` with scoped loopback permission (2 tests, including CO and CL publication rejection and recovery), `CI=1 pnpm --filter quote-web build`, `pnpm lint`, `pnpm format:check`, and `git diff --check`. The orchestrator delegated independent QA to `/root/mask_qa` (QA, `gpt-6-luna` / `xhigh` as configured) for both countries and the full browser suite against an isolated production-style Compose stack. The orchestrator built and started both services with `docker compose -p us03-masking-qa -f compose.yaml -f <temporary-port-override> up --build --detach --wait --wait-timeout 90`. Both services became healthy with a fresh volume and isolated loopback ports. Public form reads for CO and CL returned HTTP 200 with `Cache-Control: no-store` and exactly one required text field with the reserved identity key and purpose.
+
+### US-03 identity masking correction independent QA
+
+- The QA agent used `test-driven-development` and Angular testing guidance. The Chrome DevTools MCP server was unavailable, so QA ran Playwright with installed Chrome. QA added eight browser cases and extended the disposable Strapi publication test to cover a valid identity label and order change in both countries.
+- Independent QA passed `CI=1 pnpm test` (17 shared and 30 Angular tests), `pnpm test:content` (2 tests), the focused Playwright suite (8/8) and the full Playwright suite (35/35), plus targeted Prettier and whitespace checks. Both browser suites used the isolated Compose deployment. The [original QA report](reports/qa/US-03-qa-report.md) records exact commands, the initial sandbox launch failure, corrected test fixtures, and evidence for AC-US03-M01 through AC-US03-M04. QA confirmed no product defect. Native screen-reader and OS high-contrast checks remain outside this run.
+- The orchestrator delegated independent review to `/root/mask_review` (Reviewer, `gpt-6-luna` / `high` as configured) with the approved artifacts, implementation, and QA results.
+
+### US-03 identity masking correction final human approval checkpoint
+
+- The Reviewer inspected the implementation and QA evidence against the approved specification and ADR-006. The [original independent review](reviews/US-03-review.md) now includes the correction re-review and an Approved recommendation with no new findings. The Reviewer relied on QA's recorded runs for test execution.
+- The orchestrator verified that the QA and review reports preserve earlier findings and decisions, checked repository formatting and whitespace, and verified an empty Git index. Collaboration paths identify the correction agents. Native session IDs and safe unedited repository exports remain unverified.
+- Presented the implementation for final human approval. QA handoff remains pending. No Git mutations were performed.
+
+### US-03 identity masking correction final approval
+
+- The project owner explicitly approved the correction and separately authorized staging and two focused commits. The orchestrator used `git-workflow-and-versioning`, reviewed the scoped diffs, and committed the implementation and regression tests as `0e89c88bc29ae5c1543016df69d80fe8205cec0f` before recording the [final human approval](docs/approvals/US-03-identity-masking-final-approval.md).
+- The final approval closes the correction checkpoint. Previous approval and verification records remain intact. Native screen-reader and operating-system high-contrast verification remain unverified. Safe, unedited original-session exports remain open under the handoff Definition of Done.
+
 ## Skill selection and controls
 
 The project-specific `story-to-spec` skill defines the insurance assessment source and specification format. Other installed skills are third-party workflow or technical guidance. Select skills by stage and task as listed in `AGENTS.md`. Conditional skills are loaded only when the work warrants them. Project instructions and assessment requirements take precedence over conflicting skill guidance. Skills do not bypass security restrictions or human approval checkpoints. Record skills actually used in execution evidence and keep this proposed flow distinct from completed work.

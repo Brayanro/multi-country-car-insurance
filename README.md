@@ -20,7 +20,7 @@ In Content Manager, open **Quote plan** to edit a country's plans. Publish each 
 
 In Content Manager, open **Quote terms** and edit the existing Terms document for the country. Publish the document to make its multiline plain text available on Summary. Terms are checked again on Pay. If the published text has changed, the user must review and accept the updated terms before paying.
 
-The demo-only outcome defaults to Approved. Select Rejected to test recovery, then select Approved and retry with the same quote. A successful simulation shows a quote number and masked read-only quote summary that survive reload in the same tab when browser storage is available. To clear the completed quote and return to Details for the same country, choose **Iniciar una nueva cotización**.
+The demo-only outcome defaults to Approved. Select Rejected to test recovery, then select Approved and retry with the same quote. A successful simulation shows a quote number and masked read-only quote summary that survive reload in the same tab when browser storage is available. Older receipts keep the quote reference and remain terminal, with their previous review details withheld. Upgrading an older in-progress quote may require re-entering text or date fields whose previous purpose cannot be verified. To clear the completed quote and return to Details for the same country, choose **Iniciar una nueva cotización**.
 
 ### Synchronize an existing local sample plan catalog
 
@@ -46,7 +46,7 @@ If the owner approves preserving an existing Colombia Ruta price, add `--preserv
 ## Configuration and data boundaries
 
 - The public app uses same-origin GET paths under `/api/quote-content/v1/:country/` for `form`, `plans`, and `terms`. The Strapi Public role has only `readForm`, `readPlans`, and `readTerms` under `api::quote-content.quote-content`. The static host proxies these three reads. The public frontend uses no API token.
-- Never add duplicate field keys, option keys or semantic purposes. Field order is numeric, then stable field key on ties. Date of birth with the 18-year rule and vehicle year with its range rule are required for a usable form.
+- Never add duplicate field keys, option keys or semantic purposes. Field order is numeric, then stable field key on ties. A usable country form requires date of birth with the 18-year rule, vehicle year with its range rule, and one required text field keyed `identity-document` with purpose `identityDocument`. Keep that key and purpose together when editing the label, order, help or validations. For a custom form with a different key for its document field, update that field to the reserved key and remove any redundant document-number field before publishing.
 - Enter a rule argument or field default in the Strapi JSON editor as an object with a single `value` property, for example `{"value": 18}`, `{"value": false}` or `{"value": "2020-01-01"}`. Leave it empty for argument-free rules or fields with no default. Required selects start unselected and cannot have defaults. Present but invalid content leaves the whole form unavailable with a retry action.
 - The version 1 decoder accepts up to 40 fields, 60 options per select, 12 rules per field and 240 UTF-16 units per content string. Text values allow up to 256 Unicode code points. Patterns are whole-value checks limited to 120 pattern units, literal characters, character classes and bounded counts through 24. The matcher uses a bounded set of offsets.
 - Each country catalog may include up to 40 active published plans with up to 20 entries per coverage or benefit list. Plans sort by numeric order, then stable document ID. A malformed active published plan makes the country's catalog unavailable until the content is corrected.
@@ -88,7 +88,5 @@ For an optional local development workflow without Compose, first run `pnpm --fi
 - The [terminal quote final approval](docs/approvals/US-03-terminal-quote-final-approval.md) records human acceptance after manual verification.
 
 ## Requirements pending for project delivery
-
-- Identity-document masking depends on the Strapi field purpose. Keep `identityDocument` on the document-number field in each country. Removing the purpose can expose the full entered value in Summary and in a newly created receipt. Use fictitious values for evaluation. The [correction proposal](spec/US-03-identity-masking-correction.md) has specification approval. [ADR-006](docs/adr/ADR-006-identity-document-masking.md) has human architecture approval. The correction remains pending implementation.
 
 Native screen-reader and operating-system high-contrast verification remain open. Browser checks covered keyboard navigation, accessibility status text and mobile reflow. Original agent activity is preserved in Codex. A safe, unedited repository export remains pending.
