@@ -48,11 +48,19 @@ const make = {
   rules: [],
   options: [{ id: "demo", label: "Ejemplo" }],
 };
+const identity = {
+  ...common,
+  id: "identity-document",
+  kind: "text",
+  purpose: "identityDocument",
+  order: 99,
+  rules: [],
+};
 const clock = new Date(2026, 1, 28);
 const envelope = (fields: unknown[]) => ({
   schemaVersion: 1,
   country: "co",
-  fields,
+  fields: [...fields, identity],
 });
 
 test("US-01 T-US01-04/05/15: ordered validation evaluates age, local-year boundaries and priority", () => {
@@ -60,7 +68,7 @@ test("US-01 T-US01-04/05/15: ordered validation evaluates age, local-year bounda
   assert.ok(form);
   assert.deepEqual(
     form.fields.map(({ id }) => id),
-    ["birth", "year", "plate", "make"],
+    ["birth", "year", "plate", "make", "identity-document"],
   );
   const [birthField, yearField, plateField] = form.fields;
   assert.equal(
@@ -264,3 +272,38 @@ test("US01-R04 · T-US01-14: successive refreshes do not repopulate cleared exis
     expected,
   );
 });
+
+test.each(["co", "cl"] as const)(
+  "T-US03-M01 reserves the document field for %s",
+  (country) => {
+    const decode = (fields: unknown[]) =>
+      decodeForm(
+        { schemaVersion: 1, country, fields: [date, year, ...fields] },
+        country,
+        clock,
+      );
+    assert.ok(
+      decode([
+        {
+          ...identity,
+          label: "Documento revisado",
+          order: 0,
+          rules: [{ operator: "minLength", argument: 2, message: "Muy corto" }],
+        },
+      ]),
+    );
+    for (const fields of [
+      [],
+      [{ ...identity, purpose: undefined }],
+      [
+        { ...identity, purpose: undefined },
+        { ...identity, id: "other-document" },
+      ],
+      [{ ...identity, required: false }],
+      [{ ...identity, kind: "number" }],
+      [identity, { ...identity, id: "other-document" }],
+      [identity, { ...identity, purpose: undefined }],
+    ])
+      assert.equal(decode(fields), null);
+  },
+);

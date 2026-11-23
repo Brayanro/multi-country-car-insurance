@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, InjectionToken, signal } from '@angular/core';
 import {
   decodeForm,
+  IDENTITY_DOCUMENT_FIELD_ID,
   isFieldKind,
   isKindValue,
   isRecord,
@@ -49,7 +50,7 @@ function restore(country: Country): QuoteDraft {
     const snapshot: unknown = JSON.parse(text);
     if (
       !isRecord(snapshot) ||
-      snapshot['version'] !== 1 ||
+      (snapshot['version'] !== 1 && snapshot['version'] !== 2) ||
       snapshot['country'] !== country ||
       !isRecord(snapshot['draft'])
     )
@@ -65,7 +66,15 @@ function restore(country: Country): QuoteDraft {
         (entry['value'] !== null && !isKindValue(entry['kind'], entry['value']))
       )
         return {};
-      draft.push([key, { kind: entry['kind'], value: entry['value'] }]);
+      // Legacy entries have no purpose metadata. Unset ambiguous strings before reconciliation.
+      const ambiguousLegacyValue =
+        snapshot['version'] === 1 &&
+        key !== IDENTITY_DOCUMENT_FIELD_ID &&
+        (entry['kind'] === 'text' || entry['kind'] === 'date');
+      draft.push([
+        key,
+        { kind: entry['kind'], value: ambiguousLegacyValue ? null : entry['value'] },
+      ]);
     }
     return Object.fromEntries(draft);
   } catch {
@@ -175,7 +184,7 @@ export class QuoteState {
       this.current.set({ ...state, validation: undefined });
     }
     try {
-      sessionStorage.setItem(storageKey(country), JSON.stringify({ version: 1, country, draft }));
+      sessionStorage.setItem(storageKey(country), JSON.stringify({ version: 2, country, draft }));
     } catch {
       // The in-memory copy remains available for this page session.
     }

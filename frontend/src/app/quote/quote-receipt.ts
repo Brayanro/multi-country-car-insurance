@@ -1,7 +1,13 @@
-import { decodePlanPrice, isRecord, isSafeId, type Country, type PlanPrice } from '@quote/contract';
-import type { reviewRows } from './quote-review';
+import {
+  decodePlanPrice,
+  IDENTITY_DOCUMENT_FIELD_ID,
+  isRecord,
+  isSafeId,
+  type Country,
+  type PlanPrice,
+} from '@quote/contract';
+import { isMaskedDocument, type ReviewRow } from './quote-review';
 
-type ReviewRow = Readonly<ReturnType<typeof reviewRows>[number]>;
 export type ReceiptReview = Readonly<{
   rows: readonly ReviewRow[];
   planName: string;
@@ -32,7 +38,7 @@ function decodeReview(input: unknown, country: Country): ReceiptReview | null {
   const displayRows: ReviewRow[] = [];
   for (const row of rows) {
     if (!isRecord(row)) return null;
-    const { id, label, value } = row;
+    const { id, kind, label, value } = row;
     if (
       !isSafeId(id) ||
       ids.has(id) ||
@@ -41,10 +47,15 @@ function decodeReview(input: unknown, country: Country): ReceiptReview | null {
       value.length > 512
     )
       return null;
+    if (id === IDENTITY_DOCUMENT_FIELD_ID) {
+      if (kind !== 'masked-identity' || !isMaskedDocument(value)) return null;
+    } else if (kind !== 'ordinary') {
+      return null;
+    }
     ids.add(id);
-    displayRows.push({ id, label, value });
+    displayRows.push({ id, kind, label, value });
   }
-  return { rows: displayRows, planName, price };
+  return ids.has(IDENTITY_DOCUMENT_FIELD_ID) ? { rows: displayRows, planName, price } : null;
 }
 
 export function restoreReceipt(country: Country): Receipt | null {
@@ -56,9 +67,11 @@ export function restoreReceipt(country: Country): Receipt | null {
     const { version, number } = input;
     if (typeof number !== 'string' || !/^DEMO-[A-F0-9]{24}$/.test(number)) return null;
     if (version === 1 && stored.length <= 256) return { number, persisted: true };
-    if (version !== 2) return null;
+    // Version 2 row IDs and labels cannot establish which values were masked.
+    if (version === 2) return { number, persisted: true };
+    if (version !== 3) return null;
     const review = decodeReview(input['review'], country);
-    return review ? { number, review, persisted: true } : null;
+    return review ? { number, review, persisted: true } : { number, persisted: true };
   } catch {
     return null;
   }

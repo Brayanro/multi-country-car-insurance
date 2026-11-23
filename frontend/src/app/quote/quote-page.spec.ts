@@ -8,8 +8,9 @@ import { routes } from '../app.routes';
 import { QuoteState } from './quote-state';
 
 const countryField = (country: 'co' | 'cl') => ({
-  id: 'identity',
+  id: 'identity-document',
   kind: 'text',
+  purpose: 'identityDocument',
   order: 10,
   label: country === 'co' ? 'Número de documento' : 'RUT',
   required: true,
@@ -63,7 +64,7 @@ const catalog = (amountMinor: number) => ({
 
 function storeValidDetails() {
   TestBed.inject(QuoteState).save('co', {
-    identity: { kind: 'text', value: 'fictitious' },
+    'identity-document': { kind: 'text', value: 'fictitious' },
     birth: { kind: 'date', value: '1990-02-10' },
     year: { kind: 'number', value: new Date().getFullYear() },
   });
@@ -84,6 +85,80 @@ describe('US-01 wizard form', () => {
     return { harness, backend };
   }
 
+  it.each(['co', 'cl'] as const)(
+    'T-US03-M02/M05 keeps an invalid %s snapshot away from its legacy draft',
+    async (country) => {
+      const key = `quote-draft-v1:${country}`;
+      const draft = {
+        'identity-document': { kind: 'text', value: 'FICTICIO-0001' },
+        secondary: { kind: 'text', value: 'FICTICIO-0002' },
+        birth: { kind: 'date', value: '1990-02-10' },
+        year: { kind: 'number', value: new Date().getFullYear() },
+        make: { kind: 'select', value: 'demo' },
+        consent: { kind: 'checkbox', value: true },
+      };
+      const stored = JSON.stringify({ version: 1, country, draft });
+      sessionStorage.setItem(key, stored);
+      const { harness, backend } = await initialScreen();
+      const uri = `/api/quote-content/v1/${country}/form`;
+      if (country === 'cl') {
+        const cancelled = backend.expectOne('/api/quote-content/v1/co/form');
+        await harness.navigateByUrl('/cl/quote/details');
+        expect(cancelled.cancelled).toBe(true);
+      }
+      const form = configuration(country);
+      backend.expectOne(uri).flush({
+        ...form,
+        fields: form.fields.map((field) =>
+          field.id === 'identity-document' ? { ...field, purpose: undefined } : field,
+        ),
+      });
+      await harness.fixture.whenStable();
+      harness.detectChanges();
+      const screen = harness.routeNativeElement!;
+      expect(screen.textContent).toContain('Formulario no disponible');
+      expect(screen.querySelector('form')).toBeNull();
+      expect(sessionStorage.getItem(key)).toBe(stored);
+
+      screen.querySelector('button')!.click();
+      backend.expectOne(uri).flush({
+        ...form,
+        fields: [
+          ...form.fields,
+          { ...sharedField, id: 'secondary', kind: 'text', order: 40, label: 'Otro', rules: [] },
+          {
+            ...sharedField,
+            id: 'make',
+            kind: 'select',
+            order: 50,
+            label: 'Marca',
+            rules: [],
+            options: [{ id: 'demo', label: 'Demo' }],
+          },
+          {
+            ...sharedField,
+            id: 'consent',
+            kind: 'checkbox',
+            order: 60,
+            label: 'Permiso',
+            rules: [],
+          },
+        ],
+      });
+      await harness.fixture.whenStable();
+      harness.detectChanges();
+      expect(JSON.parse(sessionStorage.getItem(key)!)).toEqual({
+        version: 2,
+        country,
+        draft: {
+          ...draft,
+          secondary: { kind: 'text', value: null },
+          birth: { kind: 'date', value: null },
+        },
+      });
+    },
+  );
+
   it('T-US01-01/03 renders published field order and blocks an invalid submit with configured errors', async () => {
     const { harness, backend } = await initialScreen();
     backend.expectOne('/api/quote-content/v1/co/form').flush(configuration('co'));
@@ -100,7 +175,7 @@ describe('US-01 wizard form', () => {
     expect(screen.textContent).not.toContain('Completa el documento');
     expect(TestBed.inject(QuoteState).state()).toMatchObject({
       phase: 'ready',
-      validation: { invalidFields: ['identity', 'birth', 'year'] },
+      validation: { invalidFields: ['identity-document', 'birth', 'year'] },
     });
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     await harness.fixture.whenStable();
@@ -245,9 +320,6 @@ describe('US-03 Summary', () => {
     const harness = await RouterTestingHarness.create('/co/quote/summary');
     const backend = TestBed.inject(HttpTestingController);
     const form = configuration('co');
-    Object.assign(form.fields.find((field) => field.id === 'identity')!, {
-      purpose: 'identityDocument',
-    });
     backend.expectOne('/api/quote-content/v1/co/form').flush(form);
     await harness.fixture.whenStable();
     backend.expectOne('/api/quote-content/v1/co/plans').flush(catalog(10000));
@@ -292,7 +364,7 @@ describe('US-03 Summary', () => {
     const draft = state.draft('co');
     state.save('co', {
       ...draft,
-      identity: { kind: 'text', value: '123456ious' },
+      'identity-document': { kind: 'text', value: '123456ious' },
     });
     update();
     expect(screen.textContent).toContain('••••••ious');
@@ -357,10 +429,14 @@ describe('US-03 Summary', () => {
     expect(number).toMatch(/^DEMO-[A-F0-9]{24}$/);
     expect(JSON.parse(sessionStorage.getItem('quote-receipt-v1:co')!)).toMatchObject({
       number,
-      version: 2,
+      version: 3,
       review: {
         planName: 'Plan A',
-        rows: [{ id: 'identity', value: '••••••ious' }, expect.anything(), expect.anything()],
+        rows: [
+          { id: 'identity-document', kind: 'masked-identity', value: '••••••ious' },
+          expect.anything(),
+          expect.anything(),
+        ],
       },
     });
     expect(screen.textContent).toContain('Plan A');
@@ -464,7 +540,9 @@ describe('US-03 Summary', () => {
     backend.expectOne('/api/quote-content/v1/co/form').flush(configuration('co'));
     harness.detectChanges();
     expect(TestBed.inject(Router).url).toBe('/co/quote/details');
-    expect(screen.querySelector<HTMLInputElement>('#quote-field-identity')?.value).toBe('');
+    expect(screen.querySelector<HTMLInputElement>('#quote-field-identity-document')?.value).toBe(
+      '',
+    );
     expect(sessionStorage.getItem('quote-receipt-v1:co')).toBeNull();
     expect(sessionStorage.getItem('quote-plan-v1:co')).toBeNull();
     expect(sessionStorage.getItem('quote-plan-v1:cl')).toBe('other plan');

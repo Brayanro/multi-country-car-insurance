@@ -51,6 +51,8 @@ export type FormDefinition = {
 export type DraftEntry = { kind: FieldKind; value: FieldValue | null };
 export type QuoteDraft = Readonly<Record<string, DraftEntry>>;
 
+export const IDENTITY_DOCUMENT_FIELD_ID = "identity-document";
+
 const kinds: readonly FieldKind[] = [
   "text",
   "number",
@@ -323,6 +325,12 @@ function decodeField(input: unknown, now: Date | null): FieldDefinition | null {
     parsedPurpose = purpose as FieldPurpose;
     if (purposeKinds[parsedPurpose] !== kind) return null;
   }
+  const identityPurpose = parsedPurpose === "identityDocument";
+  if (
+    (id === IDENTITY_DOCUMENT_FIELD_ID) !== identityPurpose ||
+    (identityPurpose && !required)
+  )
+    return null;
   const parsedRules: Rule[] = [];
   for (const rule of rules) {
     const parsed = decodeRule(rule, kind, parsedPurpose);
@@ -397,7 +405,12 @@ export function decodeForm(
     if (field.purpose) purposes.add(field.purpose);
     fields.push(field);
   }
-  if (!purposes.has("dateOfBirth") || !purposes.has("vehicleYear")) return null;
+  if (
+    !purposes.has("dateOfBirth") ||
+    !purposes.has("vehicleYear") ||
+    !purposes.has("identityDocument")
+  )
+    return null;
   fields.sort(
     (a, b) => a.order - b.order || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
   );

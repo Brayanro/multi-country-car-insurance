@@ -11,7 +11,7 @@ const { createStrapi, compileStrapi } = createRequire(import.meta.url)(
   "@strapi/strapi",
 );
 
-test("T-US01-05/08/09 and T-US02-01/02/05 and T-US03-03/11: publish, change and unpublish isolated CMS content", async () => {
+test("T-US01-05/08/09 and T-US02-01/02/05 and T-US03-03/11/M02: publish, change and unpublish isolated CMS content", async () => {
   const fixture = await mkdtemp(join(tmpdir(), "quote-cms-test-"));
   const secret = () => randomBytes(32).toString("hex");
   Object.assign(process.env, {
@@ -230,6 +230,80 @@ test("T-US01-05/08/09 and T-US02-01/02/05 and T-US03-03/11: publish, change and 
       published.fields.findIndex(({ id }) => id === "agency"),
       published.fields.findIndex(({ id }) => id === "identity-document") + 1,
     );
+
+    // T-US03-M02: a published identity marker cannot be removed or relocated.
+    for (const country of ["co", "cl"]) {
+      const formUri = uri.replace("/co/", `/${country}/`);
+      const activeDraft = await documents.findFirst({
+        status: "draft",
+        filters: { country },
+        populate: { fields: { populate: ["options", "rules"] } },
+      });
+      assert.ok(activeDraft);
+      const identity = activeDraft.fields.find(
+        ({ fieldKey }) => fieldKey === "identity-document",
+      );
+      assert.ok(identity);
+      const validRevision = activeDraft.fields.map((field) =>
+        field.fieldKey === "identity-document"
+          ? {
+              ...field,
+              label: `Documento ficticio actualizado ${country.toUpperCase()}`,
+              order: 1,
+            }
+          : field,
+      );
+      await documents.update({
+        documentId: activeDraft.documentId,
+        status: "published",
+        data: { fields: validRevision },
+      });
+      const validPublished = await fetch(formUri);
+      assert.equal(validPublished.status, 200);
+      const validPublishedForm = await validPublished.json();
+      const publishedIdentity = validPublishedForm.fields.find(
+        ({ id }) => id === "identity-document",
+      );
+      assert.equal(
+        publishedIdentity.label,
+        `Documento ficticio actualizado ${country.toUpperCase()}`,
+      );
+      assert.equal(publishedIdentity.order, 1);
+      assert.equal(publishedIdentity.purpose, "identityDocument");
+
+      const fields = activeDraft.fields.map((field) =>
+        field === identity ? { ...field, purpose: null } : field,
+      );
+      const { id: _id, ...otherIdentity } = identity;
+      await documents.update({
+        documentId: activeDraft.documentId,
+        status: "published",
+        data: {
+          fields: [
+            ...fields,
+            { ...otherIdentity, fieldKey: "other-document", rules: [] },
+          ],
+        },
+      });
+      const invalid = await fetch(formUri);
+      assert.equal(invalid.status, 503);
+      assert.deepEqual(await invalid.json(), {
+        error: { code: "FORM_UNAVAILABLE" },
+      });
+      await documents.update({
+        documentId: activeDraft.documentId,
+        status: "published",
+        data: { fields: activeDraft.fields },
+      });
+      const recovered = await fetch(formUri);
+      assert.equal(recovered.status, 200);
+      assert.equal(
+        (await recovered.json()).fields.find(
+          ({ id }) => id === "identity-document",
+        ).purpose,
+        "identityDocument",
+      );
+    }
 
     await documents.unpublish({ documentId: draft.documentId });
     const unavailable = await fetch(uri);

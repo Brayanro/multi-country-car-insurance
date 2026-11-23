@@ -241,7 +241,7 @@ export class QuotePayment {
     try {
       sessionStorage.setItem(
         receiptKey(country),
-        JSON.stringify({ version: 2, country, number, review }),
+        JSON.stringify({ version: 3, country, number, review }),
       );
       persisted = true;
     } catch {

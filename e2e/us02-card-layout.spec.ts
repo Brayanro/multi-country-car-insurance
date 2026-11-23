@@ -10,9 +10,10 @@ async function openCatalog(page: Page, count: () => number, wideCopy = false) {
     sessionStorage.setItem(
       "quote-draft-v1:co",
       JSON.stringify({
-        version: 1,
+        version: 2,
         country: "co",
         draft: {
+          "identity-document": { kind: "text", value: "FICTICIO-0001" },
           birth: { kind: "date", value: "1990-02-10" },
           year: { kind: "number", value: new Date().getFullYear() },
         },
@@ -25,6 +26,17 @@ async function openCatalog(page: Page, count: () => number, wideCopy = false) {
         schemaVersion: 1,
         country: "co",
         fields: [
+          {
+            id: "identity-document",
+            purpose: "identityDocument",
+            kind: "text",
+            order: 5,
+            label: "Documento",
+            required: true,
+            helpText: "",
+            errorMessage: "Documento inválido",
+            rules: [],
+          },
           {
             id: "birth",
             purpose: "dateOfBirth",

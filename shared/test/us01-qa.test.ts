@@ -21,6 +21,10 @@ const field = (
 });
 
 const requiredCore = [
+  field("identity-document", "text", 25, {
+    required: true,
+    purpose: "identityDocument",
+  }),
   field("birth-date", "date", 10, {
     required: true,
     purpose: "dateOfBirth",

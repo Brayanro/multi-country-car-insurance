@@ -7,7 +7,7 @@ const form: FormDefinition = {
   country: 'cl',
   fields: [
     {
-      id: 'identity',
+      id: 'identity-document',
       kind: 'text',
       purpose: 'identityDocument',
       label: 'RUT',
@@ -26,9 +26,22 @@ describe('T-US03-02 identity document projection', () => {
     ['12-A', '••-A'],
     ['A', '•'],
     ['---', '•••'],
+    ['Ａ١Ｂ٢Ｃ٣', '••Ｂ٢Ｃ٣'],
   ])('masks each document according to its length', (value, expected) => {
-    expect(reviewRows(form, { identity: { kind: 'text', value } })).toEqual([
-      { id: 'identity', label: 'RUT', value: expected },
-    ]);
+    for (const country of ['co', 'cl'] as const) {
+      const updated = {
+        ...form,
+        country,
+        fields: form.fields.map((field) => ({ ...field, label: 'Documento revisado', order: 99 })),
+      };
+      expect(reviewRows(updated, { 'identity-document': { kind: 'text', value } })).toEqual([
+        {
+          id: 'identity-document',
+          kind: 'masked-identity',
+          label: 'Documento revisado',
+          value: expected,
+        },
+      ]);
+    }
   });
 });
