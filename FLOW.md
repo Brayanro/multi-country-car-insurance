@@ -309,6 +309,15 @@ The project owner requested an audit against the approved US-01 architecture and
 - The project owner explicitly approved the terminal quote revision after manual verification. The orchestrator recorded the [final human approval](docs/approvals/US-03-terminal-quote-final-approval.md) and closed the checkpoint. The QA report and independent review preserve the verification and finding history.
 - The project owner separately authorized two commits. The orchestrator used `git-workflow-and-versioning` to group the terminal implementation and its previously uncommitted US-03 dependencies with their regression tests, and to group QA, review, workflow and final approval evidence in a separate documentation commit.
 
+### Final compliance follow-up · US-03 masking specification checkpoint
+
+- The owner requested a masking correction with regression tests and completion of the audit disclosures. The orchestrator verified that ADR-002 permits an omitted `identityDocument` marker. Using `story-to-spec`, the orchestrator delegated the correction specification to `/root/mask_spec` (Analyst, `gpt-6-luna` / `xhigh` as configured). The prompt limited the work to a new draft and requested source traceability, the country configuration failure cases, and existing draft and receipt compatibility.
+- The Analyst used `story-to-spec` and `spec-driven-development`, consulted assessment page 8 and the approved decisions, and delivered the [pending correction specification](spec/US-03-identity-masking-correction.md) with proposed regression tests. The orchestrator checked the approval boundary and updated the retrospective, model documentation, README disclosures, and session export guidance. A local filename check matched six indexed US-01 session IDs. It did not establish that their contents are safe to publish.
+- Specification approval is pending. The architecture checkpoint must resolve legacy receipt handling. Application code, regression execution, QA, and independent review follow the required approvals. The orchestrator used `git-workflow-and-versioning` for read-only Git checks.
+
+### Final compliance follow-up · US-03 masking specification approval
+
+- The owner explicitly approved the [masking correction specification](spec/US-03-identity-masking-correction.md) and requested an architecture assessment through its approval checkpoint. The orchestrator recorded the [approval and draft hash](docs/approvals/US-03-identity-masking-spec-approval.md), preserving the earlier US-03 decisions.
 ## Skill selection and controls
 
 The project-specific `story-to-spec` skill defines the insurance assessment source and specification format. Other installed skills are third-party workflow or technical guidance. Select skills by stage and task as listed in `AGENTS.md`. Conditional skills are loaded only when the work warrants them. Project instructions and assessment requirements take precedence over conflicting skill guidance. Skills do not bypass security restrictions or human approval checkpoints. Record skills actually used in execution evidence and keep this proposed flow distinct from completed work.
